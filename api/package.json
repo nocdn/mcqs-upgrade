@@ -1,0 +1,15 @@
+{
+  "name": "api",
+  "scripts": {
+    "dev": "bun run --hot src/index.ts"
+  },
+  "dependencies": {
+    "@ai-sdk/perplexity": "^2.0.23",
+    "ai": "^5.0.117",
+    "hono": "^4.11.3",
+    "ioredis": "^5.8.2"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  }
+}

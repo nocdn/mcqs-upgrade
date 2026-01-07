@@ -1,0 +1,495 @@
+{
+  "name": "SPID",
+  "questions": [
+    {
+      "question": "When Sternberg asked members of the public to generate and then rate behaviours characteristic of intelligence, which factor triad captured the resulting structure?",
+      "options": [
+        "reasoning, associative memory, perceptual speed",
+        "interpersonal intelligence, intrapersonal intelligence, intellectual self-assertion",
+        "practical problem solving, verbal ability, social competence",
+        "fluid intelligence, crystallised intelligence, processing speed"
+      ],
+      "answer": "practical problem solving, verbal ability, social competence"
+    },
+    {
+      "question": "In Duncan and Fiske's catalogue of turn-yielding cues, which element was NOT included?",
+      "options": [
+        "a deliberate increase in speech rate at the end of a clause",
+        "a rise and fall in pitch at the end of a clause",
+        "a drop in loudness near turn completion",
+        "termination of hand gestures at the end of the turn"
+      ],
+      "answer": "a deliberate increase in speech rate at the end of a clause"
+    },
+    {
+      "question": "In the harsh vs soft bases of power distinction described, which feature is most characteristic of soft bases?",
+      "options": [
+        "Depend primarily on economic and physical outcomes that are tangible and explicit",
+        "Tend to produce influence that is self-sustaining and relies on more subjective social outcomes",
+        "Require surveillance to maintain compliance",
+        "both A and C"
+      ],
+      "answer": "Tend to produce influence that is self-sustaining and relies on more subjective social outcomes"
+    },
+    {
+      "question": "Which of the following was NOT listed as a criticism of projective personality tests in the lecture notes?",
+      "options": [
+        "Weak predictive power for behaviour",
+        "High susceptibility to acquiescence responding due to transparent items",
+        "Lack of convergence with psychometrically sound tests",
+        "Low reliability because different scorers often disagree"
+      ],
+      "answer": "High susceptibility to acquiescence responding due to transparent items"
+    },
+    {
+      "question": "Which claim best matches Thurstone's reinterpretation of Spearman's g (as described in the notes)?",
+      "options": [
+        "g is best understood as two components—fluid and crystallised intelligence—that together explain test performance",
+        "g is a causal factor that produces performance on each primary mental ability",
+        "g is an emergent outcome of several primary mental abilities rather than their cause",
+        "both A and B"
+      ],
+      "answer": "g is an emergent outcome of several primary mental abilities rather than their cause"
+    },
+    {
+      "question": "Within the approach/inhibition theory of power, which constellation best characterises the low-power state?",
+      "options": [
+        "Attention to rewards, positive emotions, automatic cognition, disinhibition",
+        "Attention to threats, positive emotions, automatic cognition, disinhibition",
+        "Attention to threats, negative emotions (eg embarrassment/fear/guilt), systematic cognition, situationally constrained behaviour",
+        "Attention to rewards, negative emotions, systematic cognition, situationally constrained behaviour"
+      ],
+      "answer": "Attention to threats, negative emotions (eg embarrassment/fear/guilt), systematic cognition, situationally constrained behaviour"
+    },
+    {
+      "question": "A politician responds to a hostile question by giving a clear and direct statement, but frames it as what 'people think' rather than giving any personal stance. In equivocation theory, which dimension is primarily being manipulated?",
+      "options": [
+        "Sender dimension",
+        "Content dimension",
+        "Receiver dimension",
+        "Context dimension"
+      ],
+      "answer": "Sender dimension"
+    },
+    {
+      "question": "In the section discussing factorial invariance as a challenge to interpreting the Flynn effect, what was the reported outcome of Wicherts et al's multi-method assessment?",
+      "options": [
+        "Score gains were evident across each of the different methods used to evaluate change",
+        "Gains were confined to a single factor, suggesting a purely methodological artefact",
+        "No gains were observed when cohorts were compared against original test norms",
+        "both B and C"
+      ],
+      "answer": "Score gains were evident across each of the different methods used to evaluate change"
+    },
+    {
+      "question": "A personality inventory shows the same factor structure and comparable internal reliability across two cultures, yet a given raw score appears to reflect different trait intensity in each culture, necessitating separate norms. Which equivalence issue is this?",
+      "options": [
+        "Linguistic equivalence",
+        "Construct equivalence",
+        "Psychological/cultural equivalence",
+        "Psychometric (scalar) equivalence"
+      ],
+      "answer": "Psychometric (scalar) equivalence"
+    },
+    {
+      "question": "In Milgram's variations (as summarised), which procedural change was described as increasing obedience relative to the standard setup?",
+      "options": [
+        "making the teacher and learner friends",
+        "removing the experimenter's physical presence",
+        "having the participant read the words while another person administered the shocks",
+        "having confederates pressure the participant to disobey"
+      ],
+      "answer": "having the participant read the words while another person administered the shocks"
+    },
+    {
+      "question": "Which claim(s) align with the empirical pattern reported for applause invitations in UK party conference speeches analysed by Heritage and Greatbatch?",
+      "options": [
+        "Contrasts were linked to roughly a third of collective applause",
+        "Three-part lists accounted for just over a tenth of collective applause",
+        "Across devices identified by Heritage and Greatbatch, more than two thirds of collective applause was associated with these rhetorical formats",
+        "all of the above"
+      ],
+      "answer": "all of the above"
+    },
+    {
+      "question": "In the deviation IQ formula IQ = 100 + 15((score − population mean)/population SD), what does the factor 15 achieve?",
+      "options": [
+        "It rescales the standardised score so that the IQ standard deviation is 15 points",
+        "It centres the distribution so that the mean is always 15",
+        "It converts mental age into chronological age",
+        "It corrects scores for the Flynn effect"
+      ],
+      "answer": "It rescales the standardised score so that the IQ standard deviation is 15 points"
+    },
+    {
+      "question": "In Bandura's description of internal self-regulatory processes, which function most directly refers to evaluating one's own performance while pursuing goals?",
+      "options": [
+        "Self-monitoring (evaluating performance)",
+        "Self-diagnostic (identifying patterns across situations)",
+        "Self-motivation (setting step-like goals)",
+        "Proxy agency (relying on others to act)"
+      ],
+      "answer": "Self-monitoring (evaluating performance)"
+    },
+    {
+      "question": "Which statement most closely matches an item used to measure Social Dominance Orientation (as described in the notes)?",
+      "options": [
+        "If certain groups stayed in their place, we would have fewer problems",
+        "I tend to overestimate how widely my personal preferences are shared by others",
+        "I prefer leaders who are admired for their achievements rather than feared",
+        "People should resist norms mainly when their behaviour is descriptively deviant"
+      ],
+      "answer": "If certain groups stayed in their place, we would have fewer problems"
+    },
+    {
+      "question": "Within the neuro-cultural model of emotional expression, which pairing is correctly matched?",
+      "options": [
+        "Amplification — exaggerating an emotional expression",
+        "Attenuation — weakening an emotional expression",
+        "Substitution — replacing one emotional display with another",
+        "all of the above"
+      ],
+      "answer": "all of the above"
+    },
+    {
+      "question": "Which statement best captures the relationship between Carroll's model and the Cattell-Horn-Carroll (CHC) framework described?",
+      "options": [
+        "CHC replaces g with independent intelligences that do not interact",
+        "CHC treats crystallised knowledge as a narrow (stratum 1) ability unrelated to broad domains",
+        "CHC combines Carroll's hierarchical strata with Cattell's fluid/crystallised distinction to organise broad and narrow abilities",
+        "CHC is designed specifically as a language-free test like Raven's matrices"
+      ],
+      "answer": "CHC combines Carroll's hierarchical strata with Cattell's fluid/crystallised distinction to organise broad and narrow abilities"
+    },
+    {
+      "question": "According to the two-factor model of trait impressions from faces described, the two dimensions are best characterised as judgements about:",
+      "options": [
+        "whether the target intends harm/help and whether the target can enact that intent",
+        "how extroverted and conscientious the target is",
+        "whether the target belongs to the observer's ingroup and whether the target is high status",
+        "how truthful the target is and how intelligent they are"
+      ],
+      "answer": "whether the target intends harm/help and whether the target can enact that intent"
+    },
+    {
+      "question": "After a product was anthropomorphised and then shown to fail, whose attitudes were described as most likely to become more negative compared with the non-anthropomorphised framing?",
+      "options": [
+        "Incremental theorists",
+        "Entity theorists",
+        "Neither; anthropomorphism buffered the brand equally regardless of mindset",
+        "both A and B"
+      ],
+      "answer": "Entity theorists"
+    },
+    {
+      "question": "In Bull's analysis of political interview questions (as summarised), which pattern best characterises how conflictual questions related to politicians' responses?",
+      "options": [
+        "Conflictual questions were rare and usually elicited direct replies",
+        "Conflictual questions were common enough to matter and were more likely to elicit equivocation than direct replies",
+        "Non-conflictual questions were less common and mostly elicited equivocation",
+        "Equivocation occurred equally often for conflictual and non-conflictual questions"
+      ],
+      "answer": "Conflictual questions were common enough to matter and were more likely to elicit equivocation than direct replies"
+    },
+    {
+      "question": "When intelligence was examined using genome-wide data in unrelated adults (as described), what proportion of variation in intelligence was associated with common SNPs?",
+      "options": [
+        "about 10–20%",
+        "about 20–30%",
+        "about 40–50%",
+        "about 69–74%"
+      ],
+      "answer": "about 40–50%"
+    },
+    {
+      "question": "In Eysenck's hierarchy (super-trait → trait → habitual response → specific response), which level corresponds to recurring behavioural patterns that sit between broad traits and single acts?",
+      "options": [
+        "Specific responses",
+        "Habitual responses",
+        "Cardinal traits",
+        "Primary mental abilities"
+      ],
+      "answer": "Habitual responses"
+    },
+    {
+      "question": "In the indirect reciprocity game described, which statement(s) reflect the observed role of public image score?",
+      "options": [
+        "Donors tended to give more when the receiver's image score was higher than average",
+        "Participants with low image scores were more likely to donate and improve their image",
+        "By the end of the game, image score was strongly correlated with earnings",
+        "all of the above"
+      ],
+      "answer": "all of the above"
+    },
+    {
+      "question": "Bull and Wells argued that delivery cues function as a gate for whether rhetorical devices are treated as applause invitations. Which pattern did they report?",
+      "options": [
+        "Rhetorical devices produced synchronous applause regardless of delivery",
+        "Applause was synchronous mainly when rhetorical devices were absent",
+        "Delivery affected how loud applause was, but not when it began",
+        "When delivery signalled an invitation, applause was almost always synchronous; when it did not, applause was almost always asynchronous"
+      ],
+      "answer": "When delivery signalled an invitation, applause was almost always synchronous; when it did not, applause was almost always asynchronous"
+    },
+    {
+      "question": "In the Multiple Intelligences account described, which claim best captures Gardner's reason for resisting a single-unitary intelligence score?",
+      "options": [
+        "Intelligence reflects distinct processing systems that can operate irrespective of particular sensory inputs",
+        "Intelligence is best measured via reaction times and sensory acuity",
+        "Intelligence is a single g factor captured by combining all test scores into one number",
+        "Intelligence is fixed within Western cultures and cannot change"
+      ],
+      "answer": "Intelligence reflects distinct processing systems that can operate irrespective of particular sensory inputs"
+    },
+    {
+      "question": "A student privately wants more intergroup friendships but avoids approaching an outgroup table because they assume (incorrectly) the others would reject them. This pattern is best labelled:",
+      "options": [
+        "False consensus effect",
+        "Pluralistic ignorance",
+        "Normative influence",
+        "all of the above"
+      ],
+      "answer": "Pluralistic ignorance"
+    },
+    {
+      "question": "In Chabrol et al's cluster solution for the Dark Tetrad (as summarised), which profile was associated with being less depressed?",
+      "options": [
+        "Low on all four traits",
+        "High on Machiavellianism and sadism",
+        "High on narcissism and psychopathy",
+        "High on all four traits"
+      ],
+      "answer": "High on narcissism and psychopathy"
+    },
+    {
+      "question": "What pattern did Lynn and Irwing's meta-analysis (as described) report for sex differences in general intelligence across development?",
+      "options": [
+        "A female advantage emerges after adolescence with reduced variance among males",
+        "A male advantage is present in children and remains constant with age",
+        "No differences in children, but a small male advantage and greater male score dispersion appear with age",
+        "Large female advantage across all ages and cultures"
+      ],
+      "answer": "No differences in children, but a small male advantage and greater male score dispersion appear with age"
+    },
+    {
+      "question": "In the Welsh accent study described, when challenged by an English-accented speaker, what did integrative learners tend to do?",
+      "options": [
+        "They converged by softening their accent when challenged",
+        "They diverged by broadening their accent and sometimes introducing Welsh words/phrases",
+        "They shifted to a standard accent to increase perceived status",
+        "They showed no systematic accommodation changes"
+      ],
+      "answer": "They diverged by broadening their accent and sometimes introducing Welsh words/phrases"
+    },
+    {
+      "question": "In the meta-analytic pattern of Health Locus of Control correlates summarised, which statement(s) were reported?",
+      "options": [
+        "Internal HLoC was linked to healthier behaviours such as exercise and healthy diet",
+        "Chance HLoC was linked to poorer behaviours such as smoking",
+        "Powerful-others HLoC was linked to higher depression/anxiety despite some links to physical quality of life",
+        "all of the above"
+      ],
+      "answer": "all of the above"
+    },
+    {
+      "question": "Which pairing correctly matches positive vs negative eugenics as defined in the intelligence lecture notes?",
+      "options": [
+        "Positive eugenics discourages reproduction among the 'fit'; negative eugenics encourages reproduction among the 'unfit'",
+        "Positive eugenics refers to forced sterilisation; negative eugenics refers to IQ testing in schools",
+        "Positive eugenics refers to immigration quotas; negative eugenics refers to bilingual education policies",
+        "Positive eugenics encourages reproduction among those perceived to have superior traits; negative eugenics discourages/restricts reproduction among those perceived to have poor hereditary traits"
+      ],
+      "answer": "Positive eugenics encourages reproduction among those perceived to have superior traits; negative eugenics discourages/restricts reproduction among those perceived to have poor hereditary traits"
+    },
+    {
+      "question": "In the small-group 'Lunar Landing' style task described, which two indicators were used to quantify a person's social influence within the group?",
+      "options": [
+        "movement of group decisions toward a member's initial rankings and third-party eye gaze toward that member",
+        "self-reported fear of the target and admiration of the target",
+        "number of intrusive interruptions and reply rate",
+        "basal cortisol level and cortisol reactivity"
+      ],
+      "answer": "movement of group decisions toward a member's initial rankings and third-party eye gaze toward that member"
+    },
+    {
+      "question": "In the typology of political interview question forms presented, which category best fits a follow-up such as 'the Everyman cinema?'",
+      "options": ["Yes-no/polar", "Declarative", "Moodless", "Indirect"],
+      "answer": "Moodless"
+    },
+    {
+      "question": "Which description best matches the rationale for using an Implicit Association Test-type measure in personality assessment (as outlined)?",
+      "options": [
+        "It infers automatic associations from response-time differences, making deliberate impression management harder",
+        "It relies on ambiguous stimuli to elicit unconscious themes",
+        "It requires respondents to explicitly endorse trait adjectives on a Likert scale",
+        "both B and C"
+      ],
+      "answer": "It infers automatic associations from response-time differences, making deliberate impression management harder"
+    },
+    {
+      "question": "In the Deary et al follow-up of the Scottish cohort described, the cross-time correlation indicating individual stability of IQ was approximately:",
+      "options": ["r ≈ .6", "r ≈ .2", "r ≈ 0.0", "r ≈ .9"],
+      "answer": "r ≈ .6"
+    },
+    {
+      "question": "In the section on minority influence, what evidence (beyond overt agreement rates) suggested that a consistent minority could alter perception rather than just public responding?",
+      "options": [
+        "An increase in explicit identification with the minority group",
+        "A systematic speeding of colour-naming responses",
+        "A shift in the blue–green categorisation boundary toward the minority's label",
+        "A decrease in the perceived legitimacy of the majority"
+      ],
+      "answer": "A shift in the blue–green categorisation boundary toward the minority's label"
+    },
+    {
+      "question": "Which statement best distinguishes micro-expressions from subtle expressions as defined in the nonverbal communication notes?",
+      "options": [
+        "Micro-expressions are fleeting full expressions lasting fractions of a second, whereas subtle expressions are partial fragments of an expression",
+        "Micro-expressions are culturally learned display rules, whereas subtle expressions are innate",
+        "Micro-expressions refer only to posture, whereas subtle expressions refer only to speech",
+        "Micro-expressions occur only when lying, whereas subtle expressions occur only when telling the truth"
+      ],
+      "answer": "Micro-expressions are fleeting full expressions lasting fractions of a second, whereas subtle expressions are partial fragments of an expression"
+    },
+    {
+      "question": "In Rotter's original framework, behaviour potential is conceptualised as the product of which two components?",
+      "options": [
+        "reinforcement value × expectancy",
+        "self-efficacy × trait anxiety",
+        "dominance motivation × prestige motivation",
+        "need for cognition × need for affect"
+      ],
+      "answer": "reinforcement value × expectancy"
+    },
+    {
+      "question": "Which consideration(s) were highlighted as complicating simple 'genes + environment' interpretations of intelligence differences?",
+      "options": [
+        "Gene–environment correlation can lead genetically influenced traits to shape the environments people experience",
+        "Differential susceptibility implies some genetic profiles make individuals more sensitive to environmental conditions",
+        "Assortative mating violates the assumption that mating is random, affecting estimates",
+        "all of the above"
+      ],
+      "answer": "all of the above"
+    },
+    {
+      "question": "In the evidence summarised under system justification theory, which pattern was reported when comparing implicit evaluations across sexual orientation groups?",
+      "options": [
+        "Gay participants showed implicit ingroup favouritism, whereas straight participants showed implicit outgroup favouritism",
+        "Both groups showed strong explicit outgroup favouritism",
+        "Straight participants showed implicit outgroup favouritism, whereas gay participants showed implicit ingroup favouritism",
+        "Gay participants showed implicit outgroup favouritism toward straight people, while straight participants did not show a comparable implicit preference for gay people"
+      ],
+      "answer": "Gay participants showed implicit outgroup favouritism toward straight people, while straight participants did not show a comparable implicit preference for gay people"
+    },
+    {
+      "question": "In Giles and Smith's study on 'optimal' accommodation, which accommodation profile was associated with the most favourable evaluations?",
+      "options": [
+        "Converging simultaneously on speech rate, content, and pronunciation",
+        "Converging on two dimensions (speech rate and content, or pronunciation) rather than all three",
+        "Diverging on pronunciation while converging on speech rate",
+        "all of the above"
+      ],
+      "answer": "Converging on two dimensions (speech rate and content, or pronunciation) rather than all three"
+    },
+    {
+      "question": "In the university wellbeing example, which self-efficacy facet referred to sustaining study behaviour despite tempting alternatives?",
+      "options": [
+        "Emotional self-efficacy",
+        "Self-regulated learning self-efficacy",
+        "Social self-efficacy",
+        "Proxy agency"
+      ],
+      "answer": "Self-regulated learning self-efficacy"
+    },
+    {
+      "question": "An intelligence test produces highly consistent scores across repeated administrations, yet it is unclear whether it captures the intended construct. Which interpretation matches the tutorial's point about reliability and validity?",
+      "options": [
+        "A test can show strong reliability but still lack validity",
+        "High test-retest reliability guarantees high construct validity",
+        "Validity refers to item inter-correlation, so it is already demonstrated",
+        "Reliability refers to universal agreement on a theory of intelligence"
+      ],
+      "answer": "A test can show strong reliability but still lack validity"
+    },
+    {
+      "question": "In the need-for-affect/need-for-cognition message-matching study described, which pattern was observed?",
+      "options": [
+        "Participants high in need for affect were more persuaded by affect-oriented messages than cognition-oriented messages",
+        "Participants high in need for cognition were more persuaded by cognition-oriented messages than affect-oriented messages",
+        "The match effect was described as especially pronounced among those high in need for affect",
+        "all of the above"
+      ],
+      "answer": "all of the above"
+    },
+    {
+      "question": "In the expanded typology of applause-inviting devices, what term was used for speakers' follow-up actions that actively seek an audience response when applause does not immediately occur?",
+      "options": [
+        "Position taking",
+        "Headline-punchline",
+        "Pursuit",
+        "Three-part list"
+      ],
+      "answer": "Pursuit"
+    },
+    {
+      "question": "In the HEXACO-60 inventory mentioned, which trait is the additional factor relative to the Big Five framework (as presented in the notes)?",
+      "options": [
+        "Honesty-humility",
+        "Emotionality",
+        "Neuroticism",
+        "Openness"
+      ],
+      "answer": "Honesty-humility"
+    },
+    {
+      "question": "Which pairing(s) correctly match audience resistance strategies with company tactics aimed at neutralising them (as summarised)?",
+      "options": [
+        "Avoidance ↔ forced exposure / branded content / viral marketing",
+        "Contesting ↔ two-sided advertising / distraction / safety cues",
+        "Empowering ↔ self-affirmation / freedom",
+        "all of the above"
+      ],
+      "answer": "all of the above"
+    },
+    {
+      "question": "According to the APA task force consensus described, what can be concluded about average IQ differences observed between African American and white American groups?",
+      "options": [
+        "They are definitively genetic and should guide social policy",
+        "They do not exist; any reported differences are entirely due to test bias",
+        "Average differences may be observed, but there is no definite evidence they are genetic; cultural factors are more likely",
+        "They are genetic because IQ scores are stable within individuals"
+      ],
+      "answer": "Average differences may be observed, but there is no definite evidence they are genetic; cultural factors are more likely"
+    },
+    {
+      "question": "A response is clear and directed at the interviewer, but it answers a different question than the one asked. In equivocation theory, this primarily reflects equivocation on which dimension?",
+      "options": [
+        "Context dimension",
+        "Sender dimension",
+        "Content dimension",
+        "Receiver dimension"
+      ],
+      "answer": "Context dimension"
+    },
+    {
+      "question": "Bandura describes multiple forms of agency. Which option captures the forms of agency that explicitly involve others (rather than solely the self acting directly)?",
+      "options": [
+        "both B and C",
+        "Proxy agency",
+        "Collective agency",
+        "Personal agency"
+      ],
+      "answer": "both B and C"
+    },
+    {
+      "question": "In the public goods game example described, what happened to cooperation once costly punishment was introduced partway through the repeated rounds?",
+      "options": [
+        "Contributions typically declined over time but increased sharply once punishment was introduced, even though punishment was costly",
+        "Contributions stayed constant across rounds and punishment had little effect",
+        "Punishment reduced contributions by increasing hostility and retaliation",
+        "Punishment eliminated the need for cooperation, so contributions fell to zero"
+      ],
+      "answer": "Contributions typically declined over time but increased sharply once punishment was introduced, even though punishment was costly"
+    }
+  ]
+}
