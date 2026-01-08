@@ -8,19 +8,31 @@ echo "🌍 Your Current IP: $MY_NEW_IP"
 SG_ID=$(aws rds describe-db-instances --db-instance-identifier mcq-app-db --query "DBInstances[0].VpcSecurityGroups[0].VpcSecurityGroupId" --output text)
 echo "🔒 Security Group ID: $SG_ID"
 
-# 3. Clean up OLD rules on port 5432 (Revoke all access to 5432 first)
-# Note: This prevents the security group from filling up with old IPs.
-# It suppresses errors (2>/dev/null) in case there were no rules to delete.
-echo "🧹 Cleaning up old IP rules..."
-aws ec2 revoke-security-group-ingress --group-id $SG_ID --protocol tcp --port 5432 --cidr 0.0.0.0/0 2>/dev/null || true
+# 3. List current authorized IPs
+echo "📋 Currently authorized IPs:"
+aws ec2 describe-security-groups --group-ids $SG_ID --query "SecurityGroups[0].IpPermissions[?FromPort==\`5432\`].IpRanges[].CidrIp" --output text | tr '\t' '\n' | while read ip; do
+  echo "   • $ip"
+done
 
-# 4. Authorize the NEW IP
-echo "🚀 Authorizing new IP..."
-aws ec2 authorize-security-group-ingress \
-    --group-id $SG_ID \
-    --protocol tcp \
-    --port 5432 \
-    --cidr ${MY_NEW_IP}/32 \
-    --region eu-west-2
+# 4. Check if IP already authorized
+EXISTING=$(aws ec2 describe-security-groups --group-ids $SG_ID --query "SecurityGroups[0].IpPermissions[?FromPort==\`5432\`].IpRanges[?CidrIp==\`${MY_NEW_IP}/32\`].CidrIp" --output text)
 
-echo "✅ Success! You can now connect to RDS from $MY_NEW_IP"
+if [ -n "$EXISTING" ]; then
+  echo "ℹ️  IP $MY_NEW_IP is already authorized"
+else
+  # 5. Authorize the NEW IP (append to existing rules)
+  echo "🚀 Adding new IP to authorized list..."
+  aws ec2 authorize-security-group-ingress \
+      --group-id $SG_ID \
+      --protocol tcp \
+      --port 5432 \
+      --cidr ${MY_NEW_IP}/32 \
+      --region eu-west-2
+  echo "✅ Success! Added $MY_NEW_IP to authorized IPs"
+fi
+
+echo ""
+echo "📋 Updated authorized IPs:"
+aws ec2 describe-security-groups --group-ids $SG_ID --query "SecurityGroups[0].IpPermissions[?FromPort==\`5432\`].IpRanges[].CidrIp" --output text | tr '\t' '\n' | while read ip; do
+  echo "   • $ip"
+done

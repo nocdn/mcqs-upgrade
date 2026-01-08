@@ -130,7 +130,7 @@ const explainSchema = z.object({
 
 app.post(
   "/api/explain",
-  rateLimit(15, 86400), // 15 requests per day
+  rateLimit(30, 86400), // 30 requests per day
   validator("json", (value, c) => {
     const parsed = explainSchema.safeParse(value);
     if (!parsed.success) {
@@ -231,8 +231,8 @@ app.post("/api/chat", rateLimit(35, 86400), async (c) => {
   });
 });
 
-app.get("/api/questions", rateLimit(2, 60), async (c) => {
-  // 2 requests per minute
+app.get("/api/questions", rateLimit(100, 60), async (c) => {
+  // 100 requests per minute
   const topic = c.req.query("topic");
 
   // Cache key: specific topic or "all"

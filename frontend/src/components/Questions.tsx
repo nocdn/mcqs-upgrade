@@ -3,6 +3,7 @@ import { AnimatePresence, motion } from "motion/react";
 import type { Question } from "../types";
 import NumberFlow from "@number-flow/react";
 import IconFullScreen2 from "@/icons/full-screen";
+import IconCheck from "@/icons/check";
 import { Drawer } from "vaul";
 import { Loader2, CornerDownLeft } from "lucide-react";
 import { useChat } from "@ai-sdk/react";
@@ -20,6 +21,29 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 
 const ANSWERED_STORAGE_KEY = "mcqs-answered-questions";
+const SET_POSITION_STORAGE_KEY = "mcqs-set-positions";
+
+function getSetPositions(): Record<string, number> {
+  try {
+    const stored = localStorage.getItem(SET_POSITION_STORAGE_KEY);
+    if (stored) {
+      return JSON.parse(stored);
+    }
+  } catch (e) {
+    console.error("Failed to load set positions from localStorage:", e);
+  }
+  return {};
+}
+
+function saveSetPosition(setTitle: string, index: number): void {
+  try {
+    const positions = getSetPositions();
+    positions[setTitle] = index;
+    localStorage.setItem(SET_POSITION_STORAGE_KEY, JSON.stringify(positions));
+  } catch (e) {
+    console.error("Failed to save set position to localStorage:", e);
+  }
+}
 
 function getAnsweredQuestions(): Set<number> {
   try {
@@ -60,6 +84,7 @@ export function Questions({ questions, setTitle }: QuestionsProps) {
   const [explanationSources, setExplanationSources] = useState<string[]>([]);
   const [loadingExplanation, setLoadingExplanation] = useState(false);
   const [thinkHarder, setThinkHarder] = useState(false);
+  const [showProgressRestored, setShowProgressRestored] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8787";
@@ -82,11 +107,29 @@ export function Questions({ questions, setTitle }: QuestionsProps) {
     scrollToBottom();
   }, [messages]);
 
-  // Reset to first question when set changes
+  // Restore position when set changes
   useEffect(() => {
-    setCurrentIndex(0);
+    const positions = getSetPositions();
+    const savedIndex = positions[setTitle] ?? 0;
+    // Ensure saved index is valid for current questions array
+    const validIndex = Math.min(savedIndex, questions.length - 1);
+    setCurrentIndex(validIndex >= 0 ? validIndex : 0);
     setSelectedAnswer(null);
-  }, [setTitle]);
+
+    // Show "Progress Restored" message if we restored to a non-zero position
+    if (validIndex > 0) {
+      setShowProgressRestored(true);
+      const timeout = setTimeout(() => setShowProgressRestored(false), 1000);
+      return () => clearTimeout(timeout);
+    }
+  }, [setTitle, questions.length]);
+
+  // Save position whenever it changes
+  useEffect(() => {
+    if (setTitle && questions.length > 0) {
+      saveSetPosition(setTitle, currentIndex);
+    }
+  }, [setTitle, currentIndex, questions.length]);
 
   const currentQuestion = questions[currentIndex];
   const isAlreadyAnswered = currentQuestion
@@ -250,10 +293,12 @@ export function Questions({ questions, setTitle }: QuestionsProps) {
                 <IconFullScreen2 size="16px" />
                 Explain
               </div>
-              {/* <div className="flex items-center gap-1.5 cursor-pointer font-rounded font-medium text-gray-600">
-                <IconCheck size="16px" />
-                Answered
-              </div> */}
+              {isAlreadyAnswered && (
+                <div className="flex items-center gap-1.5 font-rounded font-medium text-[#5686FE]">
+                  <IconCheck size="16px" strokeWidth={4} />
+                  Already answered
+                </div>
+              )}
             </div>
           </motion.div>
         </AnimatePresence>
@@ -278,17 +323,47 @@ export function Questions({ questions, setTitle }: QuestionsProps) {
         >
           <p>Prev</p>
         </button>
-        <div className="font-semibold tabular-nums font-rounded opacity-70">
-          <NumberFlow
-            value={currentIndex + 1}
-            transformTiming={{
-              duration: 260,
-              easing:
-                "linear(0, 0.0018, 0.0069 1.16%, 0.0262 2.32%, 0.0642, 0.1143 5.23%, 0.2244 7.84%, 0.5881 15.68%, 0.6933, 0.7839, 0.8591, 0.9191 26.13%, 0.9693, 1.0044 31.93%, 1.0234, 1.0358 36.58%, 1.0434 39.19%, 1.046 42.39%, 1.0446 44.71%, 1.0404 47.61%, 1.0118 61.84%, 1.0028 69.39%, 0.9981 80.42%, 0.9991 99.87%)",
-            }}
-          />{" "}
-          <span className="ml-1 mr-2 opacity-30">/</span>
-          {questions.length}
+        <div className="relative flex flex-col items-center">
+          <AnimatePresence>
+            {showProgressRestored && (
+              <motion.div
+                initial={{
+                  y: 6,
+                  opacity: 0,
+                  scale: 0.9,
+                  filter: "blur(1.5px)",
+                }}
+                animate={{
+                  y: 0,
+                  opacity: 1,
+                  scale: 1,
+                  filter: "blur(0px)",
+                }}
+                exit={{
+                  y: 9,
+                  opacity: 0,
+                  scale: 0.85,
+                  filter: "blur(2px)",
+                }}
+                transition={{ duration: 0.25, ease: [0.23, 1, 0.32, 1] }}
+                className="absolute -top-14 text-sm font-medium text-blue-600 whitespace-nowrap"
+              >
+                Progress Restored
+              </motion.div>
+            )}
+          </AnimatePresence>
+          <div className="font-semibold tabular-nums font-rounded opacity-70">
+            <NumberFlow
+              value={currentIndex + 1}
+              transformTiming={{
+                duration: 260,
+                easing:
+                  "linear(0, 0.0018, 0.0069 1.16%, 0.0262 2.32%, 0.0642, 0.1143 5.23%, 0.2244 7.84%, 0.5881 15.68%, 0.6933, 0.7839, 0.8591, 0.9191 26.13%, 0.9693, 1.0044 31.93%, 1.0234, 1.0358 36.58%, 1.0434 39.19%, 1.046 42.39%, 1.0446 44.71%, 1.0404 47.61%, 1.0118 61.84%, 1.0028 69.39%, 0.9981 80.42%, 0.9991 99.87%)",
+              }}
+            />{" "}
+            <span className="ml-1 mr-2 opacity-30">/</span>
+            {questions.length}
+          </div>
         </div>
         <button
           onClick={handleNext}
