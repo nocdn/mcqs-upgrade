@@ -3,9 +3,15 @@ import React from "react";
 export interface IconProps extends React.SVGProps<SVGSVGElement> {
   strokeWidth?: number;
   size?: string;
+  color?: string;
 }
 
-function IconCheck({ strokeWidth = 4, size = "30px", ...props }: IconProps) {
+function IconCheck({
+  strokeWidth = 4,
+  size = "30px",
+  color = "#212121",
+  ...props
+}: IconProps) {
   return (
     <svg
       width={size}
@@ -36,7 +42,7 @@ function IconCheck({ strokeWidth = 4, size = "30px", ...props }: IconProps) {
         ></path>
         <path
           d="M3 15H3.01"
-          stroke="var(--nc-arcade-color-1,#212121)"
+          stroke={color}
           strokeWidth={strokeWidth}
           strokeLinecap="square"
           data-arcade-1="on"
@@ -85,7 +91,7 @@ function IconCheck({ strokeWidth = 4, size = "30px", ...props }: IconProps) {
         ></path>
         <path
           d="M7 19H7.01"
-          stroke="var(--nc-arcade-color-1,#212121)"
+          stroke={color}
           strokeWidth={strokeWidth}
           strokeLinecap="square"
           data-arcade-1="on"
@@ -134,7 +140,7 @@ function IconCheck({ strokeWidth = 4, size = "30px", ...props }: IconProps) {
         ></path>
         <path
           d="M11 23H11.01"
-          stroke="var(--nc-arcade-color-1,#212121)"
+          stroke={color}
           strokeWidth={strokeWidth}
           strokeLinecap="square"
           data-arcade-1="on"
@@ -169,7 +175,7 @@ function IconCheck({ strokeWidth = 4, size = "30px", ...props }: IconProps) {
         ></path>
         <path
           d="M15 19H15.01"
-          stroke="var(--nc-arcade-color-1,#212121)"
+          stroke={color}
           strokeWidth={strokeWidth}
           strokeLinecap="square"
           data-arcade-1="on"
@@ -204,7 +210,7 @@ function IconCheck({ strokeWidth = 4, size = "30px", ...props }: IconProps) {
         ></path>
         <path
           d="M19 15H19.01"
-          stroke="var(--nc-arcade-color-1,#212121)"
+          stroke={color}
           strokeWidth={strokeWidth}
           strokeLinecap="square"
           data-arcade-1="on"
@@ -232,7 +238,7 @@ function IconCheck({ strokeWidth = 4, size = "30px", ...props }: IconProps) {
         ></path>
         <path
           d="M23 11H23.01"
-          stroke="var(--nc-arcade-color-1,#212121)"
+          stroke={color}
           strokeWidth={strokeWidth}
           strokeLinecap="square"
           data-arcade-1="on"
@@ -330,7 +336,7 @@ function IconCheck({ strokeWidth = 4, size = "30px", ...props }: IconProps) {
         ></path>
         <path
           d="M27 7H27.01"
-          stroke="var(--nc-arcade-color-1,#212121)"
+          stroke={color}
           strokeWidth={strokeWidth}
           strokeLinecap="square"
           data-arcade-1="on"

@@ -2,6 +2,7 @@ import { Questions } from "@/components/Questions";
 import { useState, useEffect, useMemo } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { Menu, X } from "lucide-react";
+import { Drawer } from "vaul";
 import type { Question, ApiResponse } from "./types";
 
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8787";
@@ -12,6 +13,7 @@ function App() {
   const [error, setError] = useState<string | null>(null);
   const [selectedSet, setSelectedSet] = useState<string | null>(null);
   const [showingSets, setShowingSets] = useState(false);
+  const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
 
   // Fetch questions on mount
   useEffect(() => {
@@ -96,9 +98,20 @@ function App() {
 
   return (
     <div className="h-screen w-screen flex flex-col" data-vaul-drawer-wrapper>
-      <div className="max-w-3xl w-full mx-auto px-6 flex items-center gap-4 mt-10">
+      <div className="max-w-3xl w-full mx-auto px-6 flex items-center gap-4 mt-5 md:mt-10">
+        {/* Mobile: smaller button that opens drawer */}
         <button
-          className="button-3 flex items-center gap-2.5 -translate-x-0.5 opacity-70 cursor-pointer *:cursor-pointer"
+          className="md:hidden button-3 flex items-center gap-2 -translate-x-0.5 opacity-70 cursor-pointer *:cursor-pointer"
+          style={{ padding: "0.5em 1em" }}
+          onMouseDown={() => setMobileDrawerOpen(true)}
+        >
+          <p className="font-medium text-sm">Sets</p>
+          <Menu size={14} />
+        </button>
+
+        {/* Desktop: original inline behavior */}
+        <button
+          className="hidden md:flex button-3 items-center gap-2.5 -translate-x-0.5 opacity-70 cursor-pointer *:cursor-pointer"
           style={{ padding: "0.6em 1.2em" }}
           onMouseDown={() => setShowingSets(!showingSets)}
         >
@@ -129,7 +142,7 @@ function App() {
         </button>
         <AnimatePresence>
           {showingSets && (
-            <div className="flex items-center gap-2 flex-wrap">
+            <div className="hidden md:flex items-center gap-2 flex-wrap">
               {availableSets.map((set, index) => (
                 <motion.button
                   key={set}
@@ -156,6 +169,38 @@ function App() {
           )}
         </AnimatePresence>
       </div>
+
+      {/* Mobile Sets Drawer */}
+      <Drawer.Root
+        open={mobileDrawerOpen}
+        onOpenChange={setMobileDrawerOpen}
+        shouldScaleBackground
+      >
+        <Drawer.Portal>
+          <Drawer.Overlay className="fixed inset-0 bg-black/40" />
+          <Drawer.Content className="fixed bottom-0 left-0 right-0 bg-white rounded-t-xl outline-none flex flex-col">
+            <div className="mx-auto w-12 h-1.5 shrink-0 rounded-full bg-gray-300 mt-4 mb-2" />
+            <Drawer.Title className="sr-only">Select a Set</Drawer.Title>
+            <div className="px-4 pb-8 pt-2 flex flex-col gap-2">
+              {availableSets.map((set) => (
+                <button
+                  key={set}
+                  onMouseDown={() => {
+                    setSelectedSet(set);
+                    setMobileDrawerOpen(false);
+                  }}
+                  className={`button-3 w-full font-medium text-left ${
+                    selectedSet === set ? "ring-2 ring-gray-400" : ""
+                  }`}
+                  style={{ padding: "0.75em 1.2em" }}
+                >
+                  {set}
+                </button>
+              ))}
+            </div>
+          </Drawer.Content>
+        </Drawer.Portal>
+      </Drawer.Root>
       <Questions questions={filteredQuestions} setTitle={currentSetName} />
     </div>
   );

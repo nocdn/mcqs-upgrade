@@ -233,7 +233,7 @@ export function Questions({ questions, setTitle }: QuestionsProps) {
   }
 
   return (
-    <div className="flex flex-col items-center w-full max-w-3xl mx-auto mt-8 p-6 space-y-8 h-full">
+    <div className="flex flex-col items-center w-full max-w-3xl mx-auto mt-2 md:mt-8 p-6 space-y-8 h-full">
       <div className="w-full space-y-6">
         <AnimatePresence mode="popLayout" custom={direction}>
           <motion.div
@@ -245,11 +245,11 @@ export function Questions({ questions, setTitle }: QuestionsProps) {
             exit="exit"
             className="space-y-4"
           >
-            <h2 className="text-xl font-medium leading-normal mb-10">
+            <h2 className="text-[1rem] md:text-xl font-medium leading-normal mb-6 md:mb-10">
               {currentQuestion.question}
             </h2>
 
-            <div className="grid gap-3">
+            <div className="grid gap-2 md:gap-3">
               {currentQuestion.options.map((option, index) => {
                 const isSelected = selectedAnswer === index;
                 const isCorrect = index === correctAnswerIndex;
@@ -280,12 +280,12 @@ export function Questions({ questions, setTitle }: QuestionsProps) {
                     <div className="border-[2.5px] border-[#f3f3f3] text-gray-300 font-semibold font-rounded flex items-center justify-center size-8 rounded-lg shrink-0">
                       {String.fromCharCode(65 + index)}
                     </div>
-                    <p>{option}</p>
+                    <p className="text-[0.9375rem] md:text-base">{option}</p>
                   </div>
                 );
               })}
             </div>
-            <div className="flex w-full pl-2 mt-8 gap-6">
+            <div className="flex w-full pl-2 pt-1 md:mt-8 gap-6">
               <div
                 onMouseDown={handleExplain}
                 className="flex items-center gap-2 cursor-pointer font-rounded font-medium text-gray-600 hover:text-gray-900 transition-colors"
@@ -294,8 +294,8 @@ export function Questions({ questions, setTitle }: QuestionsProps) {
                 Explain
               </div>
               {isAlreadyAnswered && (
-                <div className="flex items-center gap-1.5 font-rounded font-medium text-[#5686FE]">
-                  <IconCheck size="16px" strokeWidth={4} />
+                <div className="flex items-center gap-1.5 font-rounded font-medium text-[#31903f]">
+                  <IconCheck size="16px" strokeWidth={4} color="#31903f" />
                   Already answered
                 </div>
               )}
@@ -305,7 +305,7 @@ export function Questions({ questions, setTitle }: QuestionsProps) {
       </div>
 
       <div
-        className="flex gap-4 pt-4 mt-auto items-center"
+        className="flex gap-4 pt-0 md:pt-4 mt-auto items-center"
         style={{ fontWeight: 700 }}
       >
         <button
@@ -313,7 +313,7 @@ export function Questions({ questions, setTitle }: QuestionsProps) {
           disabled={currentIndex === 0}
           style={{ padding: "0.6em 1.2em" }}
           className={`
-            w-36 focus:outline-none border-none outline-none active:outline-none focus-visible:outline-none button-3
+            w-[7.2rem] md:w-36 focus:outline-none border-none outline-none active:outline-none focus-visible:outline-none button-3
             ${
               currentIndex === 0
                 ? "cursor-not-allowed opacity-50"
@@ -370,7 +370,7 @@ export function Questions({ questions, setTitle }: QuestionsProps) {
           disabled={currentIndex === questions.length - 1}
           style={{ padding: "0.6em 1.2em" }}
           className={`
-            w-36 focus:outline-none border-none outline-none active:outline-none focus-visible:outline-none button-3
+            w-[7.2rem] md:w-36 focus:outline-none border-none outline-none active:outline-none focus-visible:outline-none button-3
             ${
               currentIndex === questions.length - 1
                 ? "cursor-not-allowed opacity-50"
