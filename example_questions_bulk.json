@@ -1,0 +1,500 @@
+{
+  "name": "SPID",
+  "questions": [
+    {
+      "question": "In the age-related implicit theory study described (intelligent person at 6 months, 2 years, 10 years, adult), which target age was characterised by the first clear emphasis on verbal ability alongside learning and awareness of people/environment?",
+      "options": ["2 years", "6 months", "10 years", "adult"],
+      "answer": "2 years"
+    },
+    {
+      "question": "Spearman's observation of a \"positive manifold\" refers to which pattern in intelligence-test data?",
+      "options": [
+        "Scores on different cognitive tests tend to be negatively correlated",
+        "Scores on different cognitive tests are independent (near-zero correlations)",
+        "Scores on different cognitive tests tend to be positively correlated",
+        "all of the above"
+      ],
+      "answer": "Scores on different cognitive tests tend to be positively correlated"
+    },
+    {
+      "question": "In the WAIS structure described in the notes, which index is treated as primarily reflecting crystallised intelligence rather than fluid processes?",
+      "options": [
+        "Processing speed",
+        "Perceptual reasoning",
+        "Verbal comprehension",
+        "Working memory"
+      ],
+      "answer": "Verbal comprehension"
+    },
+    {
+      "question": "In the Taiwanese implicit theory factor structure described by Yang and Sternberg, which component captures being modest about one's intellectual ability?",
+      "options": [
+        "Intellectual self-assertation",
+        "Interpersonal intelligence",
+        "General cognitive factor intelligence",
+        "Intellectual self-effacement"
+      ],
+      "answer": "Intellectual self-effacement"
+    },
+    {
+      "question": "Which issues were listed as reasons it can be difficult to demonstrate an attitude → behaviour link in laboratory studies?",
+      "options": [
+        "It is not always clear which attitude component (affect/behaviour/cognition) is critical in a given situation",
+        "It is not always clear which attitude (among multiple relevant attitudes) is driving behaviour",
+        "Behaviour toward one attitude object may be controlled by an attitude toward another object",
+        "all of the above"
+      ],
+      "answer": "all of the above"
+    },
+    {
+      "question": "In the meta-analysis comparing standard vs non-standard accents, standard accents were rated higher on which three dimensions?",
+      "options": [
+        "status, solidarity, and dynamism",
+        "warmth, competence, and trustworthiness",
+        "trustworthiness, dominance, and youthful-attractiveness",
+        "practical problem solving, verbal ability, and social competence"
+      ],
+      "answer": "status, solidarity, and dynamism"
+    },
+    {
+      "question": "In the analysis of debates in the German parliament described, what was the overarching conclusion about the idea of \"manterrupting\"?",
+      "options": [
+        "Gender differences in interruptions were not pervasive enough to treat them as a systematic resistance strategy; interruptions appeared more tied to political dynamics",
+        "Women interrupted men twice as often as men interrupted women, so the phenomenon was treated as reversed",
+        "Women were more likely to be interrupted, and this was taken as decisive evidence of a strong gender-based resistance pattern in the chamber",
+        "Any apparent interruption asymmetry disappeared once party hierarchy was controlled, so interruptions were treated as random"
+      ],
+      "answer": "Gender differences in interruptions were not pervasive enough to treat them as a systematic resistance strategy; interruptions appeared more tied to political dynamics"
+    },
+    {
+      "question": "In the corpus analysis of \"you know\" described, which mapping between function and typical user was reported?",
+      "options": [
+        "Certainty/conviction was used more by men; doubt/uncertainty more by women",
+        "Both meanings were used equally by men and women, with no functional differentiation",
+        "Certainty/conviction was used more by women; doubt/uncertainty more by men",
+        "all of the above"
+      ],
+      "answer": "Certainty/conviction was used more by women; doubt/uncertainty more by men"
+    },
+    {
+      "question": "In the functions of tag questions outlined, which function was reported as more common among women (contrary to a simple \"powerlessness\" interpretation)?",
+      "options": [
+        "Confrontational challenge",
+        "Conveying uncertainty about the proposition",
+        "Softening the force of criticism",
+        "Facilitating conversation / encouraging interaction"
+      ],
+      "answer": "Facilitating conversation / encouraging interaction"
+    },
+    {
+      "question": "In the deception detection findings summarised (emotional vs non-emotional lies), which pattern best matches the reported decoder accuracy?",
+      "options": [
+        "Overall accuracy hovered around chance, emotional lie detection was above chance, and non-emotional lie detection was below chance",
+        "Overall accuracy was well above chance, and both emotional and non-emotional lie detection were above chance",
+        "Overall accuracy was below chance, but non-emotional lie detection was above chance",
+        "Emotional lie detection was below chance while non-emotional lie detection was above chance"
+      ],
+      "answer": "Overall accuracy hovered around chance, emotional lie detection was above chance, and non-emotional lie detection was below chance"
+    },
+    {
+      "question": "In the study where medical students received training to recognise micro-expressions, which outcome pattern was reported?",
+      "options": [
+        "Those who started with the highest communication ability improved, whereas those with the lowest communication ability did not",
+        "Those with the lowest communication ability improved the most, eliminating group differences",
+        "Training reduced performance in the highest-ability group due to overconfidence",
+        "Training effects were uniform regardless of baseline communication ability"
+      ],
+      "answer": "Those who started with the highest communication ability improved, whereas those with the lowest communication ability did not"
+    },
+    {
+      "question": "Which two criticisms of Lakoff's claims about \"powerless\" language were explicitly emphasised in the notes?",
+      "options": [
+        "Many of the claims were grounded largely in personal observations rather than systematic evidence",
+        "The function of an utterance cannot be inferred from linguistic form alone without considering context",
+        "both A and B",
+        "The account denied any relationship between language, gender and power, so it could not motivate research"
+      ],
+      "answer": "both A and B"
+    },
+    {
+      "question": "In Holmes' analysis of \"I think\", which gender-pattern pairing was reported?",
+      "options": [
+        "Men used the deliberative/booster form more; women used the tentative/hedging form more",
+        "Women used both forms less frequently than men",
+        "Women used the deliberative/booster form more; men used the tentative/hedging form more",
+        "No functional difference was found; all uses were treated as hedges"
+      ],
+      "answer": "Women used the deliberative/booster form more; men used the tentative/hedging form more"
+    },
+    {
+      "question": "When distinguishing interruption types, what finding was attributed to the meta-analytic review discussed?",
+      "options": [
+        "Women were more likely than men to make intrusive interruptions across contexts",
+        "No gender differences emerged even when distinguishing intrusive interruptions",
+        "Intrusive interruptions occurred only in single-sex conversations",
+        "Men were more likely than women to make intrusive interruptions, though situational/contextual factors qualified the pattern"
+      ],
+      "answer": "Men were more likely than women to make intrusive interruptions, though situational/contextual factors qualified the pattern"
+    },
+    {
+      "question": "In critiques of the \"two cultures\" / Mars-and-Venus framing, what alternative explanation was emphasised for many apparent gender differences in language use?",
+      "options": [
+        "Differences are fixed biologically and primarily determined by brain lateralisation",
+        "Differences reflect stable personality traits (eg neuroticism) rather than social structure",
+        "Differences are best explained by micro-expressions in nonverbal behaviour rather than speech",
+        "Differences often reflect social roles and interactional demands (eg professional vs audience roles) more than gender category per se"
+      ],
+      "answer": "Differences often reflect social roles and interactional demands (eg professional vs audience roles) more than gender category per se"
+    },
+    {
+      "question": "In the four-dimension framework of equivocation, the \"receiver\" dimension concerns which aspect of a response?",
+      "options": [
+        "Whether the response reflects the speaker's own opinion",
+        "Clarity in terms of what is being said",
+        "both A and B",
+        "The extent to which the message is addressed to the other person in the situation"
+      ],
+      "answer": "The extent to which the message is addressed to the other person in the situation"
+    },
+    {
+      "question": "In Communication Accommodation Theory, upward accent convergence refers to:",
+      "options": [
+        "Raising your tone of voice to match the interlocutor",
+        "Reducing pronunciation dissimilarities to gain approval of another perceived as having a less prestigious accent",
+        "Accentuating pronunciation dissimilarities to gain approval of another perceived as having a more prestigious accent",
+        "Reducing pronunciation dissimilarities to gain approval of another perceived as having a more prestigious accent"
+      ],
+      "answer": "Reducing pronunciation dissimilarities to gain approval of another perceived as having a more prestigious accent"
+    },
+    {
+      "question": "Which statements about the comparative analysis of leaders' Covid-era parliamentary communication are supported by the notes?",
+      "options": [
+        "Starmer was described as using a forensic approach, including focused questions and quotations to target government actions",
+        "both A and C",
+        "Johnson was described as relying heavily on personal attacks and a patriotic narrative",
+        "Starmer was described as avoiding quotations and focusing primarily on personal attacks"
+      ],
+      "answer": "both A and C"
+    },
+    {
+      "question": "Within the social dilemmas framework in the notes, a social fence is best described as:",
+      "options": [
+        "An action that costs the individual but benefits the collective",
+        "An action that benefits the individual but costs the collective",
+        "A situation in which cooperation is always individually optimal",
+        "A mechanism that prevents reciprocity by removing reputation information"
+      ],
+      "answer": "An action that costs the individual but benefits the collective"
+    },
+    {
+      "question": "Within the same framework, a social trap is best described as:",
+      "options": [
+        "An action that benefits the self while imposing costs on the collective",
+        "An action that costs the self while benefiting the collective",
+        "A decision rule in which all players choose the Nash equilibrium",
+        "A situation where punishment is impossible, so cooperation always collapses"
+      ],
+      "answer": "An action that benefits the self while imposing costs on the collective"
+    },
+    {
+      "question": "In the iterated Prisoner's Dilemma study described, which strategy was reported as most effective for eliciting cooperation from \"individualists\"?",
+      "options": [
+        "Always cooperate (unconditional cooperation)",
+        "Always defect (unconditional defection)",
+        "Tit-for-tat (cooperate first, then match the other player's behaviour)",
+        "all of the above"
+      ],
+      "answer": "Tit-for-tat (cooperate first, then match the other player's behaviour)"
+    },
+    {
+      "question": "Which observation from the Ultimatum Game results described most directly challenges a strict rational self-interest prediction for responders?",
+      "options": [
+        "Responders accept any offer greater than zero in one-shot games",
+        "Responders reject generous offers more often than unfair offers",
+        "First movers typically offer the minimum possible amount because rejection is rare",
+        "Responders sometimes reject unfair offers even though rejection leaves both players with nothing"
+      ],
+      "answer": "Responders sometimes reject unfair offers even though rejection leaves both players with nothing"
+    },
+    {
+      "question": "In studies of third-party punishment described, participants were willing to incur a cost to punish most often when:",
+      "options": [
+        "The defector's partner also defected (mutual defection)",
+        "The target cooperated and the partner defected (cooperator punished)",
+        "The target defected while the partner cooperated (a clear fairness violation)",
+        "Both players cooperated (to reinforce the norm)"
+      ],
+      "answer": "The target defected while the partner cooperated (a clear fairness violation)"
+    },
+    {
+      "question": "In the 'consistent contributor' public goods work summarised, what role did status play when a consistent contributor was present?",
+      "options": [
+        "Status had no measurable effect; consistent contribution helped equally regardless of status",
+        "Low-status consistent contributors had a stronger effect because they elicited sympathy",
+        "High-status consistent contributors produced an additive increase in others' contributions relative to low-status consistent contributors",
+        "Status mattered only for pro-self groups, not pro-social groups"
+      ],
+      "answer": "High-status consistent contributors produced an additive increase in others' contributions relative to low-status consistent contributors"
+    },
+    {
+      "question": "In the cooperative cascade findings described, which features characterised how cooperation spread in the networked public goods paradigm?",
+      "options": [
+        "One person's cooperative behaviour influenced others' contributions in subsequent interactions",
+        "The influence of cooperative behaviour persisted over time",
+        "Cooperative influence extended to individuals who had no direct contact with the original cooperator (across degrees of separation)",
+        "all of the above"
+      ],
+      "answer": "all of the above"
+    },
+    {
+      "question": "In the real-world sample of helping professionals described, which pattern of traits was linked to burnout and secondary traumatic stress (rather than compassion satisfaction)?",
+      "options": [
+        "Empathic concern and perspective-taking",
+        "Altruism and compassion satisfaction",
+        "Empathic distress and alexithymia",
+        "Trustworthiness and dominance"
+      ],
+      "answer": "Empathic distress and alexithymia"
+    },
+    {
+      "question": "In the study linking past adversity to helping, which variable was described as the key proximal predictor of charitable donation (and, in a replication, of time spent helping)?",
+      "options": [
+        "Trait anxiety",
+        "Need for cognition",
+        "State compassion elicited by acute threat",
+        "Dispositional compassion"
+      ],
+      "answer": "Dispositional compassion"
+    },
+    {
+      "question": "In the work describing moral outrage expression online, reinforcement learning effects on next-day outrage were reported as especially strong when:",
+      "options": [
+        "Users were embedded in ideologically extreme networks where outrage was the norm",
+        "Social feedback was greater than expected, particularly among newer users",
+        "Users had low need for cognition and high need for affect",
+        "Tweets contained fewer moral-emotional words"
+      ],
+      "answer": "Social feedback was greater than expected, particularly among newer users"
+    },
+    {
+      "question": "In the speech paradigm contrasting descriptive and prescriptive deviance, which subjective experience was most characteristic of prescriptive deviance?",
+      "options": [
+        "Greater comfort and pride, alongside feeling \"different but good\"",
+        "Feeling \"different but bad\" relative to the other conditions",
+        "Higher perceived similarity to the group and greater likeability",
+        "A marked increase in compassion satisfaction"
+      ],
+      "answer": "Feeling \"different but bad\" relative to the other conditions"
+    },
+    {
+      "question": "Regarding the 'tipping point' work on norm change in the name-matching game, which statements match the description in the notes?",
+      "options": [
+        "Groups first played rounds that established a dominant norm before any committed minority was introduced",
+        "Once introduced, the committed minority size was experimentally varied across groups",
+        "A rapid norm shift was observed when the committed minority reached roughly a quarter of the group",
+        "all of the above"
+      ],
+      "answer": "all of the above"
+    },
+    {
+      "question": "In Nemeth's convergent–divergent account of minority influence, divergence from the majority is described as threatening primarily because it tends to:",
+      "options": [
+        "Increase the perceived warmth and competence of the majority speaker",
+        "Reduce the perceived legitimacy of formal authority, lowering obedience",
+        "Inhibit people's own alternative thoughts to facilitate consensus, whereas minority dissent is less threatening and allows exploration",
+        "Eliminate informational influence and replace it with referent informational influence"
+      ],
+      "answer": "Inhibit people's own alternative thoughts to facilitate consensus, whereas minority dissent is less threatening and allows exploration"
+    },
+    {
+      "question": "In persuasion-style studies of the vocal minority effect described, what pattern was taken as evidence that minority arguments were processed more systematically than majority arguments?",
+      "options": [
+        "Argument strength produced little difference in persuasion when the source was a minority",
+        "Minority messages were accepted passively without validation",
+        "Majority messages showed larger differences between strong and weak arguments than minority messages",
+        "Differences between strong and weak arguments were larger when the source was a minority than when it was a majority"
+      ],
+      "answer": "Differences between strong and weak arguments were larger when the source was a minority than when it was a majority"
+    },
+    {
+      "question": "In the community-of-knowledge studies, when the explanation existed but was classified as secret (inaccessible), how did participants' understanding ratings compare to the public community-knowledge condition?",
+      "options": [
+        "They were lower than the public community-knowledge condition but higher than the no-community-knowledge condition",
+        "They matched the public community-knowledge condition because scientists still understood the phenomenon",
+        "They were indistinguishable from the no-community-knowledge condition, consistent with a strict access-only account",
+        "both B and C"
+      ],
+      "answer": "They were lower than the public community-knowledge condition but higher than the no-community-knowledge condition"
+    },
+    {
+      "question": "In the experiment that orthogonally manipulated community knowledge (present vs absent) and stated difficulty (very hard vs very easy), which pattern supported the community-of-knowledge hypothesis?",
+      "options": [
+        "Community knowledge raised perceived understanding even when the phenomenon was described as very hard to understand",
+        "Perceived understanding tracked difficulty only, regardless of community knowledge",
+        "Community knowledge increased understanding only for the \"very easy\" items, not the \"very hard\" ones",
+        "No condition differences emerged once the scale was changed from 1–10 to 1–100"
+      ],
+      "answer": "Community knowledge raised perceived understanding even when the phenomenon was described as very hard to understand"
+    },
+    {
+      "question": "In the experimental work on communicative conflict summarised, which set of response types was identified as characteristic ways people equivocate?",
+      "options": [
+        "Direct replies, counterattacks, and explicit apologies",
+        "Subtle changes in response, deferred replies, and hints",
+        "Contrasts, three-part lists, and headline-punchlines",
+        "Hedges, tag questions, and backchannels only"
+      ],
+      "answer": "Subtle changes in response, deferred replies, and hints"
+    },
+    {
+      "question": "In the job interview accent study described, what was reported about applicants' awareness of their own convergence?",
+      "options": [
+        "Applicants accurately reported that their accents had shifted, with men showing greater awareness than women",
+        "Applicants denied any convergence, but objective measures also showed no convergence",
+        "Applicants tended to disagree that their accents had become broader, with women especially likely to disagree, despite evidence of convergence",
+        "Applicants reported deliberate divergence to signal status, regardless of interviewer accent"
+      ],
+      "answer": "Applicants tended to disagree that their accents had become broader, with women especially likely to disagree, despite evidence of convergence"
+    },
+    {
+      "question": "Which statements correctly characterise two of Cattell's data sources used in trait research (as summarised)?",
+      "options": [
+        "L-data are life records (eg test scores, health records) used to index behaviour in the world",
+        "both A and C",
+        "T-data are derived from performance on standardised tests designed to measure traits",
+        "Q-data are life-record information such as test scores and health records"
+      ],
+      "answer": "both A and C"
+    },
+    {
+      "question": "Within Allport's categorisation of traits, which label is reserved for a single dominant trait that heavily influences behaviour across contexts?",
+      "options": [
+        "Cardinal trait",
+        "Secondary trait",
+        "Surface trait",
+        "Habitual response"
+      ],
+      "answer": "Cardinal trait"
+    },
+    {
+      "question": "Which limitations of projective personality tests were explicitly listed in the notes?",
+      "options": [
+        "Scoring can show low reliability because different experts disagree",
+        "They show weak predictive power and limited validity",
+        "They often show poor convergence with psychometrically sound trait measures",
+        "all of the above"
+      ],
+      "answer": "all of the above"
+    },
+    {
+      "question": "In Eysenck's clinical account discussed, reactivity in which biological system was linked to vulnerability to neurotic disorders?",
+      "options": [
+        "Somatic nervous system",
+        "Autonomic nervous system",
+        "Hippocampus",
+        "Cerebellum"
+      ],
+      "answer": "Autonomic nervous system"
+    },
+    {
+      "question": "In the tutorial summary of the Dirty Dozen measure, which correlational profile was reported for Dark Triad scores?",
+      "options": [
+        "Positive correlations with agreeableness and empathy, and negative correlations with aggression and impulsivity",
+        "all of the above",
+        "Negative correlations with agreeableness, empathy and conscientiousness, alongside positive correlations with aggression, impulsivity and resilient self-esteem",
+        "Strong positive correlation with openness but zero relation to any antisocial outcomes"
+      ],
+      "answer": "Negative correlations with agreeableness, empathy and conscientiousness, alongside positive correlations with aggression, impulsivity and resilient self-esteem"
+    },
+    {
+      "question": "In the study comparing degree subjects on Dark Triad traits summarised, which contrast was described as producing the largest overall effects across the Dark Triad dimensions?",
+      "options": [
+        "Economics and business students compared with psychology students",
+        "Political science students compared with psychology students",
+        "Law students compared with economics and business students",
+        "Law students compared with political science students"
+      ],
+      "answer": "Economics and business students compared with psychology students"
+    },
+    {
+      "question": "In the penalty-taking study described, which interaction pattern between trait anxiety and pressure was reported for state anxiety?",
+      "options": [
+        "Pressure increased state anxiety equally for low and high trait anxiety groups",
+        "High trait anxiety predicted lower state anxiety in both pressure and control conditions",
+        "Pressure increased state anxiety primarily for the high trait anxiety group, who also showed poorer performance under pressure",
+        "Only the low trait anxiety group showed an increase in state anxiety under pressure"
+      ],
+      "answer": "Pressure increased state anxiety primarily for the high trait anxiety group, who also showed poorer performance under pressure"
+    },
+    {
+      "question": "In the team-level emotional intelligence study summarised, which facets (rather than the others) were reported to positively predict team points?",
+      "options": [
+        "Perceiving emotions and facilitating thought",
+        "Facilitating thought and perceiving emotions",
+        "Understanding emotions and managing emotions",
+        "Managing emotions and extraversion"
+      ],
+      "answer": "Understanding emotions and managing emotions"
+    },
+    {
+      "question": "According to the Brands as Intentional Agents Framework described, brands are evaluated in a manner analogous to person perception primarily in terms of:",
+      "options": [
+        "their intentions and abilities (analogous to warmth and competence)",
+        "their general intelligence (g) and specific abilities (s)",
+        "their dominance and youthful-attractiveness",
+        "both B and C"
+      ],
+      "answer": "their intentions and abilities (analogous to warmth and competence)"
+    },
+    {
+      "question": "In the follow-up work on corporate responses after a product failure, which response was described as necessary to improve entity theorists' attitudes toward the brand?",
+      "options": [
+        "Compensation",
+        "Denial",
+        "Humour-based deflection",
+        "Two-sided advertising"
+      ],
+      "answer": "Compensation"
+    },
+    {
+      "question": "An employee complies with a directive primarily because the manager is authorised by a recognised organisational structure to command and make decisions. This is an example of:",
+      "options": [
+        "Expert power",
+        "Legitimate power",
+        "Reward power",
+        "Informational power"
+      ],
+      "answer": "Legitimate power"
+    },
+    {
+      "question": "Which two statements about the classic line-judgement conformity study summary are supported by the notes?",
+      "options": [
+        "When participants responded alone, accuracy was about 99%",
+        "When responses were recorded privately, conformity dropped to about 12.5%",
+        "both A and B",
+        "When the confederate was in the minority, participants became more supportive and conformity increased"
+      ],
+      "answer": "both A and B"
+    },
+    {
+      "question": "The convergence of judgments in Sherif's autokinetic effect study was presented as an example of which type of social influence?",
+      "options": [
+        "Normative influence",
+        "Informational influence",
+        "Coercive compliance",
+        "Referent informational influence"
+      ],
+      "answer": "Informational influence"
+    },
+    {
+      "question": "In the sandwich-board paradigm used to illustrate an illusory norm, what response pattern best reflects the false consensus effect described?",
+      "options": [
+        "Participants who refused the task estimated that most others would agree to do it",
+        "Participants' estimates of peer willingness tended to align with their own willingness (yes-choosers estimated higher uptake; no-choosers estimated lower uptake)",
+        "Participants systematically underestimated consensus for their own position regardless of choice",
+        "Participants' willingness was unrelated to their estimates because estimates were anchored to experimenter demands"
+      ],
+      "answer": "Participants' estimates of peer willingness tended to align with their own willingness (yes-choosers estimated higher uptake; no-choosers estimated lower uptake)"
+    }
+  ]
+}
