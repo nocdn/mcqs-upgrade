@@ -98,17 +98,7 @@ function App() {
 
   return (
     <div className="h-screen w-screen flex flex-col" data-vaul-drawer-wrapper>
-      <div className="max-w-3xl w-full mx-auto px-6 flex items-center gap-4 mt-5 md:mt-10">
-        {/* Mobile: smaller button that opens drawer */}
-        <button
-          className="md:hidden button-3 flex items-center gap-2 -translate-x-0.5 opacity-70 cursor-pointer *:cursor-pointer"
-          style={{ padding: "0.5em 1em" }}
-          onMouseDown={() => setMobileDrawerOpen(true)}
-        >
-          <p className="font-medium text-sm">Sets</p>
-          <Menu size={14} />
-        </button>
-
+      <div className="max-w-3xl w-full mx-auto px-6 hidden md:flex items-center gap-4 mt-10">
         {/* Desktop: original inline behavior */}
         <button
           className="hidden md:flex button-3 items-center gap-2.5 -translate-x-0.5 opacity-70 cursor-pointer *:cursor-pointer"
@@ -201,7 +191,7 @@ function App() {
           </Drawer.Content>
         </Drawer.Portal>
       </Drawer.Root>
-      <Questions questions={filteredQuestions} setTitle={currentSetName} />
+      <Questions questions={filteredQuestions} setTitle={currentSetName} onOpenMobileSets={() => setMobileDrawerOpen(true)} />
     </div>
   );
 }

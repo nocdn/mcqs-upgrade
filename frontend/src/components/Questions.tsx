@@ -70,9 +70,14 @@ function saveAnsweredQuestion(questionId: number): void {
 interface QuestionsProps {
   questions: Question[];
   setTitle: string;
+  onOpenMobileSets?: () => void;
 }
 
-export function Questions({ questions, setTitle }: QuestionsProps) {
+export function Questions({
+  questions,
+  setTitle,
+  onOpenMobileSets,
+}: QuestionsProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [direction, setDirection] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
@@ -85,7 +90,9 @@ export function Questions({ questions, setTitle }: QuestionsProps) {
   const [loadingExplanation, setLoadingExplanation] = useState(false);
   const [thinkHarder, setThinkHarder] = useState(false);
   const [showProgressRestored, setShowProgressRestored] = useState(false);
+  const [showMobileProgress, setShowMobileProgress] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const prevIndexRef = useRef(currentIndex);
 
   const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8787";
 
@@ -130,6 +137,16 @@ export function Questions({ questions, setTitle }: QuestionsProps) {
       saveSetPosition(setTitle, currentIndex);
     }
   }, [setTitle, currentIndex, questions.length]);
+
+  // Show progress briefly on mobile when question changes
+  useEffect(() => {
+    if (prevIndexRef.current !== currentIndex) {
+      prevIndexRef.current = currentIndex;
+      setShowMobileProgress(true);
+      const timeout = setTimeout(() => setShowMobileProgress(false), 1500);
+      return () => clearTimeout(timeout);
+    }
+  }, [currentIndex]);
 
   const currentQuestion = questions[currentIndex];
   const isAlreadyAnswered = currentQuestion
@@ -233,7 +250,7 @@ export function Questions({ questions, setTitle }: QuestionsProps) {
   }
 
   return (
-    <div className="flex flex-col items-center w-full max-w-3xl mx-auto mt-2 md:mt-8 p-6 space-y-8 h-full">
+    <div className="flex flex-col items-center w-full max-w-3xl mx-auto md:mt-8 pt-4 p-6 md:pt-6 space-y-8 h-full">
       <div className="w-full space-y-6">
         <AnimatePresence mode="popLayout" custom={direction}>
           <motion.div
@@ -323,7 +340,41 @@ export function Questions({ questions, setTitle }: QuestionsProps) {
         >
           <p>Prev</p>
         </button>
-        <div className="relative flex flex-col items-center">
+        {/* Mobile: Sets button with animated progress */}
+        <button
+          onClick={onOpenMobileSets}
+          style={{ padding: "0.5em 1em" }}
+          className="md:hidden button-3 opacity-65 cursor-pointer min-w-[4.5rem]"
+        >
+          <AnimatePresence mode="popLayout">
+            {showMobileProgress ? (
+              <motion.span
+                key="progress"
+                initial={{ opacity: 0, scale: 0.9, filter: "blur(2px)" }}
+                animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
+                exit={{ opacity: 0, scale: 0.9, filter: "blur(2px)" }}
+                transition={{ duration: 0.2 }}
+                className="font-semibold tabular-nums text-sm"
+              >
+                {currentIndex + 1}
+              </motion.span>
+            ) : (
+              <motion.span
+                key="sets"
+                initial={{ opacity: 0, scale: 0.9, filter: "blur(2px)" }}
+                animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
+                exit={{ opacity: 0, scale: 0.9, filter: "blur(2px)" }}
+                transition={{ duration: 0.2 }}
+                className="font-medium text-sm"
+              >
+                Sets
+              </motion.span>
+            )}
+          </AnimatePresence>
+        </button>
+
+        {/* Desktop: Progress counter */}
+        <div className="relative hidden md:flex flex-col items-center">
           <AnimatePresence>
             {showProgressRestored && (
               <motion.div
