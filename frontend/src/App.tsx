@@ -63,7 +63,7 @@ function App() {
 
   if (loading) {
     return (
-      <div className="h-screen w-screen flex items-center justify-center">
+      <div className="h-svh w-screen flex items-center justify-center">
         <div className="flex flex-col items-center gap-4">
           <div className="w-8 h-8 border-4 border-gray-200 border-t-gray-600 rounded-full animate-spin" />
           <p className="text-gray-500 font-medium">Loading questions...</p>
@@ -74,7 +74,7 @@ function App() {
 
   if (error) {
     return (
-      <div className="h-screen w-screen flex items-center justify-center">
+      <div className="h-svh w-screen flex items-center justify-center">
         <div className="flex flex-col items-center gap-4 text-center">
           <p className="text-red-500 font-medium">Error: {error}</p>
           <button
@@ -90,14 +90,14 @@ function App() {
 
   if (allQuestions.length === 0) {
     return (
-      <div className="h-screen w-screen flex items-center justify-center">
+      <div className="h-svh w-screen flex items-center justify-center">
         <p className="text-gray-500 font-medium">No questions found.</p>
       </div>
     );
   }
 
   return (
-    <div className="h-screen w-screen flex flex-col" data-vaul-drawer-wrapper>
+    <div className="h-dvh w-screen flex flex-col" data-vaul-drawer-wrapper>
       <div className="max-w-3xl w-full mx-auto px-6 hidden md:flex items-center gap-4 mt-10">
         {/* Desktop: original inline behavior */}
         <button
@@ -191,7 +191,11 @@ function App() {
           </Drawer.Content>
         </Drawer.Portal>
       </Drawer.Root>
-      <Questions questions={filteredQuestions} setTitle={currentSetName} onOpenMobileSets={() => setMobileDrawerOpen(true)} />
+      <Questions
+        questions={filteredQuestions}
+        setTitle={currentSetName}
+        onOpenMobileSets={() => setMobileDrawerOpen(true)}
+      />
     </div>
   );
 }
