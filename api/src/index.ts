@@ -15,13 +15,10 @@ import type { Context, Next } from "hono";
 
 const app = new Hono();
 
-// Enable CORS for all origins (dev mode)
 app.use("*", cors());
 
-// Rate limiting middleware factory
 function rateLimit(limit: number, windowSeconds: number) {
   return async (c: Context, next: Next) => {
-    // Get client IP from various headers (cloudflare, proxy, or direct)
     const ip =
       c.req.header("cf-connecting-ip") ||
       c.req.header("x-forwarded-for")?.split(",")[0].trim() ||
@@ -37,7 +34,6 @@ function rateLimit(limit: number, windowSeconds: number) {
       windowSeconds
     );
 
-    // Set rate limit headers
     c.header("X-RateLimit-Limit", limit.toString());
     c.header("X-RateLimit-Remaining", remaining.toString());
     c.header("X-RateLimit-Reset", Math.floor(resetAt / 1000).toString());
@@ -62,7 +58,7 @@ function rateLimit(limit: number, windowSeconds: number) {
 }
 
 app.get("/", (c) => {
-  return c.text("Hello Hono!");
+  return c.text("Hello Hono");
 });
 
 async function createQuestion(
@@ -78,10 +74,10 @@ async function createQuestion(
       RETURNING *;
     `;
 
-    console.log("Question Created:", newQuestion.id);
+    console.log("[api] Question created:", newQuestion.id);
     return newQuestion;
   } catch (error) {
-    console.error("Error creating question:", error);
+    console.error("[api] Error creating question:", error);
     return null;
   }
 }
@@ -95,10 +91,10 @@ async function createExplanation(questionId: number, explanationText: string) {
       RETURNING *;
     `;
 
-    console.log("Explanation Updated for ID:", updatedRow.id);
+    console.log("[api] Explanation updated for ID:", updatedRow.id);
     return updatedRow;
   } catch (error) {
-    console.error("Error updating explanation:", error);
+    console.error("[api] Error updating explanation:", error);
     return null;
   }
 }
@@ -110,14 +106,14 @@ async function pullExplanation(questionId: number) {
     `;
 
     if (!row) {
-      console.log("No question found with ID:", questionId);
+      console.log("[api] No question found with ID:", questionId);
       return null;
     }
 
-    console.log("Pulled Explanation:", row.explanation);
+    console.log("[api] Pulled explanation:", row.explanation);
     return row.explanation;
   } catch (error) {
-    console.error("Error pulling explanation:", error);
+    console.error("[api] Error pulling explanation:", error);
     return null;
   }
 }
@@ -130,7 +126,7 @@ const explainSchema = z.object({
 
 app.post(
   "/api/explain",
-  rateLimit(30, 86400), // 30 requests per day
+  rateLimit(30, 86400),
   validator("json", (value, c) => {
     const parsed = explainSchema.safeParse(value);
     if (!parsed.success) {
@@ -141,7 +137,6 @@ app.post(
   async (c) => {
     const { questionId, question, answer } = c.req.valid("json");
 
-    // Check if explanation already exists in DB
     const [existing] = await sql`
       SELECT explanation, explanation_sources
       FROM questions
@@ -149,14 +144,13 @@ app.post(
     `;
 
     if (existing?.explanation) {
-      console.log(`Explanation already exists for question ${questionId}`);
+      console.log(`[api] Explanation already exists for question ${questionId}`);
       return c.json({
         explanation: existing.explanation,
         sources: existing.explanation_sources || [],
       });
     }
 
-    // Generate new explanation with Perplexity (using reasoning model for better quality)
     const prompt = `In simple terms, please explain why "${answer}" is the correct answer to this question: "${question}". Do NOT use any sort of markdown formatting. Cite multiple sources. Do not start the explanation with anything like "Explanation: ", just start the explanation.`;
 
     const { text, sources } = await generateText({
@@ -171,17 +165,14 @@ app.post(
       },
     });
 
-    // Strip thinking tokens from reasoning model response
     const cleanedText = text.replace(/<think>[\s\S]*?<\/think>\s*/g, "").trim();
 
-    // Extract URLs from sources (filter for url sourceType only)
     const sourceUrls =
       sources
         ?.filter((s) => s.sourceType === "url" && "url" in s)
         .map((s) => (s as { url: string }).url)
         .filter(Boolean) || [];
 
-    // Save explanation and sources to DB
     await sql`
       UPDATE questions
       SET explanation = ${cleanedText},
@@ -189,17 +180,14 @@ app.post(
       WHERE id = ${questionId}
     `;
 
-    // Invalidate cache so next fetch gets the explanation
     await invalidateCache("questions:*");
 
-    console.log(`Saved explanation for question ${questionId}`);
+    console.log(`[api] Saved explanation for question ${questionId}`);
     return c.json({ explanation: cleanedText, sources: sourceUrls });
   }
 );
 
-// Chat endpoint for follow-up questions
 app.post("/api/chat", rateLimit(35, 86400), async (c) => {
-  // 35 requests per day
   const {
     messages,
     reasoning,
@@ -211,11 +199,8 @@ app.post("/api/chat", rateLimit(35, 86400), async (c) => {
   } = await c.req.json();
 
   const model = reasoning ? "sonar-reasoning-pro" : "sonar";
-  console.log(
-    `Chat request with reasoning=${reasoning}, using model: ${model}`
-  );
+  console.log(`[api] Chat request with reasoning=${reasoning}, model: ${model}`);
 
-  // Build system prompt with explanation context if provided
   const systemPrompt = explanationContext
     ? `You are a helpful assistant helping the user understand an explanation to a quiz question. Here is the explanation they are asking about:\n\n${explanationContext}\n\nAnswer their follow-up questions about this explanation. Be concise and helpful.`
     : undefined;
@@ -232,10 +217,8 @@ app.post("/api/chat", rateLimit(35, 86400), async (c) => {
 });
 
 app.get("/api/questions", rateLimit(100, 60), async (c) => {
-  // 100 requests per minute
   const topic = c.req.query("topic");
 
-  // Cache key: specific topic or "all"
   const cacheKey = topic ? `questions:${topic}` : "questions:all";
 
   const data = await getCached(
@@ -279,14 +262,14 @@ app.get("/api/questions", rateLimit(100, 60), async (c) => {
         questions,
       };
     },
-    86400 // 1 day TTL
+    86400
   );
 
   return c.json(data);
 });
 
 const bulkCreateSchema = z.object({
-  name: z.string(), // The topic name (e.g., "SPID")
+  name: z.string(),
   questions: z.array(
     z.object({
       question: z.string(),
@@ -313,7 +296,6 @@ app.post(
     }
 
     try {
-      // Bun SQL bulk insert expects an ARRAY OF OBJECTS, not arrays
       const rowsToInsert = questions.map((q) => ({
         question: q.question,
         options: JSON.stringify(q.options),
@@ -321,13 +303,11 @@ app.post(
         topic: topic,
       }));
 
-      // Use sql() helper for bulk insert (from Bun docs)
       const result = await sql`
         INSERT INTO questions ${sql(rowsToInsert)}
         RETURNING id
       `;
 
-      // Invalidate cache for this topic so new questions are served
       await invalidateCache(`questions:${topic}`);
 
       return c.json(
@@ -339,7 +319,7 @@ app.post(
         201
       );
     } catch (error) {
-      console.error("Bulk insert error:", error);
+      console.error("[api] Bulk insert error:", error);
       return c.json({ error: "Failed to insert questions" }, 500);
     }
   }

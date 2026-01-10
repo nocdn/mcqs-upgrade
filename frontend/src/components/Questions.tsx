@@ -250,8 +250,8 @@ export function Questions({
   }
 
   return (
-    <div className="flex flex-col items-center w-full max-w-3xl mx-auto md:mt-8 pt-4 p-6 md:pt-6 space-y-8 h-full">
-      <div className="w-full md:space-y-6">
+    <div className="flex flex-col items-center w-full max-w-3xl mx-auto md:mt-8 pt-4 p-6 md:pt-6 h-full">
+      <div className="w-full">
         <AnimatePresence mode="popLayout" custom={direction}>
           <motion.div
             key={currentIndex}
