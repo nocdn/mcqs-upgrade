@@ -228,7 +228,7 @@ function App() {
 
   return (
     <div className="h-dvh w-screen flex flex-col" data-vaul-drawer-wrapper>
-      <div className="max-w-3xl w-full mx-auto px-6 hidden md:flex items-center gap-4 md:mt-10">
+      <div className="max-w-4xl w-full mx-auto px-6 hidden md:flex items-center gap-4 md:mt-10">
         <button
           className="hidden md:flex button-3 items-center gap-2.5 -translate-x-0.5 opacity-70 cursor-pointer *:cursor-pointer"
           style={{ padding: "0.6em 1.2em" }}

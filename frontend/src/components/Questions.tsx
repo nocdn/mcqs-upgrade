@@ -231,7 +231,6 @@ export function Questions({
     exit: (direction: number) => ({
       x: direction < 0 ? 20 : -20,
       opacity: 0,
-      filter: "blur(1px)",
       scale: 0.98,
       transition: { duration: 0.075 },
     }),
@@ -242,7 +241,7 @@ export function Questions({
   }
 
   return (
-    <div className="flex flex-col items-center w-full max-w-3xl mx-auto md:mt-8 pt-4 p-6 md:pt-6 h-full">
+    <div className="flex flex-col items-center w-full max-w-4xl mx-auto md:mt-3 pt-4 p-6 md:pt-6 h-full">
       <div className="w-full">
         <AnimatePresence mode="popLayout" custom={direction}>
           <motion.div
@@ -254,7 +253,7 @@ export function Questions({
             exit="exit"
             className="space-y-4"
           >
-            <h2 className="text-[0.92rem] md:text-xl font-medium leading-normal mb-6 md:mb-10">
+            <h2 className="text-[0.92rem] md:text-xl font-medium leading-normal mb-6 md:mb-7">
               {currentQuestion.question}
             </h2>
 
@@ -294,16 +293,16 @@ export function Questions({
                 );
               })}
             </div>
-            <div className="flex w-full pl-2 pt-1 md:mt-8 gap-6">
+            <div className="flex w-full pl-2 pt-1 md:mt-6 gap-6">
               <div
                 onMouseDown={handleExplain}
-                className="flex items-center gap-2 cursor-pointer font-rounded font-medium text-gray-600 hover:text-gray-900 transition-colors"
+                className="flex text-[15px] md:text-base items-center gap-2 cursor-pointer font-rounded font-medium text-gray-600 hover:text-gray-900 transition-colors"
               >
                 <IconFullScreen2 size="16px" />
                 Explain
               </div>
               {isAlreadyAnswered && (
-                <div className="flex items-center gap-1.5 font-rounded font-medium text-[#31903f]">
+                <div className="flex text-[15px] md:text-base items-center gap-2 font-rounded font-medium text-[#31903f]">
                   <IconCheck size="16px" strokeWidth={4} color="#31903f" />
                   Already answered
                 </div>
@@ -335,7 +334,7 @@ export function Questions({
         <button
           onClick={onOpenMobileSets}
           style={{ padding: "0.5em 1em" }}
-          className="md:hidden button-3 opacity-65 cursor-pointer min-w-[4.5rem]"
+          className="md:hidden button-3 opacity-65 cursor-pointer min-w-18"
         >
           <AnimatePresence mode="popLayout">
             {showMobileProgress ? (
@@ -393,7 +392,7 @@ export function Questions({
               </motion.div>
             )}
           </AnimatePresence>
-          <div className="font-semibold tabular-nums font-rounded opacity-70">
+          <div className="font-semibold tabular-nums font-rounded opacity-70 w-20 flex items-center justify-center">
             <NumberFlow
               value={currentIndex + 1}
               transformTiming={{
