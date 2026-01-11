@@ -396,7 +396,7 @@ export function Questions({
           <Popover.Root>
             <Popover.Trigger
               id="progress-container"
-              className="font-semibold tabular-nums font-rounded opacity-70 w-20 hidden md:flex items-center justify-center cursor-pointer"
+              className="font-semibold tabular-nums font-rounded opacity-70 w-20 hidden md:flex items-center justify-center cursor-pointer bg-white!"
             >
               <NumberFlow
                 value={currentIndex + 1}
@@ -436,7 +436,7 @@ export function Questions({
                   </Popover.Arrow>
                   <Popover.Close
                     onMouseDown={() => setCurrentIndex(0)}
-                    className="font-rounded font-medium text-sm cursor-pointer hover:opacity-70 transition-opacity"
+                    className="font-rounded font-semibold text-sm cursor-pointer hover:opacity-70 transition-opacity bg-white!"
                   >
                     Back to first
                   </Popover.Close>
@@ -485,7 +485,7 @@ export function Questions({
         <Drawer.Portal>
           <Drawer.Overlay className="fixed inset-0 bg-black/40" />
           <Drawer.Content className="fixed bottom-0 left-0 right-0 h-[89vh] bg-white rounded-t-xl outline-none flex flex-col">
-            <div className="mx-auto w-12 h-1.5 flex-shrink-0 rounded-full bg-gray-300 mt-4 mb-2" />
+            <div className="mx-auto w-12 h-1.5 shrink-0 rounded-full bg-gray-300 mt-4 mb-2" />
             <Drawer.Title className="sr-only">Explanation</Drawer.Title>
 
             <div className="flex-1 overflow-y-auto px-6 pb-4">
