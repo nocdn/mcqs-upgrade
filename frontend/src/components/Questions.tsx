@@ -114,16 +114,13 @@ export function Questions({
     scrollToBottom();
   }, [messages]);
 
-  // Restore position when set changes
   useEffect(() => {
     const positions = getSetPositions();
     const savedIndex = positions[setTitle] ?? 0;
-    // Ensure saved index is valid for current questions array
     const validIndex = Math.min(savedIndex, questions.length - 1);
     setCurrentIndex(validIndex >= 0 ? validIndex : 0);
     setSelectedAnswer(null);
 
-    // Show "Progress Restored" message if we restored to a non-zero position
     if (validIndex > 0) {
       setShowProgressRestored(true);
       const timeout = setTimeout(() => setShowProgressRestored(false), 1000);
@@ -131,14 +128,12 @@ export function Questions({
     }
   }, [setTitle, questions.length]);
 
-  // Save position whenever it changes
   useEffect(() => {
     if (setTitle && questions.length > 0) {
       saveSetPosition(setTitle, currentIndex);
     }
   }, [setTitle, currentIndex, questions.length]);
 
-  // Show progress briefly on mobile when question changes
   useEffect(() => {
     if (prevIndexRef.current !== currentIndex) {
       prevIndexRef.current = currentIndex;
@@ -159,7 +154,6 @@ export function Questions({
   const handleOptionClick = (index: number) => {
     if (selectedAnswer === null && !isAlreadyAnswered) {
       setSelectedAnswer(index);
-      // Save to localStorage
       saveAnsweredQuestion(currentQuestion.id);
       setAnsweredQuestions((prev) => new Set([...prev, currentQuestion.id]));
     }
@@ -168,14 +162,12 @@ export function Questions({
   const handleExplain = async () => {
     if (!currentQuestion) return;
 
-    // Open dialog immediately
     setExplainDialogOpen(true);
     setLoadingExplanation(true);
     setExplanation(null);
     setExplanationSources([]);
-    setMessages([]); // Reset chat messages when opening
+    setMessages([]);
 
-    // Check if we already have explanation from the fetched data
     if (currentQuestion.explanation) {
       setExplanation(currentQuestion.explanation);
       setExplanationSources(currentQuestion.explanationSources || []);
@@ -340,7 +332,6 @@ export function Questions({
         >
           <p>Prev</p>
         </button>
-        {/* Mobile: Sets button with animated progress */}
         <button
           onClick={onOpenMobileSets}
           style={{ padding: "0.5em 1em" }}
@@ -373,7 +364,6 @@ export function Questions({
           </AnimatePresence>
         </button>
 
-        {/* Desktop: Progress counter */}
         <div className="relative hidden md:flex flex-col items-center">
           <AnimatePresence>
             {showProgressRestored && (
@@ -433,7 +423,6 @@ export function Questions({
         </button>
       </div>
 
-      {/* Explanation Drawer */}
       <Drawer.Root
         open={explainDialogOpen}
         onOpenChange={setExplainDialogOpen}
@@ -445,9 +434,7 @@ export function Questions({
             <div className="mx-auto w-12 h-1.5 flex-shrink-0 rounded-full bg-gray-300 mt-4 mb-2" />
             <Drawer.Title className="sr-only">Explanation</Drawer.Title>
 
-            {/* Scrollable content area */}
             <div className="flex-1 overflow-y-auto px-6 pb-4">
-              {/* Initial Explanation */}
               {loadingExplanation ? (
                 <div className="flex items-center justify-center py-12">
                   <Loader2 className="size-6 animate-spin text-gray-400" />
@@ -456,7 +443,6 @@ export function Questions({
                 <div className="prose prose-sm max-w-none">
                   <Markdown>{explanation}</Markdown>
 
-                  {/* Sources */}
                   {explanationSources.length > 0 && (
                     <div className="mt-6 pt-4 border-t border-gray-100">
                       <p className="text-xs font-medium text-gray-500 mb-2">
@@ -480,7 +466,6 @@ export function Questions({
                 </div>
               ) : null}
 
-              {/* Chat Messages */}
               {messages.length > 0 && (
                 <div className="mt-6 pt-4 border-t border-gray-100 space-y-4">
                   {messages.map((message) => (
@@ -555,7 +540,6 @@ export function Questions({
               )}
             </div>
 
-            {/* Chat Input */}
             <div className="px-6 py-4 border-t border-gray-100 bg-white">
               <PromptInput
                 onSubmit={(message: PromptInputMessage) => {

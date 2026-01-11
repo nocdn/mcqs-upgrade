@@ -9,7 +9,6 @@ const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8787";
 const IS_DEV = import.meta.env.DEV;
 
 const PLACEHOLDER_QUESTIONS: Question[] = [
-  // SPID questions (4)
   {
     id: 900001,
     question: "What is the primary purpose of a literature review in research?",
@@ -60,7 +59,6 @@ const PLACEHOLDER_QUESTIONS: Question[] = [
     answer: "External validity",
     topic: "SPID",
   },
-  // Social questions (6)
   {
     id: 900005,
     question: "What is social loafing?",
@@ -145,10 +143,8 @@ function App() {
   const [showingSets, setShowingSets] = useState(false);
   const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
 
-  // Fetch questions on mount (use placeholder on mobile in dev mode)
   useEffect(() => {
     async function fetchQuestions() {
-      // Use placeholder questions on mobile in development mode when no API URL is set
       if (IS_DEV && isMobileDevice() && !import.meta.env.VITE_API_URL) {
         setAllQuestions(PLACEHOLDER_QUESTIONS);
         setLoading(false);
@@ -173,7 +169,6 @@ function App() {
     fetchQuestions();
   }, []);
 
-  // Extract unique sets from questions
   const availableSets = useMemo(() => {
     const topics = allQuestions
       .map((q) => q.topic)
@@ -181,14 +176,12 @@ function App() {
     return [...new Set(topics)];
   }, [allQuestions]);
 
-  // Auto-select first set when questions load
   useEffect(() => {
     if (availableSets.length > 0 && !selectedSet) {
       setSelectedSet(availableSets[0]);
     }
   }, [availableSets, selectedSet]);
 
-  // Filter questions based on selected set
   const filteredQuestions = useMemo(() => {
     if (!selectedSet) {
       return [];
@@ -236,7 +229,6 @@ function App() {
   return (
     <div className="h-dvh w-screen flex flex-col" data-vaul-drawer-wrapper>
       <div className="max-w-3xl w-full mx-auto px-6 hidden md:flex items-center gap-4 md:mt-10">
-        {/* Desktop: original inline behavior */}
         <button
           className="hidden md:flex button-3 items-center gap-2.5 -translate-x-0.5 opacity-70 cursor-pointer *:cursor-pointer"
           style={{ padding: "0.6em 1.2em" }}
@@ -297,7 +289,6 @@ function App() {
         </AnimatePresence>
       </div>
 
-      {/* Mobile Sets Drawer */}
       <Drawer.Root
         open={mobileDrawerOpen}
         onOpenChange={setMobileDrawerOpen}

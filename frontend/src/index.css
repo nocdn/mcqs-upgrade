@@ -4,7 +4,6 @@
 
 @custom-variant dark (&:is(.dark *));
 
-/* Vaul drawer wrapper - required for scale background effect */
 [data-vaul-drawer-wrapper] {
   background: white;
 }
@@ -66,24 +65,12 @@ body {
   display: flex;
   place-items: center;
   min-width: 320px;
-  /* min-height: 100vh; */
 }
 
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
 }
-
-/* button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-} */
 
 @media (prefers-color-scheme: light) {
   :root {
@@ -333,12 +320,6 @@ h1 {
 .button-3 p {
   transform: translateY(-0.75px);
 }
-
-/* .button-3:hover {
-  background-color: #e5e5e5;
-  box-shadow: 0 2px 0 #cecece;
-  border: 2px solid #cecece;
-} */
 
 .button-3:active {
   box-shadow: none;

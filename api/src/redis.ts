@@ -18,12 +18,8 @@ redis.on("error", (err) => {
   console.error("Redis error:", err);
 });
 
-// Cache TTL in seconds (1 day)
 export const CACHE_TTL = 86400;
 
-/**
- * Get cached data or fetch from source
- */
 export async function getCached<T>(
   key: string,
   fetchFn: () => Promise<T>,
@@ -37,7 +33,6 @@ export async function getCached<T>(
     }
   } catch (err) {
     console.error("Redis get error:", err);
-    // Fall through to fetch from source
   }
 
   console.log(`Cache MISS: ${key}`);
@@ -52,9 +47,6 @@ export async function getCached<T>(
   return data;
 }
 
-/**
- * Invalidate cache for a specific key or pattern
- */
 export async function invalidateCache(pattern: string): Promise<void> {
   try {
     const keys = await redis.keys(pattern);
@@ -67,13 +59,6 @@ export async function invalidateCache(pattern: string): Promise<void> {
   }
 }
 
-/**
- * Rate limiting using Redis
- * @param key - Unique identifier for the rate limit (e.g., "ratelimit:explain:192.168.1.1")
- * @param limit - Maximum number of requests allowed
- * @param windowSeconds - Time window in seconds
- * @returns Object with allowed boolean and remaining count
- */
 export async function checkRateLimit(
   key: string,
   limit: number,
@@ -82,7 +67,6 @@ export async function checkRateLimit(
   try {
     const current = await redis.incr(key);
 
-    // Set expiration on first request
     if (current === 1) {
       await redis.expire(key, windowSeconds);
     }
@@ -97,7 +81,6 @@ export async function checkRateLimit(
     return { allowed: true, remaining: limit - current, resetAt };
   } catch (err) {
     console.error("Rate limit check error:", err);
-    // Fail open - allow request if Redis is down
     return {
       allowed: true,
       remaining: limit,
