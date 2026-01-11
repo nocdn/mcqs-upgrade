@@ -148,8 +148,8 @@ function App() {
   // Fetch questions on mount (use placeholder on mobile in dev mode)
   useEffect(() => {
     async function fetchQuestions() {
-      // Use placeholder questions on mobile in development mode
-      if (IS_DEV && isMobileDevice()) {
+      // Use placeholder questions on mobile in development mode when no API URL is set
+      if (IS_DEV && isMobileDevice() && !import.meta.env.VITE_API_URL) {
         setAllQuestions(PLACEHOLDER_QUESTIONS);
         setLoading(false);
         return;

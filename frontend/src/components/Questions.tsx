@@ -262,7 +262,7 @@ export function Questions({
             exit="exit"
             className="space-y-4"
           >
-            <h2 className="text-[1rem] md:text-xl font-medium leading-normal mb-6 md:mb-10">
+            <h2 className="text-[0.92rem] md:text-xl font-medium leading-normal mb-6 md:mb-10">
               {currentQuestion.question}
             </h2>
 
@@ -297,7 +297,7 @@ export function Questions({
                     <div className="border-[2.5px] border-[#f3f3f3] text-gray-300 font-semibold font-rounded flex items-center justify-center size-8 rounded-lg shrink-0">
                       {String.fromCharCode(65 + index)}
                     </div>
-                    <p className="text-[0.9375rem] md:text-base">{option}</p>
+                    <p className="text-[0.9rem] md:text-base">{option}</p>
                   </div>
                 );
               })}
