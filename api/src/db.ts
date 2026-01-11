@@ -54,4 +54,40 @@ if (tableExisted) {
 const [countResult] = await sql`SELECT COUNT(*) as count FROM questions`;
 console.log(`[db] Table "questions" contains ${countResult?.count || 0} rows`);
 
+const [visitorsTableCheck] = await sql`
+  SELECT EXISTS (
+    SELECT FROM information_schema.tables 
+    WHERE table_schema = 'public' 
+    AND table_name = 'visitors'
+  ) as exists
+`;
+
+const visitorsTableExisted = visitorsTableCheck?.exists;
+
+await sql`
+  CREATE TABLE IF NOT EXISTS visitors (
+    id SERIAL PRIMARY KEY,
+    fingerprint TEXT UNIQUE NOT NULL,
+    ip_address TEXT,
+    user_agent TEXT,
+    device_type TEXT,
+    browser TEXT,
+    os TEXT,
+    country TEXT,
+    city TEXT,
+    visit_count INTEGER DEFAULT 1,
+    first_seen TIMESTAMP DEFAULT NOW(),
+    last_seen TIMESTAMP DEFAULT NOW()
+  )
+`;
+
+if (visitorsTableExisted) {
+  console.log(`[db] Table "visitors" already exists, skipping creation`);
+} else {
+  console.log(`[db] Created table "visitors"`);
+}
+
+const [visitorsCount] = await sql`SELECT COUNT(*) as count FROM visitors`;
+console.log(`[db] Table "visitors" contains ${visitorsCount?.count || 0} rows`);
+
 console.log(`[db] Initialization complete`);

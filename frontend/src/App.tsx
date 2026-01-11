@@ -135,6 +135,34 @@ function isMobileDevice(): boolean {
   );
 }
 
+async function generateFingerprint(): Promise<string> {
+  const data = [
+    navigator.userAgent,
+    navigator.language,
+    screen.width,
+    screen.height,
+    screen.colorDepth,
+    new Date().getTimezoneOffset(),
+  ].join("|");
+  const encoder = new TextEncoder();
+  const hashBuffer = await crypto.subtle.digest("SHA-256", encoder.encode(data));
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  return hashArray.map((b) => b.toString(16).padStart(2, "0")).join("");
+}
+
+async function logVisit() {
+  try {
+    const fingerprint = await generateFingerprint();
+    await fetch(`${API_URL}/api/log`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ fingerprint }),
+    });
+  } catch {
+    // Silently fail - logging is not critical
+  }
+}
+
 function App() {
   const [allQuestions, setAllQuestions] = useState<Question[]>([]);
   const [loading, setLoading] = useState(true);
@@ -142,6 +170,10 @@ function App() {
   const [selectedSet, setSelectedSet] = useState<string | null>(null);
   const [showingSets, setShowingSets] = useState(false);
   const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
+
+  useEffect(() => {
+    logVisit();
+  }, []);
 
   useEffect(() => {
     async function fetchQuestions() {

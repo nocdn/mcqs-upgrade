@@ -61,6 +61,77 @@ app.get("/", (c) => {
   return c.text("Hello Hono");
 });
 
+function parseUserAgent(ua: string) {
+  let deviceType = "desktop";
+  if (/mobile/i.test(ua)) deviceType = "mobile";
+  else if (/tablet|ipad/i.test(ua)) deviceType = "tablet";
+
+  let browser = "unknown";
+  if (/firefox/i.test(ua)) browser = "Firefox";
+  else if (/edg/i.test(ua)) browser = "Edge";
+  else if (/chrome/i.test(ua)) browser = "Chrome";
+  else if (/safari/i.test(ua)) browser = "Safari";
+
+  let os = "unknown";
+  if (/windows/i.test(ua)) os = "Windows";
+  else if (/mac os/i.test(ua)) os = "macOS";
+  else if (/linux/i.test(ua)) os = "Linux";
+  else if (/android/i.test(ua)) os = "Android";
+  else if (/iphone|ipad/i.test(ua)) os = "iOS";
+
+  return { deviceType, browser, os };
+}
+
+const logSchema = z.object({
+  fingerprint: z.string(),
+});
+
+app.post(
+  "/api/log",
+  validator("json", (value, c) => {
+    const parsed = logSchema.safeParse(value);
+    if (!parsed.success) {
+      return c.json({ error: parsed.error }, 400);
+    }
+    return parsed.data;
+  }),
+  async (c) => {
+    const { fingerprint } = c.req.valid("json");
+    const ip =
+      c.req.header("cf-connecting-ip") ||
+      c.req.header("x-forwarded-for")?.split(",")[0].trim() ||
+      c.req.header("x-real-ip") ||
+      "unknown";
+    const userAgent = c.req.header("user-agent") || "unknown";
+    const { deviceType, browser, os } = parseUserAgent(userAgent);
+
+    const country = c.req.header("cf-ipcountry") || null;
+    const city = c.req.header("cf-ipcity") || null;
+
+    try {
+      await sql`
+        INSERT INTO visitors (fingerprint, ip_address, user_agent, device_type, browser, os, country, city)
+        VALUES (${fingerprint}, ${ip}, ${userAgent}, ${deviceType}, ${browser}, ${os}, ${country}, ${city})
+        ON CONFLICT (fingerprint)
+        DO UPDATE SET
+          ip_address = EXCLUDED.ip_address,
+          user_agent = EXCLUDED.user_agent,
+          device_type = EXCLUDED.device_type,
+          browser = EXCLUDED.browser,
+          os = EXCLUDED.os,
+          country = EXCLUDED.country,
+          city = EXCLUDED.city,
+          visit_count = visitors.visit_count + 1,
+          last_seen = NOW()
+      `;
+      return c.json({ ok: true });
+    } catch (error) {
+      console.error("[api] Error logging visitor:", error);
+      return c.json({ error: "Failed to log visitor" }, 500);
+    }
+  }
+);
+
 async function createQuestion(
   questionText: string,
   options: string[],
