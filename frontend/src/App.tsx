@@ -6,6 +6,136 @@ import { Drawer } from "vaul";
 import type { Question, ApiResponse } from "./types";
 
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8787";
+const IS_DEV = import.meta.env.DEV;
+
+const PLACEHOLDER_QUESTIONS: Question[] = [
+  // SPID questions (4)
+  {
+    id: 900001,
+    question: "What is the primary purpose of a literature review in research?",
+    options: [
+      "To summarize all existing knowledge",
+      "To identify gaps and position your study",
+      "To prove your hypothesis is correct",
+      "To list all authors in your field",
+    ],
+    answer: "To identify gaps and position your study",
+    topic: "SPID",
+  },
+  {
+    id: 900002,
+    question:
+      "Which research method involves collecting data at a single point in time?",
+    options: [
+      "Longitudinal study",
+      "Cross-sectional study",
+      "Case study",
+      "Experimental study",
+    ],
+    answer: "Cross-sectional study",
+    topic: "SPID",
+  },
+  {
+    id: 900003,
+    question: "What does 'operationalization' mean in research?",
+    options: [
+      "Running statistical operations",
+      "Defining abstract concepts in measurable terms",
+      "Operating research equipment",
+      "Organizing research teams",
+    ],
+    answer: "Defining abstract concepts in measurable terms",
+    topic: "SPID",
+  },
+  {
+    id: 900004,
+    question:
+      "Which type of validity concerns whether results can be generalized?",
+    options: [
+      "Internal validity",
+      "External validity",
+      "Construct validity",
+      "Face validity",
+    ],
+    answer: "External validity",
+    topic: "SPID",
+  },
+  // Social questions (6)
+  {
+    id: 900005,
+    question: "What is social loafing?",
+    options: [
+      "Relaxing in social settings",
+      "Reduced effort when working in groups",
+      "Learning from social media",
+      "Taking breaks during work",
+    ],
+    answer: "Reduced effort when working in groups",
+    topic: "Social",
+  },
+  {
+    id: 900006,
+    question:
+      "The bystander effect suggests that people are less likely to help when:",
+    options: [
+      "They are alone",
+      "Others are present",
+      "The victim is known",
+      "It is daytime",
+    ],
+    answer: "Others are present",
+    topic: "Social",
+  },
+  {
+    id: 900007,
+    question: "Cognitive dissonance occurs when:",
+    options: [
+      "People agree with each other",
+      "Beliefs and actions conflict",
+      "Memory fails",
+      "Groups make decisions",
+    ],
+    answer: "Beliefs and actions conflict",
+    topic: "Social",
+  },
+  {
+    id: 900008,
+    question: "Which concept describes changing behavior to match group norms?",
+    options: ["Obedience", "Conformity", "Compliance", "Persuasion"],
+    answer: "Conformity",
+    topic: "Social",
+  },
+  {
+    id: 900009,
+    question: "The fundamental attribution error involves:",
+    options: [
+      "Overestimating situational factors",
+      "Underestimating dispositional factors",
+      "Overestimating dispositional factors for others' behavior",
+      "Accurate attribution of causes",
+    ],
+    answer: "Overestimating dispositional factors for others' behavior",
+    topic: "Social",
+  },
+  {
+    id: 900010,
+    question: "In-group bias refers to:",
+    options: [
+      "Disliking all groups equally",
+      "Favoring members of one's own group",
+      "Being unbiased toward groups",
+      "Joining multiple groups",
+    ],
+    answer: "Favoring members of one's own group",
+    topic: "Social",
+  },
+];
+
+function isMobileDevice(): boolean {
+  return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+    navigator.userAgent
+  );
+}
 
 function App() {
   const [allQuestions, setAllQuestions] = useState<Question[]>([]);
@@ -15,9 +145,16 @@ function App() {
   const [showingSets, setShowingSets] = useState(false);
   const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
 
-  // Fetch questions on mount
+  // Fetch questions on mount (use placeholder on mobile in dev mode)
   useEffect(() => {
     async function fetchQuestions() {
+      // Use placeholder questions on mobile in development mode
+      if (IS_DEV && isMobileDevice()) {
+        setAllQuestions(PLACEHOLDER_QUESTIONS);
+        setLoading(false);
+        return;
+      }
+
       try {
         setLoading(true);
         const response = await fetch(`${API_URL}/api/questions`);
@@ -98,7 +235,7 @@ function App() {
 
   return (
     <div className="h-dvh w-screen flex flex-col" data-vaul-drawer-wrapper>
-      <div className="max-w-3xl w-full mx-auto px-6 hidden md:flex items-center gap-4 mt-10">
+      <div className="max-w-3xl w-full mx-auto px-6 hidden md:flex items-center gap-4 md:mt-10">
         {/* Desktop: original inline behavior */}
         <button
           className="hidden md:flex button-3 items-center gap-2.5 -translate-x-0.5 opacity-70 cursor-pointer *:cursor-pointer"

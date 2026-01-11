@@ -11,7 +11,7 @@ export const redis = new Redis(REDIS_URL, {
 });
 
 redis.on("connect", () => {
-  console.log("🔴 Redis connected!");
+  console.log("[redis] Connected");
 });
 
 redis.on("error", (err) => {
