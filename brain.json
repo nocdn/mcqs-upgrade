@@ -1,0 +1,505 @@
+{
+  "name": "Brain and Behaviour",
+  "questions": [
+    {
+      "question": "During graded force production, the typical order of motor unit recruitment described in the notes is:",
+      "options": [
+        "larger, fast motor units first; smaller, slow units later",
+        "smaller, slower motor units first; then progressively larger, more powerful units",
+        "random recruitment that depends mainly on visual feedback",
+        "simultaneous recruitment of all motor units once a movement begins"
+      ],
+      "answer": "smaller, slower motor units first; then progressively larger, more powerful units"
+    },
+    {
+      "question": "In the Stroop task description, which statements are consistent with the mechanisms highlighted in the notes?",
+      "options": [
+        "Interference is greatest when the written word and ink colour match",
+        "The task depends primarily on occipital cortex processing with minimal prefrontal involvement",
+        "The task is explained as a pure test of motor output without attentional selection demands",
+        "all of the above"
+      ],
+      "answer": "all of the above"
+    },
+    {
+      "question": "In the basal ganglia indirect pathway description, inhibiting the external globus pallidus (GPe) has which key downstream consequence?",
+      "options": [
+        "It increases inhibition of the subthalamic nucleus (STN), suppressing its output",
+        "It reduces inhibition of the STN, allowing the STN to drive GPi/SNr activity",
+        "It directly excites thalamic neurons projecting to motor cortex",
+        "It blocks dopamine release from substantia nigra pars compacta (SNc) into the striatum"
+      ],
+      "answer": "It reduces inhibition of the STN, allowing the STN to drive GPi/SNr activity"
+    },
+    {
+      "question": "Which event is described as critical for NMDA-receptor mediated LTP induction in hippocampal synapses?",
+      "options": [
+        "Chloride influx through GABA receptors in the postsynaptic neuron",
+        "Sodium efflux that hyperpolarises the postsynaptic membrane",
+        "Calcium influx through NMDA receptors after sufficient depolarisation removes the magnesium block",
+        "A presynaptic decrease in glutamate release probability"
+      ],
+      "answer": "Calcium influx through NMDA receptors after sufficient depolarisation removes the magnesium block"
+    },
+    {
+      "question": "In the rTMS intervention study on hemispatial neglect described, which outcome was reported?",
+      "options": [
+        "Improvements were reported only after a single stimulation session",
+        "Improvements were absent in the multiple-session stimulation group",
+        "both A and B",
+        "Significant improvements were observed in the group receiving repeated stimulation sessions (ten applications)"
+      ],
+      "answer": "Significant improvements were observed in the group receiving repeated stimulation sessions (ten applications)"
+    },
+    {
+      "question": "Dysdiadochokinesia (in the context of cerebellar dysfunction) refers to:",
+      "options": [
+        "difficulty recognising objects despite intact primary vision",
+        "tremor that occurs only at rest and disappears during movement",
+        "impaired ability to perform rapid alternating movements",
+        "a profound loss of motivation and slowed goal-directed behaviour"
+      ],
+      "answer": "impaired ability to perform rapid alternating movements"
+    },
+    {
+      "question": "According to the ATOM account in the dyscalculia notes, time, space and number are proposed to share a common neural underpinning in:",
+      "options": [
+        "the right intraparietal sulcus",
+        "the hippocampus",
+        "the ventral occipito-temporal stream",
+        "the amygdala"
+      ],
+      "answer": "the right intraparietal sulcus"
+    },
+    {
+      "question": "In the emotion regulation paradigm described for depression, which pattern most directly captured the reward-related abnormality reported?",
+      "options": [
+        "Greater sustained nucleus accumbens activation to positive images specifically during amplification trials",
+        "No group differences in nucleus accumbens activity across any instruction conditions",
+        "Depressed participants failed to sustain nucleus accumbens activation when amplifying positive emotion",
+        "Selective hyperactivation of occipital cortex to negative images regardless of instruction"
+      ],
+      "answer": "Depressed participants failed to sustain nucleus accumbens activation when amplifying positive emotion"
+    },
+    {
+      "question": "Regarding cortical hyperarousal during sleep in PTSD (as summarised), which statements are consistent with the notes?",
+      "options": [
+        "Hyperarousal is indexed as increased power in higher frequency EEG bands during sleep",
+        "Hyperarousal during sleep was described as interacting with daytime hyperarousal domains",
+        "Hyperarousal was linked to disturbed sleep continuity (eg more awakenings / difficulty falling asleep)",
+        "all of the above"
+      ],
+      "answer": "all of the above"
+    },
+    {
+      "question": "Sleep spindles were described as being generated in the thalamic reticular nucleus (TRN), which is composed predominantly of:",
+      "options": [
+        "dopaminergic projection neurons",
+        "GABAergic inhibitory neurons",
+        "cholinergic motor neurons",
+        "glutamatergic pyramidal neurons"
+      ],
+      "answer": "GABAergic inhibitory neurons"
+    },
+    {
+      "question": "Which observation best captures the classic demonstration that non-declarative learning can be preserved despite profound amnesia (as described in the notes)?",
+      "options": [
+        "Normal delayed recall of a complex figure after a 15-minute distractor period",
+        "Normal acquisition of new episodic memories for post-surgery daily events",
+        "Improved performance across repeated mirror-drawing trials despite no recollection of having practised",
+        "Above-chance recognition of recently studied paired associates after distraction"
+      ],
+      "answer": "Improved performance across repeated mirror-drawing trials despite no recollection of having practised"
+    },
+    {
+      "question": "Which pattern of impairment best matches the notes' summary of what defines the core deficit in dense hippocampal amnesia across many tasks?",
+      "options": [
+        "Performance collapses only when material is nonverbal; verbal learning is intact",
+        "Impairment is most evident when information must be retrieved after a delay in which the person is not actively rehearsing it",
+        "Immediate repetition and short-term maintenance are profoundly impaired even without distraction",
+        "all of the above"
+      ],
+      "answer": "Impairment is most evident when information must be retrieved after a delay in which the person is not actively rehearsing it"
+    },
+    {
+      "question": "Which region is described as the primary gateway between the hippocampus and the broader neocortex?",
+      "options": [
+        "perirhinal cortex",
+        "parahippocampal cortex",
+        "entorhinal cortex",
+        "anterior cingulate cortex"
+      ],
+      "answer": "entorhinal cortex"
+    },
+    {
+      "question": "In the anterior–posterior distinction described for hippocampal connectivity, the anterior hippocampus is characterised as receiving relatively greater input from:",
+      "options": [
+        "parahippocampal cortex (spatial layout coding)",
+        "amygdala and perirhinal cortex (emotional/item-related inputs)",
+        "primary motor cortex and cerebellum (motor timing inputs)",
+        "occipital cortex (early visual inputs)"
+      ],
+      "answer": "amygdala and perirhinal cortex (emotional/item-related inputs)"
+    },
+    {
+      "question": "Which of the following was explicitly listed as one of the four inhibition functions associated with DLPFC control?",
+      "options": [
+        "initiating tetanic muscle contractions at the neuromuscular junction",
+        "removing irrelevant information from working memory",
+        "generating place-cell firing fields in CA1",
+        "increasing reward sensitivity via nucleus accumbens activation"
+      ],
+      "answer": "removing irrelevant information from working memory"
+    },
+    {
+      "question": "Within prospect theory (as described), which component captures the idea that people do not treat objective probabilities linearly (eg overestimating rare outcomes)?",
+      "options": [
+        "diminishing marginal utility",
+        "expected value maximisation",
+        "probability weighting",
+        "normative rationality"
+      ],
+      "answer": "probability weighting"
+    },
+    {
+      "question": "Which statements match the notes' description of motor programs?",
+      "options": [
+        "They centrally organise and control many degrees of freedom in an action",
+        "They can be used without ongoing feedback from the moving limb",
+        "They show equivalence (actions can be produced independently of specific muscle groups)",
+        "all of the above"
+      ],
+      "answer": "all of the above"
+    },
+    {
+      "question": "When discussing learned motor skills becoming less reliant on external monitoring, which pattern was described as evidence for supplementary motor area (SMA) involvement?",
+      "options": [
+        "SMA activity decreases as sequences become well learned, indicating it is mainly a novice-learning region",
+        "SMA activity increases as a task becomes learned and can be performed without strong reliance on visual cues",
+        "both A and B",
+        "SMA activity is selectively driven only by nociceptive interoceptive afferents"
+      ],
+      "answer": "SMA activity increases as a task becomes learned and can be performed without strong reliance on visual cues"
+    },
+    {
+      "question": "According to the anatomical description of the insula, interoceptive inputs first enter the insular cortex primarily via:",
+      "options": [
+        "anterior insula",
+        "posterior insula",
+        "ventrolateral prefrontal cortex",
+        "angular gyrus"
+      ],
+      "answer": "posterior insula"
+    },
+    {
+      "question": "In schizophrenia sleep physiology, which observation was used to argue for a broader thalamic dysfunction beyond spindle count alone?",
+      "options": [
+        "Thalamus–cortex hyperconnectivity correlated with fewer sleep spindles",
+        "Hippocampus–amygdala hypoconnectivity correlated with increased slow-wave sleep",
+        "both A and B",
+        "Thalamus–cortex hyperconnectivity correlated with fewer sleep spindles"
+      ],
+      "answer": "Thalamus–cortex hyperconnectivity correlated with fewer sleep spindles"
+    },
+    {
+      "question": "Which symptom triad was described as necessary for a diagnosis of Balint's syndrome?",
+      "options": [
+        "Simultanagnosia, optic ataxia, oculomotor apraxia",
+        "Simultanagnosia, prosopagnosia, optic ataxia",
+        "Hemispatial neglect, simultanagnosia, oculomotor apraxia",
+        "Acalculia, agraphia, finger agnosia"
+      ],
+      "answer": "Simultanagnosia, optic ataxia, oculomotor apraxia"
+    },
+    {
+      "question": "In the systems consolidation account described, hippocampal damage is predicted to show what temporal profile in memory loss?",
+      "options": [
+        "Older memories are more vulnerable than recent memories because the cortex is fragile",
+        "Recently acquired memories are especially vulnerable, whereas older memories are relatively preserved as information is transferred out of hippocampus",
+        "No temporal gradient is expected if the hippocampus is damaged",
+        "Only semantic memory should be affected, not episodic memory"
+      ],
+      "answer": "Recently acquired memories are especially vulnerable, whereas older memories are relatively preserved as information is transferred out of hippocampus"
+    },
+    {
+      "question": "In the interference-resolution paradigm described (negative recency), increased ventrolateral PFC activity was associated with which probe type?",
+      "options": [
+        "A probe that was present in the current set (positive trial)",
+        "A probe absent from the current set but present in a recent previous set (negative recency)",
+        "A probe that had never been presented at any point (novel foil)",
+        "A probe that had been repeatedly practised during retrieval training"
+      ],
+      "answer": "A probe absent from the current set but present in a recent previous set (negative recency)"
+    },
+    {
+      "question": "Which findings were described as evidence that slow-wave sleep plays an active role in stabilising declarative memories?",
+      "options": [
+        "Enhancing slow-wave rhythm via stimulation improved paired-associate learning",
+        "During slow-wave sleep, reactivation/replay of prior learning was described as strengthening memory traces",
+        "Odour cue re-presentation during sleep improved later memory relative to wake, while wake cueing could worsen memory",
+        "all of the above"
+      ],
+      "answer": "all of the above"
+    },
+    {
+      "question": "In the retrieval-and-control lecture summary, which region was highlighted as being recruited during both episodic and semantic retrieval when task-relevant information is weak and competition must be controlled?",
+      "options": [
+        "posterior cingulate cortex",
+        "hippocampus",
+        "angular gyrus",
+        "ventrolateral prefrontal cortex (left inferior frontal gyrus)"
+      ],
+      "answer": "ventrolateral prefrontal cortex (left inferior frontal gyrus)"
+    },
+    {
+      "question": "According to the basal ganglia account in Parkinson's disease, which imbalance best matches the notes' description?",
+      "options": [
+        "excess direct pathway output with insufficient indirect pathway output",
+        "insufficient direct pathway output with insufficient indirect pathway output",
+        "excess indirect pathway output with excess direct pathway output",
+        "insufficient direct pathway output with excess indirect pathway output (hypokinesia)"
+      ],
+      "answer": "insufficient direct pathway output with excess indirect pathway output (hypokinesia)"
+    },
+    {
+      "question": "In Garfinkel's interoception framework, interoceptive awareness is best captured by which combination?",
+      "options": [
+        "objective interoceptive accuracy alone",
+        "subjective self-report of bodily feelings irrespective of objective accuracy",
+        "both A and B",
+        "heartbeat-evoked potentials without any metacognitive judgement"
+      ],
+      "answer": "both A and B"
+    },
+    {
+      "question": "In Avery et al.'s mapping work described, which pattern of insula activation best matches the summary in the notes?",
+      "options": [
+        "Interoceptive attention preferentially activated anterior insula, while taste attention activated posterior insula",
+        "Interoception and taste activated entirely non-overlapping insula territories with no shared regions",
+        "Interoceptive attention showed greater posterior insula activity, while exteroceptive taste attention showed greater anterior insula activity (with some overlap in mid/posterior regions)",
+        "Only mid-insula differentiated the tasks; anterior and posterior insula did not"
+      ],
+      "answer": "Interoceptive attention showed greater posterior insula activity, while exteroceptive taste attention showed greater anterior insula activity (with some overlap in mid/posterior regions)"
+    },
+    {
+      "question": "Which outcome was reported in the smoking–insula lesion example used to illustrate the insula's role in conscious urges?",
+      "options": [
+        "Smokers with insula lesions became more relapse-prone due to loss of autonomic regulation",
+        "Smokers with insula damage were reported as over 100 times more likely to quit smoking without relapse than smokers with lesions elsewhere",
+        "Smokers with insula damage showed improved sleep spindles and memory consolidation but unchanged smoking behaviour",
+        "Smokers with insula lesions lost procedural learning but retained craving"
+      ],
+      "answer": "Smokers with insula damage were reported as over 100 times more likely to quit smoking without relapse than smokers with lesions elsewhere"
+    },
+    {
+      "question": "In the monoamine treatment discussion, why were antidepressant effects described as typically taking weeks to emerge?",
+      "options": [
+        "because dopamine itself must first cross the blood–brain barrier",
+        "because treatments must overcome homeostatic feedback mechanisms (often requiring ~2–4 weeks)",
+        "because hippocampal place cells must reorganise during REM sleep before symptoms change",
+        "because antipsychotic D2 blockade must first reduce hallucinations"
+      ],
+      "answer": "because treatments must overcome homeostatic feedback mechanisms (often requiring ~2–4 weeks)"
+    },
+    {
+      "question": "In the fear conditioning/extinction work described, which pair of findings characterised PTSD patients at extinction recall (24 hours later) relative to trauma-exposed controls?",
+      "options": [
+        "enhanced extinction retention with increased vmPFC activity",
+        "normal extinction learning but reduced fear acquisition",
+        "both A and B",
+        "enhanced amygdala activity only during extinction learning, with no recall differences"
+      ],
+      "answer": "both A and B"
+    },
+    {
+      "question": "Which sequence best matches the reaching-related visuomotor pathway described in the advanced movement lecture?",
+      "options": [
+        "parieto-occipital extrastriate area (PO) → mediodorsal parietal (MDP) → medial intraparietal (MIP) → dorsal premotor area (PMd)",
+        "dorsal extrastriate cortex (ES) → anterior intraparietal sulcus (AIP) → ventral premotor area (PMv)",
+        "primary visual cortex → amygdala → ventromedial PFC → primary motor cortex",
+        "thalamus → cerebellum → spinal cord → supplementary motor area"
+      ],
+      "answer": "parieto-occipital extrastriate area (PO) → mediodorsal parietal (MDP) → medial intraparietal (MIP) → dorsal premotor area (PMd)"
+    },
+    {
+      "question": "In the CA1 NMDA receptor knock-out mouse work described, which behavioural profile was reported?",
+      "options": [
+        "Impaired spatial learning alongside preservation of other forms of learning such as classical conditioning",
+        "Enhanced spatial learning due to reduced interference between similar environments",
+        "Selective impairment in classical conditioning with intact spatial learning",
+        "No measurable learning impairment across tasks"
+      ],
+      "answer": "Impaired spatial learning alongside preservation of other forms of learning such as classical conditioning"
+    },
+    {
+      "question": "Which cueing pattern best distinguishes semantic aphasia from semantic dementia in the notes' comparison?",
+      "options": [
+        "Semantic dementia shows large improvements with phonological cues, whereas semantic aphasia shows little cue benefit",
+        "Both disorders show no cueing benefit because semantic knowledge is equally degraded",
+        "Semantic aphasia shows much larger improvement with phonological cues than semantic dementia",
+        "all of the above"
+      ],
+      "answer": "Semantic aphasia shows much larger improvement with phonological cues than semantic dementia"
+    },
+    {
+      "question": "In the retrieval-network summary, default mode network (DMN) engagement was reinterpreted as being driven primarily by:",
+      "options": [
+        "effortful controlled retrieval when target information is weak",
+        "strong/easy retrieval that can come relatively automatically (often from strong cues)",
+        "exclusive involvement in episodic memory with no role in semantic retrieval",
+        "motor preparation demands during memory tasks"
+      ],
+      "answer": "strong/easy retrieval that can come relatively automatically (often from strong cues)"
+    },
+    {
+      "question": "Which statement best captures the double dissociation described between amnesia and semantic dementia?",
+      "options": [
+        "Both conditions primarily show procedural learning deficits with preserved declarative memory",
+        "Semantic dementia reflects hippocampal damage, whereas amnesia reflects anterior temporal lobe degeneration",
+        "Amnesia typically shows episodic impairment with relative preservation of semantic memory, whereas semantic dementia shows semantic impairment with relative preservation of episodic memory",
+        "Both conditions show identical impairments because episodic and semantic memory are a single system"
+      ],
+      "answer": "Amnesia typically shows episodic impairment with relative preservation of semantic memory, whereas semantic dementia shows semantic impairment with relative preservation of episodic memory"
+    },
+    {
+      "question": "In the heartbeat-evoked potential (HEP) study described for general anxiety disorder, what was the pattern reported in healthy controls across eyes-open vs eyes-closed resting states?",
+      "options": [
+        "HEP magnitude decreased in eyes-closed relative to eyes-open",
+        "HEP magnitude was greater in eyes-closed than eyes-open",
+        "HEP magnitude was identical across both conditions",
+        "HEP was not measurable in healthy participants and only appeared in anxiety"
+      ],
+      "answer": "HEP magnitude was greater in eyes-closed than eyes-open"
+    },
+    {
+      "question": "In the attentional blink paradigm with cardiac timing described, which stimulus category showed selective facilitation at systole (heart contraction)?",
+      "options": [
+        "fear faces",
+        "neutral faces",
+        "houses",
+        "all face types equally"
+      ],
+      "answer": "fear faces"
+    },
+    {
+      "question": "In the cardiac-cycle manipulation work on racial stereotyping described, systole presentation was reported to:",
+      "options": [
+        "exacerbate stereotyped responses (eg weapon/tool judgements and shooting decisions became more biased in the threat-relevant direction)",
+        "eliminate bias by increasing executive control over responses",
+        "reduce stereotype-consistent responding by weakening salience signals",
+        "affect only subjective confidence, with no change in behaviour"
+      ],
+      "answer": "exacerbate stereotyped responses (eg weapon/tool judgements and shooting decisions became more biased in the threat-relevant direction)"
+    },
+    {
+      "question": "In Bliss and Lomo's hippocampal LTP demonstration, which observation most directly reflects synapse specificity?",
+      "options": [
+        "High-frequency stimulation increased responses equally for both stimulated and unstimulated pathways",
+        "Conditioning reduced responses in the stimulated pathway due to habituation",
+        "both A and B",
+        "Conditioning increased response to stimulation of the conditioned pathway, while the unconditioned pathway's response remained unchanged"
+      ],
+      "answer": "Conditioning increased response to stimulation of the conditioned pathway, while the unconditioned pathway's response remained unchanged"
+    },
+    {
+      "question": "Which set of approaches were described as ways to link hippocampal mechanisms (including NMDA-dependent processes) to spatial memory performance?",
+      "options": [
+        "Hippocampal lesions in animals to test task dependence on hippocampus",
+        "Pharmacological disruption using an NMDA receptor antagonist during spatial learning",
+        "Transgenic knock-out mice lacking NMDA receptors in CA1 to test causal contribution",
+        "all of the above"
+      ],
+      "answer": "all of the above"
+    },
+    {
+      "question": "According to the dopamine hypothesis summary in the schizophrenia lecture notes, which mapping is correct?",
+      "options": [
+        "Hyperdopaminergic mesocortical pathway → positive symptoms; hypodopaminergic mesolimbic pathway → negative symptoms",
+        "Dopamine is uniformly increased throughout the brain, producing both positive and negative symptoms equally",
+        "Hyperdopaminergic mesolimbic pathway → positive symptoms; hypodopaminergic mesocortical pathway → negative symptoms",
+        "Dopamine is irrelevant; serotonin alone explains both positive and negative symptoms"
+      ],
+      "answer": "Hyperdopaminergic mesolimbic pathway → positive symptoms; hypodopaminergic mesocortical pathway → negative symptoms"
+    },
+    {
+      "question": "In the mechanistic description of NMDA receptors during LTP, what allows calcium to pass through NMDA channels?",
+      "options": [
+        "GABA binding opens NMDA channels directly",
+        "Sufficient depolarisation expels magnesium from the NMDA channel pore",
+        "Chloride influx through NMDA channels unmasks calcium permeability",
+        "Dopamine binding to NMDA receptors removes the magnesium block"
+      ],
+      "answer": "Sufficient depolarisation expels magnesium from the NMDA channel pore"
+    },
+    {
+      "question": "In the think/no-think paradigm described, successful suppression was associated with which neural pattern?",
+      "options": [
+        "increased activation in prefrontal cortex alongside decreased activation in hippocampus",
+        "decreased activation in prefrontal cortex alongside increased activation in hippocampus",
+        "increased activation in occipital cortex only, with no hippocampal modulation",
+        "amygdala-driven activation increases were necessary and sufficient for suppression success"
+      ],
+      "answer": "increased activation in prefrontal cortex alongside decreased activation in hippocampus"
+    },
+    {
+      "question": "Sleep spindles were described as arising from which core thalamic mechanism?",
+      "options": [
+        "Sustained excitation of thalamocortical neurons without inhibitory input",
+        "Powerful inhibition by TRN neurons followed by rebound burst firing at spindle frequency",
+        "A dopaminergic burst from VTA that entrains thalamic oscillations",
+        "Cerebellar re-entrant circuits that synchronise cortical networks during NREM sleep"
+      ],
+      "answer": "Powerful inhibition by TRN neurons followed by rebound burst firing at spindle frequency"
+    },
+    {
+      "question": "Which set of findings were used to support interoceptive abnormalities/differences in anorexia nervosa in the notes?",
+      "options": [
+        "Meta-analytic evidence of lower interoceptive sensibility on eating-disorder interoception scales",
+        "Reduced pleasantness ratings of affective touch relative to controls (controlling for anhedonia)",
+        "Altered insula engagement during gastric interoception (eg reduced dorsal mid-insula activity during stomach-focused trials)",
+        "all of the above"
+      ],
+      "answer": "all of the above"
+    },
+    {
+      "question": "In the numerical distance effect imaging described for dyscalculia, which pattern distinguished controls from children with dyscalculia?",
+      "options": [
+        "Children with dyscalculia showed greater right intraparietal sulcus activation as distance increased, while controls did not",
+        "Controls showed a numerical-distance-related activation in right intraparietal sulcus that was not observed in dyscalculia",
+        "Both groups showed identical intraparietal activation but differed only in occipital cortex responses",
+        "Neither group showed any right parietal involvement during numerical comparison"
+      ],
+      "answer": "Controls showed a numerical-distance-related activation in right intraparietal sulcus that was not observed in dyscalculia"
+    },
+    {
+      "question": "In the direct pathway description of basal ganglia function, what is the immediate functional consequence of striatal GABAergic output onto GPi/SNr?",
+      "options": [
+        "It reduces GPi/SNr inhibitory output to the thalamus, effectively opening a gate for movement-related thalamocortical drive",
+        "It increases inhibition of thalamic neurons, suppressing movement initiation",
+        "It directly contracts skeletal muscle via acetylcholine release at the neuromuscular junction",
+        "It prevents cortical motor programmes from being selected by increasing indirect pathway activity"
+      ],
+      "answer": "It reduces GPi/SNr inhibitory output to the thalamus, effectively opening a gate for movement-related thalamocortical drive"
+    },
+    {
+      "question": "In the heat-pain predictive coding study summary (Geuter et al.), which region's activity patterns were described as aligning with predictive coding of pain rather than raw intensity coding?",
+      "options": [
+        "posterior insula",
+        "primary motor cortex",
+        "anterior insula",
+        "all of the above"
+      ],
+      "answer": "anterior insula"
+    },
+    {
+      "question": "In the Eriksen Flanker Task description, strong involvement was attributed to which region, likely due to conflict detection demands?",
+      "options": [
+        "anterior cingulate cortex (ACC)",
+        "amygdala",
+        "hippocampus",
+        "cerebellum"
+      ],
+      "answer": "anterior cingulate cortex (ACC)"
+    }
+  ]
+}

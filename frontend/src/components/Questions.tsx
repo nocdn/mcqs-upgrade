@@ -54,7 +54,9 @@ function getAnsweredQuestions(): Map<number, number> {
       if (Array.isArray(parsed)) {
         return new Map(parsed.map((id: number) => [id, -1]));
       }
-      return new Map(Object.entries(parsed).map(([k, v]) => [Number(k), v as number]));
+      return new Map(
+        Object.entries(parsed).map(([k, v]) => [Number(k), v as number])
+      );
     }
   } catch (e) {
     console.error("Failed to load answered questions from localStorage:", e);
@@ -66,7 +68,10 @@ function saveAnsweredQuestion(questionId: number, selectedIndex: number): void {
   try {
     const answered = getAnsweredQuestions();
     answered.set(questionId, selectedIndex);
-    localStorage.setItem(ANSWERED_STORAGE_KEY, JSON.stringify(Object.fromEntries(answered)));
+    localStorage.setItem(
+      ANSWERED_STORAGE_KEY,
+      JSON.stringify(Object.fromEntries(answered))
+    );
   } catch (e) {
     console.error("Failed to save answered question to localStorage:", e);
   }
@@ -86,9 +91,9 @@ export function Questions({
   const [currentIndex, setCurrentIndex] = useState(0);
   const [direction, setDirection] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
-  const [answeredQuestions, setAnsweredQuestions] = useState<Map<number, number>>(() =>
-    getAnsweredQuestions()
-  );
+  const [answeredQuestions, setAnsweredQuestions] = useState<
+    Map<number, number>
+  >(() => getAnsweredQuestions());
   const [explainDialogOpen, setExplainDialogOpen] = useState(false);
   const [explanation, setExplanation] = useState<string | null>(null);
   const [explanationSources, setExplanationSources] = useState<string[]>([]);
@@ -96,6 +101,7 @@ export function Questions({
   const [thinkHarder, setThinkHarder] = useState(false);
   const [showProgressRestored, setShowProgressRestored] = useState(false);
   const [showMobileProgress, setShowMobileProgress] = useState(false);
+  const [summaryDrawerOpen, setSummaryDrawerOpen] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const prevIndexRef = useRef(currentIndex);
 
@@ -159,11 +165,32 @@ export function Questions({
     currentQuestion.answer
   );
 
+  const isLastQuestion = currentIndex === questions.length - 1;
+
+  const { correctCount, incorrectCount } = (() => {
+    let correct = 0;
+    let incorrect = 0;
+    for (const q of questions) {
+      const userAnswer = answeredQuestions.get(q.id);
+      if (userAnswer !== undefined) {
+        const correctIdx = q.options.indexOf(q.answer);
+        if (userAnswer === correctIdx) {
+          correct++;
+        } else {
+          incorrect++;
+        }
+      }
+    }
+    return { correctCount: correct, incorrectCount: incorrect };
+  })();
+
   const handleOptionClick = (index: number) => {
     if (selectedAnswer === null && !isAlreadyAnswered) {
       setSelectedAnswer(index);
       saveAnsweredQuestion(currentQuestion.id, index);
-      setAnsweredQuestions((prev) => new Map(prev).set(currentQuestion.id, index));
+      setAnsweredQuestions((prev) =>
+        new Map(prev).set(currentQuestion.id, index)
+      );
     }
   };
 
@@ -270,14 +297,17 @@ export function Questions({
                 const isSelected = selectedAnswer === index;
                 const isCorrect = index === correctAnswerIndex;
                 const wasPreviouslySelected = previousAnswer === index;
-                const previousWasCorrect = previousAnswer === correctAnswerIndex;
+                const previousWasCorrect =
+                  previousAnswer === correctAnswerIndex;
 
                 const showCorrect =
                   (selectedAnswer !== null && isCorrect) ||
                   (isAlreadyAnswered && isCorrect);
                 const showIncorrect =
                   (selectedAnswer !== null && isSelected && !isCorrect) ||
-                  (isAlreadyAnswered && wasPreviouslySelected && !previousWasCorrect);
+                  (isAlreadyAnswered &&
+                    wasPreviouslySelected &&
+                    !previousWasCorrect);
 
                 let buttonClass = "button-3";
                 if (showCorrect) {
@@ -472,19 +502,16 @@ export function Questions({
           </div>
         </div>
         <button
-          onClick={handleNext}
-          disabled={currentIndex === questions.length - 1}
+          onClick={
+            isLastQuestion ? () => setSummaryDrawerOpen(true) : handleNext
+          }
           style={{ padding: "0.6em 1.2em" }}
           className={`
-            w-[7.2rem] md:w-36 focus:outline-none border-none outline-none active:outline-none focus-visible:outline-none button-3
-            ${
-              currentIndex === questions.length - 1
-                ? "cursor-not-allowed opacity-50"
-                : "cursor-pointer"
-            }
+            w-[7.2rem] md:w-36 focus:outline-none border-none outline-none active:outline-none focus-visible:outline-none cursor-pointer
+            ${isLastQuestion ? "button-summary" : "button-3"}
           `}
         >
-          <p>Next</p>
+          <p>{isLastQuestion ? "Summary" : "Next"}</p>
         </button>
       </div>
 
@@ -656,6 +683,51 @@ export function Questions({
                   </button>
                 </PromptInputFooter>
               </PromptInput>
+            </div>
+          </Drawer.Content>
+        </Drawer.Portal>
+      </Drawer.Root>
+
+      <Drawer.Root
+        open={summaryDrawerOpen}
+        onOpenChange={setSummaryDrawerOpen}
+        shouldScaleBackground
+      >
+        <Drawer.Portal>
+          <Drawer.Overlay className="fixed inset-0 bg-black/40" />
+          <Drawer.Content className="fixed bottom-0 left-0 right-0 bg-white rounded-t-xl outline-none flex flex-col">
+            <div className="mx-auto w-12 h-1.5 shrink-0 rounded-full bg-gray-300 mt-4 mb-2" />
+            <Drawer.Title className="sr-only">Summary</Drawer.Title>
+
+            <div className="flex flex-col items-center justify-center py-12 px-6">
+              <div className="flex flex-col gap-3 text-lg font-semibold font-rounded">
+                <div className="flex items-center gap-2">
+                  <span className="text-gray-500 w-32">Correct:</span>
+                  <span style={{ color: "#45c858" }}>
+                    {correctCount}/{questions.length}
+                  </span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="text-gray-500 w-32">Incorrect:</span>
+                  <span style={{ color: "#eb5a53" }}>
+                    {incorrectCount}/{questions.length}
+                  </span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="text-gray-500 w-32">Unanswered:</span>
+                  <span className="text-gray-600">
+                    {questions.length - correctCount - incorrectCount}/
+                    {questions.length}
+                  </span>
+                </div>
+              </div>
+
+              <button
+                onMouseDown={() => setSummaryDrawerOpen(false)}
+                className="button-3 mt-8 px-6 py-3 font-semibold"
+              >
+                Practice wrong only
+              </button>
             </div>
           </Drawer.Content>
         </Drawer.Portal>

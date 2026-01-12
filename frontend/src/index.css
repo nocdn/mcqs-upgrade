@@ -285,6 +285,21 @@ h1 {
   font-family: "OpenRunde", ui-sans-serif, system-ui, -apple-system;
 }
 
+.button-summary {
+  background-color: #e6f3fd;
+  color: #1a73e8;
+  border-radius: 12px;
+  border: 2px solid #3993dd;
+  box-shadow: 0 2px 0 #3993dd;
+  cursor: pointer;
+  font-family: "OpenRunde", ui-sans-serif, system-ui, -apple-system;
+}
+
+.button-summary:active {
+  box-shadow: none;
+  transform: translateY(2px);
+}
+
 .button-set:active {
   box-shadow: none;
   transform: translateY(2px);
