@@ -300,6 +300,21 @@ h1 {
   transform: translateY(2px);
 }
 
+.button-practice {
+  background-color: #f3e8ff;
+  color: #7c3aed;
+  border-radius: 12px;
+  border: 2px solid #a855f7;
+  box-shadow: 0 2px 0 #a855f7;
+  cursor: pointer;
+  font-family: "OpenRunde", ui-sans-serif, system-ui, -apple-system;
+}
+
+.button-practice:active {
+  box-shadow: none;
+  transform: translateY(2px);
+}
+
 .button-set:active {
   box-shadow: none;
   transform: translateY(2px);

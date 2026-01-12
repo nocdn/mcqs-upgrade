@@ -81,12 +81,16 @@ interface QuestionsProps {
   questions: Question[];
   setTitle: string;
   onOpenMobileSets?: () => void;
+  onCreatePracticeSet?: (originalSetName: string, wrongQuestions: Question[]) => void;
+  isPracticeMode?: boolean;
 }
 
 export function Questions({
   questions,
   setTitle,
   onOpenMobileSets,
+  onCreatePracticeSet,
+  isPracticeMode = false,
 }: QuestionsProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [direction, setDirection] = useState(0);
@@ -156,10 +160,14 @@ export function Questions({
 
   const currentQuestion = questions[currentIndex];
   const isAlreadyAnswered = currentQuestion
-    ? answeredQuestions.has(currentQuestion.id)
+    ? isPracticeMode
+      ? false
+      : answeredQuestions.has(currentQuestion.id)
     : false;
   const previousAnswer = currentQuestion
-    ? answeredQuestions.get(currentQuestion.id) ?? null
+    ? isPracticeMode
+      ? null
+      : answeredQuestions.get(currentQuestion.id) ?? null
     : null;
   const correctAnswerIndex = currentQuestion?.options.indexOf(
     currentQuestion.answer
@@ -167,9 +175,10 @@ export function Questions({
 
   const isLastQuestion = currentIndex === questions.length - 1;
 
-  const { correctCount, incorrectCount } = (() => {
+  const { correctCount, incorrectCount, wrongQuestions } = (() => {
     let correct = 0;
     let incorrect = 0;
+    const wrong: Question[] = [];
     for (const q of questions) {
       const userAnswer = answeredQuestions.get(q.id);
       if (userAnswer !== undefined) {
@@ -178,10 +187,11 @@ export function Questions({
           correct++;
         } else {
           incorrect++;
+          wrong.push(q);
         }
       }
     }
-    return { correctCount: correct, incorrectCount: incorrect };
+    return { correctCount: correct, incorrectCount: incorrect, wrongQuestions: wrong };
   })();
 
   const handleOptionClick = (index: number) => {
@@ -503,15 +513,24 @@ export function Questions({
         </div>
         <button
           onClick={
-            isLastQuestion ? () => setSummaryDrawerOpen(true) : handleNext
+            isLastQuestion && !isPracticeMode
+              ? () => setSummaryDrawerOpen(true)
+              : handleNext
           }
+          disabled={isLastQuestion && isPracticeMode}
           style={{ padding: "0.6em 1.2em" }}
           className={`
-            w-[7.2rem] md:w-36 focus:outline-none border-none outline-none active:outline-none focus-visible:outline-none cursor-pointer
-            ${isLastQuestion ? "button-summary" : "button-3"}
+            w-[7.2rem] md:w-36 focus:outline-none border-none outline-none active:outline-none focus-visible:outline-none
+            ${
+              isLastQuestion && isPracticeMode
+                ? "cursor-not-allowed opacity-50 button-3"
+                : isLastQuestion
+                  ? "cursor-pointer button-summary"
+                  : "cursor-pointer button-3"
+            }
           `}
         >
-          <p>{isLastQuestion ? "Summary" : "Next"}</p>
+          <p>{isLastQuestion && !isPracticeMode ? "Summary" : "Next"}</p>
         </button>
       </div>
 
@@ -723,8 +742,16 @@ export function Questions({
               </div>
 
               <button
-                onMouseDown={() => setSummaryDrawerOpen(false)}
-                className="button-3 mt-8 px-6 py-3 font-semibold"
+                onMouseDown={() => {
+                  setSummaryDrawerOpen(false);
+                  if (onCreatePracticeSet && wrongQuestions.length > 0) {
+                    onCreatePracticeSet(setTitle, wrongQuestions);
+                  }
+                }}
+                disabled={wrongQuestions.length === 0}
+                className={`button-practice mt-8 px-6 py-3 font-semibold ${
+                  wrongQuestions.length === 0 ? "opacity-50 cursor-not-allowed" : ""
+                }`}
               >
                 Practice wrong only
               </button>

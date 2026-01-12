@@ -145,7 +145,10 @@ async function generateFingerprint(): Promise<string> {
     new Date().getTimezoneOffset(),
   ].join("|");
   const encoder = new TextEncoder();
-  const hashBuffer = await crypto.subtle.digest("SHA-256", encoder.encode(data));
+  const hashBuffer = await crypto.subtle.digest(
+    "SHA-256",
+    encoder.encode(data)
+  );
   const hashArray = Array.from(new Uint8Array(hashBuffer));
   return hashArray.map((b) => b.toString(16).padStart(2, "0")).join("");
 }
@@ -163,6 +166,29 @@ async function logVisit() {
   }
 }
 
+interface PracticeSet {
+  name: string;
+  questions: Question[];
+}
+
+const SELECTED_SET_STORAGE_KEY = "mcqs-selected-set";
+
+function getStoredSelectedSet(): string | null {
+  try {
+    return localStorage.getItem(SELECTED_SET_STORAGE_KEY);
+  } catch {
+    return null;
+  }
+}
+
+function saveSelectedSet(setName: string): void {
+  try {
+    localStorage.setItem(SELECTED_SET_STORAGE_KEY, setName);
+  } catch {
+    // Silently fail
+  }
+}
+
 function App() {
   const [allQuestions, setAllQuestions] = useState<Question[]>([]);
   const [loading, setLoading] = useState(true);
@@ -170,6 +196,7 @@ function App() {
   const [selectedSet, setSelectedSet] = useState<string | null>(null);
   const [showingSets, setShowingSets] = useState(false);
   const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
+  const [practiceSets, setPracticeSets] = useState<PracticeSet[]>([]);
 
   useEffect(() => {
     logVisit();
@@ -208,20 +235,61 @@ function App() {
     return [...new Set(topics)];
   }, [allQuestions]);
 
+  const practiceSetNames = useMemo(
+    () => practiceSets.map((ps) => ps.name),
+    [practiceSets]
+  );
+
+  const allSetNames = useMemo(
+    () => [...availableSets, ...practiceSetNames],
+    [availableSets, practiceSetNames]
+  );
+
   useEffect(() => {
     if (availableSets.length > 0 && !selectedSet) {
-      setSelectedSet(availableSets[0]);
+      const stored = getStoredSelectedSet();
+      if (stored && availableSets.includes(stored)) {
+        setSelectedSet(stored);
+      } else {
+        setSelectedSet(availableSets[0]);
+      }
     }
   }, [availableSets, selectedSet]);
+
+  useEffect(() => {
+    if (selectedSet && !practiceSetNames.includes(selectedSet)) {
+      saveSelectedSet(selectedSet);
+    }
+  }, [selectedSet, practiceSetNames]);
 
   const filteredQuestions = useMemo(() => {
     if (!selectedSet) {
       return [];
     }
+    const practiceSet = practiceSets.find((ps) => ps.name === selectedSet);
+    if (practiceSet) {
+      return practiceSet.questions;
+    }
     return allQuestions.filter((q) => q.topic === selectedSet);
-  }, [allQuestions, selectedSet]);
+  }, [allQuestions, selectedSet, practiceSets]);
 
   const currentSetName = selectedSet || "";
+
+  const handleCreatePracticeSet = (
+    originalSetName: string,
+    wrongQuestions: Question[]
+  ) => {
+    if (wrongQuestions.length === 0) return;
+    const practiceSetName = `Practice wrong (${originalSetName})`;
+    setPracticeSets((prev) => {
+      const filtered = prev.filter((ps) => ps.name !== practiceSetName);
+      return [
+        ...filtered,
+        { name: practiceSetName, questions: wrongQuestions },
+      ];
+    });
+    setSelectedSet(practiceSetName);
+  };
 
   if (loading) {
     return (
@@ -294,28 +362,57 @@ function App() {
         <AnimatePresence>
           {showingSets && (
             <div className="hidden md:flex items-center gap-2 flex-wrap">
-              {availableSets.map((set, index) => (
-                <motion.button
-                  key={set}
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  style={{ padding: "0.6em 1.2em" }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.95 }}
-                  transition={{
-                    duration: 0.15,
-                    delay: index * 0.05,
-                  }}
-                  onMouseDown={() => {
-                    setSelectedSet(set);
-                    setShowingSets(false);
-                  }}
-                  className={`button-set font-medium ${
-                    selectedSet === set ? "ring-2 ring-gray-400" : ""
-                  }`}
-                >
-                  {set}
-                </motion.button>
-              ))}
+              {allSetNames.map((set, index) => {
+                const isPracticeSet = practiceSetNames.includes(set);
+                const isSelected = selectedSet === set;
+                return (
+                  <motion.div
+                    key={set}
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.95 }}
+                    transition={{
+                      duration: 0.15,
+                      delay: index * 0.05,
+                    }}
+                    className="relative"
+                  >
+                    {isSelected && (
+                      <div
+                        className="absolute left-1/2 -translate-x-1/2"
+                        style={{ top: "-15px" }}
+                      >
+                        <svg
+                          width="12"
+                          height="8"
+                          viewBox="0 0 12 8"
+                          fill="none"
+                          style={{ transform: "rotate(180deg)" }}
+                        >
+                          <path
+                            d="M6 0L12 8H0L6 0Z"
+                            fill={isPracticeSet ? "#f3e8ff" : "#E6F3FD"}
+                            stroke={isPracticeSet ? "#a855f7" : "#3A93DD"}
+                            strokeWidth="2"
+                          />
+                        </svg>
+                      </div>
+                    )}
+                    <button
+                      style={{ padding: "0.6em 1.2em" }}
+                      onMouseDown={() => {
+                        setSelectedSet(set);
+                        setShowingSets(false);
+                      }}
+                      className={`${
+                        isPracticeSet ? "button-practice" : "button-set"
+                      } font-medium`}
+                    >
+                      {set}
+                    </button>
+                  </motion.div>
+                );
+              })}
             </div>
           )}
         </AnimatePresence>
@@ -332,21 +429,26 @@ function App() {
             <div className="mx-auto w-12 h-1.5 shrink-0 rounded-full bg-gray-300 mt-4 mb-2" />
             <Drawer.Title className="sr-only">Select a Set</Drawer.Title>
             <div className="px-4 pb-8 pt-2 flex flex-col gap-2">
-              {availableSets.map((set) => (
-                <button
-                  key={set}
-                  onMouseDown={() => {
-                    setSelectedSet(set);
-                    setMobileDrawerOpen(false);
-                  }}
-                  className={`button-3 w-full font-medium text-left ${
-                    selectedSet === set ? "ring-2 ring-gray-400" : ""
-                  }`}
-                  style={{ padding: "0.75em 1.2em" }}
-                >
-                  {set}
-                </button>
-              ))}
+              {allSetNames.map((set) => {
+                const isPracticeSet = practiceSetNames.includes(set);
+                return (
+                  <button
+                    key={set}
+                    onMouseDown={() => {
+                      setSelectedSet(set);
+                      setMobileDrawerOpen(false);
+                    }}
+                    className={`${
+                      isPracticeSet ? "button-practice" : "button-3"
+                    } w-full font-medium text-left ${
+                      selectedSet === set ? "ring-2 ring-gray-400" : ""
+                    }`}
+                    style={{ padding: "0.75em 1.2em" }}
+                  >
+                    {set}
+                  </button>
+                );
+              })}
             </div>
           </Drawer.Content>
         </Drawer.Portal>
@@ -355,6 +457,8 @@ function App() {
         questions={filteredQuestions}
         setTitle={currentSetName}
         onOpenMobileSets={() => setMobileDrawerOpen(true)}
+        onCreatePracticeSet={handleCreatePracticeSet}
+        isPracticeMode={practiceSetNames.includes(currentSetName)}
       />
     </div>
   );
