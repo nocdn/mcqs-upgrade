@@ -46,23 +46,27 @@ function saveSetPosition(setTitle: string, index: number): void {
   }
 }
 
-function getAnsweredQuestions(): Set<number> {
+function getAnsweredQuestions(): Map<number, number> {
   try {
     const stored = localStorage.getItem(ANSWERED_STORAGE_KEY);
     if (stored) {
-      return new Set(JSON.parse(stored));
+      const parsed = JSON.parse(stored);
+      if (Array.isArray(parsed)) {
+        return new Map(parsed.map((id: number) => [id, -1]));
+      }
+      return new Map(Object.entries(parsed).map(([k, v]) => [Number(k), v as number]));
     }
   } catch (e) {
     console.error("Failed to load answered questions from localStorage:", e);
   }
-  return new Set();
+  return new Map();
 }
 
-function saveAnsweredQuestion(questionId: number): void {
+function saveAnsweredQuestion(questionId: number, selectedIndex: number): void {
   try {
     const answered = getAnsweredQuestions();
-    answered.add(questionId);
-    localStorage.setItem(ANSWERED_STORAGE_KEY, JSON.stringify([...answered]));
+    answered.set(questionId, selectedIndex);
+    localStorage.setItem(ANSWERED_STORAGE_KEY, JSON.stringify(Object.fromEntries(answered)));
   } catch (e) {
     console.error("Failed to save answered question to localStorage:", e);
   }
@@ -82,7 +86,7 @@ export function Questions({
   const [currentIndex, setCurrentIndex] = useState(0);
   const [direction, setDirection] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
-  const [answeredQuestions, setAnsweredQuestions] = useState<Set<number>>(() =>
+  const [answeredQuestions, setAnsweredQuestions] = useState<Map<number, number>>(() =>
     getAnsweredQuestions()
   );
   const [explainDialogOpen, setExplainDialogOpen] = useState(false);
@@ -148,6 +152,9 @@ export function Questions({
   const isAlreadyAnswered = currentQuestion
     ? answeredQuestions.has(currentQuestion.id)
     : false;
+  const previousAnswer = currentQuestion
+    ? answeredQuestions.get(currentQuestion.id) ?? null
+    : null;
   const correctAnswerIndex = currentQuestion?.options.indexOf(
     currentQuestion.answer
   );
@@ -155,8 +162,8 @@ export function Questions({
   const handleOptionClick = (index: number) => {
     if (selectedAnswer === null && !isAlreadyAnswered) {
       setSelectedAnswer(index);
-      saveAnsweredQuestion(currentQuestion.id);
-      setAnsweredQuestions((prev) => new Set([...prev, currentQuestion.id]));
+      saveAnsweredQuestion(currentQuestion.id, index);
+      setAnsweredQuestions((prev) => new Map(prev).set(currentQuestion.id, index));
     }
   };
 
@@ -262,11 +269,15 @@ export function Questions({
               {currentQuestion.options.map((option, index) => {
                 const isSelected = selectedAnswer === index;
                 const isCorrect = index === correctAnswerIndex;
+                const wasPreviouslySelected = previousAnswer === index;
+                const previousWasCorrect = previousAnswer === correctAnswerIndex;
+
                 const showCorrect =
                   (selectedAnswer !== null && isCorrect) ||
                   (isAlreadyAnswered && isCorrect);
                 const showIncorrect =
-                  selectedAnswer !== null && isSelected && !isCorrect;
+                  (selectedAnswer !== null && isSelected && !isCorrect) ||
+                  (isAlreadyAnswered && wasPreviouslySelected && !previousWasCorrect);
 
                 let buttonClass = "button-3";
                 if (showCorrect) {
