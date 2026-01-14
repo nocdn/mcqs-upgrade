@@ -1,12 +1,14 @@
 import { Questions } from "@/components/Questions";
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useCallback } from "react";
 import { AnimatePresence, motion } from "motion/react";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Settings } from "lucide-react";
 import { Drawer } from "vaul";
 import type { Question, ApiResponse } from "./types";
 
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8787";
 const IS_DEV = import.meta.env.DEV;
+
+const ANSWERED_STORAGE_KEY = "mcqs-answered-questions";
 
 const PLACEHOLDER_QUESTIONS: Question[] = [
   {
@@ -20,112 +22,6 @@ const PLACEHOLDER_QUESTIONS: Question[] = [
     ],
     answer: "To identify gaps and position your study",
     topic: "SPID",
-  },
-  {
-    id: 900002,
-    question:
-      "Which research method involves collecting data at a single point in time?",
-    options: [
-      "Longitudinal study",
-      "Cross-sectional study",
-      "Case study",
-      "Experimental study",
-    ],
-    answer: "Cross-sectional study",
-    topic: "SPID",
-  },
-  {
-    id: 900003,
-    question: "What does 'operationalization' mean in research?",
-    options: [
-      "Running statistical operations",
-      "Defining abstract concepts in measurable terms",
-      "Operating research equipment",
-      "Organizing research teams",
-    ],
-    answer: "Defining abstract concepts in measurable terms",
-    topic: "SPID",
-  },
-  {
-    id: 900004,
-    question:
-      "Which type of validity concerns whether results can be generalized?",
-    options: [
-      "Internal validity",
-      "External validity",
-      "Construct validity",
-      "Face validity",
-    ],
-    answer: "External validity",
-    topic: "SPID",
-  },
-  {
-    id: 900005,
-    question: "What is social loafing?",
-    options: [
-      "Relaxing in social settings",
-      "Reduced effort when working in groups",
-      "Learning from social media",
-      "Taking breaks during work",
-    ],
-    answer: "Reduced effort when working in groups",
-    topic: "Social",
-  },
-  {
-    id: 900006,
-    question:
-      "The bystander effect suggests that people are less likely to help when:",
-    options: [
-      "They are alone",
-      "Others are present",
-      "The victim is known",
-      "It is daytime",
-    ],
-    answer: "Others are present",
-    topic: "Social",
-  },
-  {
-    id: 900007,
-    question: "Cognitive dissonance occurs when:",
-    options: [
-      "People agree with each other",
-      "Beliefs and actions conflict",
-      "Memory fails",
-      "Groups make decisions",
-    ],
-    answer: "Beliefs and actions conflict",
-    topic: "Social",
-  },
-  {
-    id: 900008,
-    question: "Which concept describes changing behavior to match group norms?",
-    options: ["Obedience", "Conformity", "Compliance", "Persuasion"],
-    answer: "Conformity",
-    topic: "Social",
-  },
-  {
-    id: 900009,
-    question: "The fundamental attribution error involves:",
-    options: [
-      "Overestimating situational factors",
-      "Underestimating dispositional factors",
-      "Overestimating dispositional factors for others' behavior",
-      "Accurate attribution of causes",
-    ],
-    answer: "Overestimating dispositional factors for others' behavior",
-    topic: "Social",
-  },
-  {
-    id: 900010,
-    question: "In-group bias refers to:",
-    options: [
-      "Disliking all groups equally",
-      "Favoring members of one's own group",
-      "Being unbiased toward groups",
-      "Joining multiple groups",
-    ],
-    answer: "Favoring members of one's own group",
-    topic: "Social",
   },
 ];
 
@@ -197,6 +93,8 @@ function App() {
   const [showingSets, setShowingSets] = useState(false);
   const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
   const [practiceSets, setPracticeSets] = useState<PracticeSet[]>([]);
+  const [settingsDrawerOpen, setSettingsDrawerOpen] = useState(false);
+  const [progressDeletedFlag, setProgressDeletedFlag] = useState(0);
 
   useEffect(() => {
     logVisit();
@@ -291,6 +189,16 @@ function App() {
     setSelectedSet(practiceSetName);
   };
 
+  const handleDeleteProgress = useCallback(() => {
+    try {
+      localStorage.removeItem(ANSWERED_STORAGE_KEY);
+    } catch {
+      // Silently fail
+    }
+    setProgressDeletedFlag((prev) => prev + 1);
+    setSettingsDrawerOpen(false);
+  }, []);
+
   if (loading) {
     return (
       <div className="h-svh w-screen flex items-center justify-center">
@@ -328,7 +236,7 @@ function App() {
 
   return (
     <div className="h-dvh w-screen flex flex-col" data-vaul-drawer-wrapper>
-      <div className="max-w-4xl w-full mx-auto px-6 hidden md:flex items-center gap-4 md:mt-10">
+      <div className="max-w-4xl w-full mx-auto px-6 hidden md:flex items-center justify-between md:mt-10">
         <button
           className="hidden md:flex button-3 items-center gap-2.5 -translate-x-0.5 opacity-70 cursor-pointer *:cursor-pointer"
           style={{ padding: "0.6em 1.2em" }}
@@ -361,7 +269,7 @@ function App() {
         </button>
         <AnimatePresence>
           {showingSets && (
-            <div className="hidden md:flex items-center gap-2 flex-wrap">
+            <div className="hidden md:flex items-center gap-2 flex-wrap flex-1 ml-4">
               {allSetNames.map((set, index) => {
                 const isPracticeSet = practiceSetNames.includes(set);
                 const isSelected = selectedSet === set;
@@ -416,7 +324,37 @@ function App() {
             </div>
           )}
         </AnimatePresence>
+        <button
+          className="hidden md:flex button-3 items-center justify-center opacity-70 cursor-pointer"
+          style={{ padding: "0.6em" }}
+          onMouseDown={() => setSettingsDrawerOpen(true)}
+        >
+          <Settings size={16} />
+        </button>
       </div>
+
+      <Drawer.Root
+        open={settingsDrawerOpen}
+        onOpenChange={setSettingsDrawerOpen}
+        shouldScaleBackground
+      >
+        <Drawer.Portal>
+          <Drawer.Overlay className="fixed inset-0 bg-black/40" />
+          <Drawer.Content className="fixed bottom-0 left-0 right-0 bg-white rounded-t-xl outline-none flex flex-col">
+            <div className="mx-auto w-12 h-1.5 shrink-0 rounded-full bg-gray-300 mt-4 mb-2" />
+            <Drawer.Title className="sr-only">Settings</Drawer.Title>
+            <div className="px-4 pb-8 pt-2 flex flex-col gap-2">
+              <button
+                onMouseDown={handleDeleteProgress}
+                className="button-3 w-full font-medium text-left"
+                style={{ padding: "0.75em 1.2em" }}
+              >
+                Delete answered question progress
+              </button>
+            </div>
+          </Drawer.Content>
+        </Drawer.Portal>
+      </Drawer.Root>
 
       <Drawer.Root
         open={mobileDrawerOpen}
@@ -459,6 +397,7 @@ function App() {
         onOpenMobileSets={() => setMobileDrawerOpen(true)}
         onCreatePracticeSet={handleCreatePracticeSet}
         isPracticeMode={practiceSetNames.includes(currentSetName)}
+        progressDeletedFlag={progressDeletedFlag}
       />
     </div>
   );

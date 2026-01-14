@@ -1,0 +1,475 @@
+{
+  "name": "SPID",
+  "questions": [
+    {
+      "question": "In Yerkes' WWI group intelligence testing, what criterion primarily determined assignment to Army Alpha versus Army Beta?",
+      "options": [
+        "Army Alpha was for recruits who could read and write; Army Beta was for recruits who could not",
+        "Army Alpha was for physically stronger recruits; Army Beta was for physically weaker recruits",
+        "Army Alpha measured fluid intelligence; Army Beta measured crystallised intelligence",
+        "Army Alpha was for existing army members; Army Beta was for new recruits"
+      ],
+      "answer": "Army Alpha was for recruits who could read and write; Army Beta was for recruits who could not"
+    },
+    {
+      "question": "In Roger, Bull and Smith's microanalysis typology, interruptions were classified along which two overarching dimensions?",
+      "options": [
+        "supportive vs intrusive; and same-sex vs mixed-sex dyads",
+        "successful vs unsuccessful; and vocal vs silent interruptions",
+        "single vs complex; and successful vs unsuccessful",
+        "content vs delivery; and sender vs receiver"
+      ],
+      "answer": "single vs complex; and successful vs unsuccessful"
+    },
+    {
+      "question": "In Milgram's variations summary, which shock level was highlighted as a common stopping point (a \"decision point\") for many non-compliant participants?",
+      "options": ["105V", "135V", "150V", "300V"],
+      "answer": "150V"
+    },
+    {
+      "question": "Which limitation of twin studies was explicitly noted as a challenge to interpreting genetic heritability estimates?",
+      "options": [
+        "Monozygotic twins share only 50% of their DNA, so they are not informative",
+        "Twin studies cannot be conducted outside laboratory settings",
+        "Twin studies avoid environmental confounds entirely by definition",
+        "Monozygotic twins are often treated more similarly than dizygotic twins, undermining equal-environment assumptions"
+      ],
+      "answer": "Monozygotic twins are often treated more similarly than dizygotic twins, undermining equal-environment assumptions"
+    },
+    {
+      "question": "When adapting personality questionnaires cross-culturally, which equivalence criterion concerns whether the same underlying constructs/factor structure generalise (eg whether the same items cluster into the same trait)?",
+      "options": [
+        "Linguistic equivalence",
+        "Psychometric equivalence",
+        "Psychological/cultural equivalence",
+        "Construct equivalence"
+      ],
+      "answer": "Construct equivalence"
+    },
+    {
+      "question": "In the three-component model of attitudes described, which component is explicitly framed as a readiness to act (even if no behaviour occurs)?",
+      "options": ["Affect", "Behaviour", "Cognition", "Action"],
+      "answer": "Behaviour"
+    },
+    {
+      "question": "In the meta-analysis of implicit theories of intelligence and academic performance described, the association was reported as especially evident for subjects emphasising:",
+      "options": [
+        "fine arts and music performance",
+        "purely practical everyday skills",
+        "social competence and popularity",
+        "verbal and quantitative skills (eg English, maths, science)"
+      ],
+      "answer": "verbal and quantitative skills (eg English, maths, science)"
+    },
+    {
+      "question": "Which design feature of Raven's Progressive Matrices was emphasised as making it especially suitable for cross-cultural assessment?",
+      "options": [
+        "It is delivered as an oral interview so vocabulary can be clarified",
+        "It is a nonverbal multiple-choice reasoning test designed to minimise language/cultural confounds",
+        "It depends heavily on culturally specific general knowledge",
+        "It primarily measures crystallised knowledge acquired through schooling"
+      ],
+      "answer": "It is a nonverbal multiple-choice reasoning test designed to minimise language/cultural confounds"
+    },
+    {
+      "question": "In the neuro-cultural model's display rules, what term refers to weakening an emotional expression relative to what one feels?",
+      "options": [
+        "Attenuation",
+        "Amplification",
+        "Substitution",
+        "Concealment"
+      ],
+      "answer": "Attenuation"
+    },
+    {
+      "question": "In De Ruiter, Mitterer and Enfield's turn-end prediction study, which manipulation produced the sharpest drop in participants' ability to predict turn completion?",
+      "options": [
+        "speech content is filtered but intonation is preserved",
+        "listening to the original recording",
+        "pitch is flattened but lexical content remains intact",
+        "both content and intonation are intact but background noise is added"
+      ],
+      "answer": "speech content is filtered but intonation is preserved"
+    },
+    {
+      "question": "In Bull's analysis of 33 televised interviews with UK party leaders, the mean reply rate was closest to:",
+      "options": ["46%", "73%", "39%", "38%"],
+      "answer": "46%"
+    },
+    {
+      "question": "Heritage and Greatbatch's analysis of applause in political speeches (as described) examined:",
+      "options": [
+        "15 party leader speeches only",
+        "all 476 speeches from the 1981 conferences of the three main UK political parties",
+        "36 Japanese general election speeches",
+        "33 interviews with UK party leaders"
+      ],
+      "answer": "all 476 speeches from the 1981 conferences of the three main UK political parties"
+    },
+    {
+      "question": "In Bull and Feldman's analysis of Japanese general election speeches described, what was a distinctive feature of applause invitations?",
+      "options": [
+        "Implicit rhetorical devices accounted for nearly all applause instances",
+        "Cheering replaced applause as the dominant affiliative response",
+        "Uninvited applause dominated over invited applause",
+        "Explicit invitations accounted for a large majority of applause instances (around 68%)"
+      ],
+      "answer": "Explicit invitations accounted for a large majority of applause instances (around 68%)"
+    },
+    {
+      "question": "Bull and Wells challenged Atkinson's claim of near-perfect synchrony between completion points and applause. What proportion of applause instances did they report as synchronised in the way Atkinson described?",
+      "options": ["33%", "98%", "86%", "65%"],
+      "answer": "65%"
+    },
+    {
+      "question": "Bull and Wells identified two main reasons for uninvited applause. Which pair matches the notes?",
+      "options": [
+        "audience boredom and microphone delay",
+        "accent divergence and hedging",
+        "speaker status and group membership cues",
+        "direct response to speech content and misreading of rhetorical devices"
+      ],
+      "answer": "direct response to speech content and misreading of rhetorical devices"
+    },
+    {
+      "question": "In the emotional Stroop example used as an implicit measure, which outcome is treated as evidence that emotionally salient material is capturing attention?",
+      "options": [
+        "faster naming of the ink colour for threat-related words than neutral words",
+        "slower naming of the ink colour (longer pauses) for threat-related words than neutral words",
+        "better episodic recall for threat-related words after delay",
+        "greater endorsement of threat-related word meanings on self-report scales"
+      ],
+      "answer": "slower naming of the ink colour (longer pauses) for threat-related words than neutral words"
+    },
+    {
+      "question": "Which of Eysenck's three super-trait scales was noted as having low internal reliability as a scale?",
+      "options": [
+        "Extraversion",
+        "Neuroticism",
+        "Psychoticism",
+        "Honesty-humility"
+      ],
+      "answer": "Psychoticism"
+    },
+    {
+      "question": "Which questionnaire was explicitly cited as a short self-report inventory measuring honesty-humility, emotionality, extraversion, agreeableness, conscientiousness and openness?",
+      "options": ["HEXACO-60", "NEO-PI-R", "EPQ-R", "MMPI"],
+      "answer": "HEXACO-60"
+    },
+    {
+      "question": "In the three-factor locus of control approach used in health psychology (as described), what change is made relative to Rotter's original internal–external continuum?",
+      "options": [
+        "External locus of control is subdivided into chance and powerful others because both relate to health outcomes",
+        "Internal locus of control is subdivided into personal and proxy agency because both relate to health outcomes",
+        "A new \"collective agency\" factor replaces external locus of control",
+        "The internal factor is removed because it is not predictive of health behaviour"
+      ],
+      "answer": "External locus of control is subdivided into chance and powerful others because both relate to health outcomes"
+    },
+    {
+      "question": "According to the self-efficacy discussion, individuals high in self-efficacy are more likely to interpret failure as reflecting:",
+      "options": [
+        "low effort",
+        "low ability",
+        "stable lack of intelligence",
+        "bad luck"
+      ],
+      "answer": "low effort"
+    },
+    {
+      "question": "In the power-matching persuasion study described (communicator power × audience power), what mechanism was offered for why matching increased persuasion?",
+      "options": [
+        "Matching works because sources and audiences share identical political beliefs",
+        "High-power audiences prefer warmth cues, and low-power audiences prefer competence cues",
+        "Matching works because high-power sources are always more credible regardless of message content",
+        "Matching worked because high-power communicators used more competence-focused arguments and low-power communicators used more warmth-focused arguments, aligning with audience priorities"
+      ],
+      "answer": "Matching worked because high-power communicators used more competence-focused arguments and low-power communicators used more warmth-focused arguments, aligning with audience priorities"
+    },
+    {
+      "question": "In the expertise × attitude-consistency framework described, how are counterattitudinal messages from expert sources typically processed when the audience is motivated?",
+      "options": [
+        "Ignored because experts are seen as self-interested in persuasion",
+        "Accepted heuristically because expertise suppresses scrutiny",
+        "Processed like non-expert counterattitudinal messages (mostly ignored)",
+        "Scrutinised more systematically to better counter the expert's position"
+      ],
+      "answer": "Scrutinised more systematically to better counter the expert's position"
+    },
+    {
+      "question": "In the anthropomorphism follow-up on corporate response (denial vs apology vs compensation), what pattern was reported for incremental theorists?",
+      "options": [
+        "Denial produced the most positive attitudes because it signalled confidence",
+        "Apology backfired more than denial because it highlighted failure",
+        "Compensation harmed attitudes because it implied wrongdoing",
+        "Denial produced more negative attitudes, whereas apology and compensation improved attitudes"
+      ],
+      "answer": "Denial produced more negative attitudes, whereas apology and compensation improved attitudes"
+    },
+    {
+      "question": "Which physiological correlate was listed as typical of powerful people (as described in the approach/inhibition theory section)?",
+      "options": [
+        "higher basal cortisol and higher cortisol reactivity to stressors",
+        "lower basal cortisol but higher cortisol reactivity to stressors",
+        "no consistent differences in cortisol physiology",
+        "lower basal cortisol and lower cortisol reactivity to stressors"
+      ],
+      "answer": "lower basal cortisol and lower cortisol reactivity to stressors"
+    },
+    {
+      "question": "In the dominance–prestige distinction described, prestige refers to deference and respect primarily because the individual is perceived as:",
+      "options": [
+        "able to coerce and impose costs",
+        "authorised by a recognised power structure",
+        "controlling tangible economic outcomes",
+        "an attractive cultural model or coalition partner"
+      ],
+      "answer": "an attractive cultural model or coalition partner"
+    },
+    {
+      "question": "According to system justification theory (as summarised), system justification is observed most readily:",
+      "options": [
+        "in explicit self-report measures",
+        "at an implicit, nonconscious level of awareness",
+        "only when surveillance is present",
+        "only as a physiological stress response"
+      ],
+      "answer": "at an implicit, nonconscious level of awareness"
+    },
+    {
+      "question": "Which type of influence was defined as conforming to group norms when membership in that group is important or salient (eg \"that's what people like me do\")?",
+      "options": [
+        "Referent informational influence",
+        "Normative influence",
+        "Informational influence",
+        "Compliance due to coercion"
+      ],
+      "answer": "Referent informational influence"
+    },
+    {
+      "question": "In the pluralistic ignorance study on intergroup interactions described, when the other students in the scenario were white, white participants most often attributed the lack of sitting together to:",
+      "options": [
+        "fear of rejection",
+        "lack of interest",
+        "a rule-based moral norm against intergroup contact",
+        "hostility toward the outgroup"
+      ],
+      "answer": "lack of interest"
+    },
+    {
+      "question": "In the tight vs loose culture distinction described, which pairing best characterises tight cultures?",
+      "options": [
+        "weak norms and high tolerance of deviance",
+        "strong norms and high tolerance of deviance",
+        "many strong norms and low tolerance of deviance",
+        "few norms and low tolerance of deviance"
+      ],
+      "answer": "many strong norms and low tolerance of deviance"
+    },
+    {
+      "question": "In the study on gossip as a mechanism for enforcing moral norms, traceability increased pro-group contributions primarily when:",
+      "options": [
+        "group gossip tendency was low (traceability alone was sufficient)",
+        "group gossip tendency was high, especially when behaviour was traceable",
+        "group gossip tendency was low and behaviour was untraceable",
+        "traceability reduced contributions because people feared being judged"
+      ],
+      "answer": "group gossip tendency was high, especially when behaviour was traceable"
+    },
+    {
+      "question": "In the tweet-diffusion work described, increasing the number of moral-emotional words in a tweet tended to:",
+      "options": [
+        "reduce retweets by making content seem too biased",
+        "increase retweets (with effects moderated by issue/valence/network factors)",
+        "have no relationship with retweet count once topic was controlled",
+        "increase retweets only for politically neutral topics"
+      ],
+      "answer": "increase retweets (with effects moderated by issue/valence/network factors)"
+    },
+    {
+      "question": "In the second \"nonconformity signals status\" study described (lecturer scenario), nonconformity increased perceived status primarily when:",
+      "options": [
+        "the setting was explicitly low prestige",
+        "the context signalled high prestige (eg high-prestige affiliation), amplifying the status signal of nonconformity",
+        "participants were described as non-experts in status judgments",
+        "the target conformed strongly to expected dress norms"
+      ],
+      "answer": "the context signalled high prestige (eg high-prestige affiliation), amplifying the status signal of nonconformity"
+    },
+    {
+      "question": "In the Robin Hood effect described, the target was most likely to be afforded power/leadership when:",
+      "options": [
+        "they conformed to the norm while acting selfishly",
+        "they violated the norm while acting selfishly",
+        "they conformed to the norm while acting prosocially",
+        "they violated a norm in a prosocial way (prosocial nonconformity)"
+      ],
+      "answer": "they violated a norm in a prosocial way (prosocial nonconformity)"
+    },
+    {
+      "question": "Descriptive deviance was defined as:",
+      "options": [
+        "divergence from the average group attitude in a direction consistent with the desirable group attitude",
+        "divergence from the average group attitude in a direction inconsistent with the desirable group attitude",
+        "any norm violation regardless of its direction relative to group ideals",
+        "a failure to conform due to misunderstanding group norms"
+      ],
+      "answer": "divergence from the average group attitude in a direction consistent with the desirable group attitude"
+    },
+    {
+      "question": "In Moscovici's colour-judgement minority influence work described, what change in minority size produced a large increase in agreement?",
+      "options": [
+        "increasing a consistent minority from 2 to 3 members",
+        "increasing a consistent minority from 1 to 2 members",
+        "increasing a consistent minority from 10% to 15%",
+        "any increase in an inconsistent minority"
+      ],
+      "answer": "increasing a consistent minority from 1 to 2 members"
+    },
+    {
+      "question": "In Asch's line-judgement conformity studies described, the average conformity rate (in the presence of wrong-answer confederates) was closest to:",
+      "options": ["12.5%", "33%", "65%", "99%"],
+      "answer": "33%"
+    },
+    {
+      "question": "Which Milgram manipulation was explicitly listed as increasing disobedience in the variations summary?",
+      "options": [
+        "The experimenter remained physically present and gave consistent prompts",
+        "The participant both read the words and administered shocks personally",
+        "The learner was distant and never became proximal to the teacher",
+        "The experimenter was not physically present in the room"
+      ],
+      "answer": "The experimenter was not physically present in the room"
+    },
+    {
+      "question": "In the taxonomy of power bases described, which type is defined as the target's belief that the influencer has generally greater expertise and knowledge (not merely more information)?",
+      "options": [
+        "Reward power",
+        "Informational power",
+        "Referent power",
+        "Expert power"
+      ],
+      "answer": "Expert power"
+    },
+    {
+      "question": "In the dominance–prestige distinction described, dominance refers to deference received primarily because others perceive the individual as able to:",
+      "options": [
+        "be admired as a cultural model and coalition partner",
+        "coerce, intimidate, and impose costs and benefits",
+        "provide specialised knowledge about a specific topic",
+        "occupy an authorised role in a recognised hierarchy"
+      ],
+      "answer": "coerce, intimidate, and impose costs and benefits"
+    },
+    {
+      "question": "Within the Social Identity Approach (as described), when group boundaries are perceived as permeable, which route to positive distinctiveness is most consistent with that condition?",
+      "options": [
+        "Social competition (ingroup favouritism)",
+        "Depersonalisation (loss of individual identity)",
+        "Social creativity (reframing group value dimensions)",
+        "Individual mobility (changing groups to climb the hierarchy)"
+      ],
+      "answer": "Individual mobility (changing groups to climb the hierarchy)"
+    },
+    {
+      "question": "In the system-justification evidence summary, increasing political conservatism was associated with which pattern across high-status and low-status groups (especially on implicit measures)?",
+      "options": [
+        "Both high-status and low-status groups showed stronger ingroup favouritism",
+        "Both high-status and low-status groups showed stronger outgroup favouritism",
+        "High-status groups showed increased ingroup favouritism while low-status groups showed increased outgroup favouritism",
+        "No changes in bias patterns were reported as conservatism increased"
+      ],
+      "answer": "High-status groups showed increased ingroup favouritism while low-status groups showed increased outgroup favouritism"
+    },
+    {
+      "question": "Which description best matches systematic processing in dual-process models of persuasion (as summarised in the notes)?",
+      "options": [
+        "A default, low-effort mode in which argument quality is largely irrelevant",
+        "A mode driven primarily by distraction and low cognitive capacity",
+        "A form of processing relying on simple heuristics like \"the majority rules\"",
+        "An effortful scrutiny of relevant information in which argument quality matters, producing more enduring attitude change"
+      ],
+      "answer": "An effortful scrutiny of relevant information in which argument quality matters, producing more enduring attitude change"
+    },
+    {
+      "question": "Which statement about strong brand relationships was explicitly consistent with the notes?",
+      "options": [
+        "They reflect habit only and do not interact with self-concept",
+        "They eliminate negative reactions to brand failure by preventing anthropomorphism",
+        "They can elicit loyalty beyond habit and can produce feelings of betrayal when the brand falls short of expectations",
+        "They depend entirely on the perceived legitimacy of the company's authority"
+      ],
+      "answer": "They can elicit loyalty beyond habit and can produce feelings of betrayal when the brand falls short of expectations"
+    },
+    {
+      "question": "In cross-cultural personality assessment, which equivalence criterion focuses on whether individual items have similar meaning in terms of real experiences within each culture (beyond literal translation)?",
+      "options": [
+        "Linguistic equivalence",
+        "Construct equivalence",
+        "Psychometric equivalence",
+        "Psychological/cultural equivalence"
+      ],
+      "answer": "Psychological/cultural equivalence"
+    },
+    {
+      "question": "Among the listed issues with trait approaches, which criticism specifically emphasised that naming factors is shaped by researcher judgement and constrained by language?",
+      "options": [
+        "The approach is too theory-driven and ignores data",
+        "The number of factors is always fixed at five across all datasets",
+        "Labelling of factors",
+        "Trait models uniquely eliminate the need for interpretation"
+      ],
+      "answer": "Labelling of factors"
+    },
+    {
+      "question": "Which limitation of adoption studies was explicitly noted as potentially blurring the separation between genetic and environmental influences?",
+      "options": [
+        "Adopted children always grow up in identical environments to their biological families",
+        "Adoption studies cannot be used to study any psychological trait",
+        "Contact between the adopted child and the biological family can blur the gene–environment separation",
+        "Adoption studies avoid all prenatal influences by design"
+      ],
+      "answer": "Contact between the adopted child and the biological family can blur the gene–environment separation"
+    },
+    {
+      "question": "Which framework was described as the dominant, evidence-based psychometric model that underpins how many modern intelligence tests are designed and interpreted?",
+      "options": [
+        "Howard Gardner's Multiple Intelligences theory",
+        "Cattell-Horn-Carroll (CHC) theory",
+        "Spearman's two-factor model alone",
+        "Thurstone's primary mental abilities model alone"
+      ],
+      "answer": "Cattell-Horn-Carroll (CHC) theory"
+    },
+    {
+      "question": "In the example of geographical differences in Big Five traits across the British Isles described, which pattern was reported for Scotland?",
+      "options": [
+        "Agreeableness is lower and neuroticism is higher in Scotland than elsewhere",
+        "Both agreeableness and neuroticism are higher in Scotland than elsewhere",
+        "Both agreeableness and neuroticism are lower in Scotland than elsewhere",
+        "Agreeableness is higher and neuroticism is lower in Scotland than elsewhere"
+      ],
+      "answer": "Agreeableness is higher and neuroticism is lower in Scotland than elsewhere"
+    },
+    {
+      "question": "According to the intelligence lecture notes, approximately how many people were forcibly sterilised in the USA under eugenic policies during the 20th century (until the 1970s)?",
+      "options": [
+        "6,000–7,000",
+        "60,000–70,000",
+        "600,000–700,000",
+        "6,000,000–7,000,000"
+      ],
+      "answer": "60,000–70,000"
+    },
+    {
+      "question": "The Flynn effect described in the notes refers to increases in population IQ test scores of roughly:",
+      "options": [
+        "0.3 IQ points per decade",
+        "15 IQ points per decade",
+        "3 IQ points per decade",
+        "30 IQ points per decade"
+      ],
+      "answer": "3 IQ points per decade"
+    }
+  ]
+}

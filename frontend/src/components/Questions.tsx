@@ -83,6 +83,7 @@ interface QuestionsProps {
   onOpenMobileSets?: () => void;
   onCreatePracticeSet?: (originalSetName: string, wrongQuestions: Question[]) => void;
   isPracticeMode?: boolean;
+  progressDeletedFlag?: number;
 }
 
 export function Questions({
@@ -91,6 +92,7 @@ export function Questions({
   onOpenMobileSets,
   onCreatePracticeSet,
   isPracticeMode = false,
+  progressDeletedFlag = 0,
 }: QuestionsProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [direction, setDirection] = useState(0);
@@ -104,6 +106,7 @@ export function Questions({
   const [loadingExplanation, setLoadingExplanation] = useState(false);
   const [thinkHarder, setThinkHarder] = useState(false);
   const [showProgressRestored, setShowProgressRestored] = useState(false);
+  const [showProgressDeleted, setShowProgressDeleted] = useState(false);
   const [showMobileProgress, setShowMobileProgress] = useState(false);
   const [summaryDrawerOpen, setSummaryDrawerOpen] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -157,6 +160,15 @@ export function Questions({
       return () => clearTimeout(timeout);
     }
   }, [currentIndex]);
+
+  useEffect(() => {
+    if (progressDeletedFlag > 0) {
+      setAnsweredQuestions(new Map());
+      setShowProgressDeleted(true);
+      const timeout = setTimeout(() => setShowProgressDeleted(false), 1500);
+      return () => clearTimeout(timeout);
+    }
+  }, [progressDeletedFlag]);
 
   const currentQuestion = questions[currentIndex];
   const isAlreadyAnswered = currentQuestion
@@ -441,6 +453,32 @@ export function Questions({
                 className="absolute -top-14 text-sm font-medium text-blue-600 whitespace-nowrap"
               >
                 Progress Restored
+              </motion.div>
+            )}
+            {showProgressDeleted && (
+              <motion.div
+                initial={{
+                  y: 6,
+                  opacity: 0,
+                  scale: 0.9,
+                  filter: "blur(1.5px)",
+                }}
+                animate={{
+                  y: 0,
+                  opacity: 1,
+                  scale: 1,
+                  filter: "blur(0px)",
+                }}
+                exit={{
+                  y: 9,
+                  opacity: 0,
+                  scale: 0.85,
+                  filter: "blur(2px)",
+                }}
+                transition={{ duration: 0.25, ease: [0.23, 1, 0.32, 1] }}
+                className="absolute -top-14 text-sm font-medium text-red-600 whitespace-nowrap"
+              >
+                Progress Deleted
               </motion.div>
             )}
           </AnimatePresence>
