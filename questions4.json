@@ -1,0 +1,951 @@
+{
+  "name": "Research Methods",
+  "questions": [
+    {
+      "question": "When you run k pairwise comparisons at α = .05, the notes describe familywise error rate (FWER) using which expression?",
+      "options": ["α/k", "(0.95)^k", "1 − (0.05)^k", "1 − (0.95)^k"],
+      "answer": "1 − (0.95)^k"
+    },
+    {
+      "question": "In a one-way ANOVA, Levene's test returns p = .31. Based on the decision rule in the notes, what should you conclude about homogeneity of variance?",
+      "options": [
+        "Homogeneity is violated; you must avoid ANOVA",
+        "Homogeneity is met (non-significant Levene's)",
+        "Sphericity is violated; use Greenhouse–Geisser",
+        "Independence is violated; use a repeated-measures ANOVA"
+      ],
+      "answer": "Homogeneity is met (non-significant Levene's)"
+    },
+    {
+      "question": "You run a one-way ANOVA with 4 groups, find a significant omnibus F, but Levene's test is significant and sample sizes are unequal. Which post-hoc procedure matches the notes' guidance?",
+      "options": [
+        "Tukey (because it is the default all-pairs test)",
+        "REGWQ (because it is always best when sample sizes differ)",
+        "Gabriel's (because it handles unequal variances)",
+        "Games-Howell (because it is appropriate when variances are unequal)"
+      ],
+      "answer": "Games-Howell (because it is appropriate when variances are unequal)"
+    },
+    {
+      "question": "A one-way ANOVA compares k = 4 groups with total N = 48 participants. Using the shortcut described, what is the residual (error) degrees of freedom?",
+      "options": ["47", "44", "43", "4"],
+      "answer": "44"
+    },
+    {
+      "question": "You plan a one-way ANOVA with k = 5 groups and want to run custom planned contrasts that are mutually independent. According to the notes, how many independent contrasts should you end up with (maximum)?",
+      "options": ["2", "3", "5", "4"],
+      "answer": "4"
+    },
+    {
+      "question": "In SPSS planned contrasts, which contrast is described as the reverse of Helmert, comparing the mean of a condition to the average of all previous conditions?",
+      "options": ["Helmert", "Difference", "Simple", "Repeated"],
+      "answer": "Difference"
+    },
+    {
+      "question": "In repeated-measures ANOVA, sphericity is defined (in the notes) as the assumption that:",
+      "options": [
+        "each condition has identical means",
+        "the variances of the differences between conditions are equal",
+        "the dependent variable is normally distributed in each condition",
+        "participants are independent across conditions"
+      ],
+      "answer": "the variances of the differences between conditions are equal"
+    },
+    {
+      "question": "Mauchly's test of sphericity produces blanks in SPSS output. According to the notes, the most likely reason is:",
+      "options": [
+        "the outcome variable is categorical",
+        "the within-subject factor has only two levels",
+        "Levene's test was significant",
+        "the sample size is unequal across groups"
+      ],
+      "answer": "the within-subject factor has only two levels"
+    },
+    {
+      "question": "Mauchly's test is significant (p < .05). Which correction factor is described as the most conservative and most commonly used for reporting corrected p values?",
+      "options": [
+        "Huynh–Feldt",
+        "Lower bound",
+        "Sphericity assumed",
+        "Greenhouse–Geisser"
+      ],
+      "answer": "Greenhouse–Geisser"
+    },
+    {
+      "question": "In the mixed ANOVA SPSS guidance, which table was emphasised as the key one to interpret for between-subject effects?",
+      "options": [
+        "Tests of within-subjects effects",
+        "Tests of between-subjects effects",
+        "Mauchly's test of sphericity",
+        "Multivariate tests"
+      ],
+      "answer": "Tests of between-subjects effects"
+    },
+    {
+      "question": "In factorial ANOVA reporting, which effect size is described as being provided by SPSS and representing variance uniquely explained by each IV?",
+      "options": [
+        "Cohen's d",
+        "Partial eta squared",
+        "Eta squared (only)",
+        "Adjusted R-squared"
+      ],
+      "answer": "Partial eta squared"
+    },
+    {
+      "question": "Which effect size measure was described as being used for a one-way ANOVA and as being equivalent to R-squared (proportion of variance explained by the model)?",
+      "options": [
+        "Eta squared",
+        "Partial eta squared",
+        "Cohen's d",
+        "Pearson's r"
+      ],
+      "answer": "Eta squared"
+    },
+    {
+      "question": "Which paired consequence is explicitly listed as a danger of underpowered studies in the notes?",
+      "options": [
+        "Lower Type 1 error and lower Type 2 error",
+        "Higher Type 2 error risk and higher Type 1 error risk",
+        "Higher observed power and better replication rates",
+        "Guaranteed large effect sizes in the literature"
+      ],
+      "answer": "Higher Type 2 error risk and higher Type 1 error risk"
+    },
+    {
+      "question": "Which statement best matches the way the notes link power analysis to research ethics?",
+      "options": [
+        "Power analysis is primarily an ethical tool for eliminating demand characteristics",
+        "Ethics approval increasingly expects adequate power; running an underpowered study can waste participants' time and be unethical",
+        "Power analysis guarantees external validity, which is an ethical requirement",
+        "Power analysis replaces the need to report effect sizes"
+      ],
+      "answer": "Ethics approval increasingly expects adequate power; running an underpowered study can waste participants' time and be unethical"
+    },
+    {
+      "question": "Why do the notes caution that pilot studies can be a poor basis for estimating effect size for power analysis?",
+      "options": [
+        "Pilot studies cannot be used to compute effect sizes",
+        "Effect size estimates are largely unreliable with small samples (even if significance is not the goal)",
+        "Pilot studies always violate independence",
+        "Pilot studies always overestimate reliability (Cronbach's alpha)"
+      ],
+      "answer": "Effect size estimates are largely unreliable with small samples (even if significance is not the goal)"
+    },
+    {
+      "question": "In simple regression terminology used in the notes, the residual is:",
+      "options": [
+        "the total variance of Y around its mean",
+        "the variance explained by the regression equation",
+        "the squared difference between Y and its mean",
+        "the difference between observed and predicted Y scores"
+      ],
+      "answer": "the difference between observed and predicted Y scores"
+    },
+    {
+      "question": "Which expression matches R-squared (R²) as defined in the notes?",
+      "options": [
+        "SS residual / SS total",
+        "SS regression / SS total",
+        "SS total / SS regression",
+        "SS regression / SS residual"
+      ],
+      "answer": "SS regression / SS total"
+    },
+    {
+      "question": "In regression assumption checks, homoscedasticity is defined as:",
+      "options": [
+        "residuals must be exactly zero for all cases",
+        "for each value of the predictor(s), the variance of the error term is constant",
+        "the dependent variable must be categorical",
+        "predictors must be perfectly uncorrelated"
+      ],
+      "answer": "for each value of the predictor(s), the variance of the error term is constant"
+    },
+    {
+      "question": "In the multiple regression outlier/influence checks described, which rule-of-thumb value indicates a case may exert undue influence on the fitted model?",
+      "options": [
+        "Cook's distance > .2",
+        "Cook's distance > 1",
+        "VIF > 1",
+        "Tolerance > .7"
+      ],
+      "answer": "Cook's distance > 1"
+    },
+    {
+      "question": "Which statement best captures how the notes distinguish correlation from regression?",
+      "options": [
+        "Correlation quantifies association; regression uses a model to predict an outcome from predictor(s) (and is mathematically based on correlation)",
+        "Regression is symmetric, so swapping X and Y never changes results",
+        "Correlation requires an outcome variable but regression does not",
+        "Correlation is only used with categorical variables"
+      ],
+      "answer": "Correlation quantifies association; regression uses a model to predict an outcome from predictor(s) (and is mathematically based on correlation)"
+    },
+    {
+      "question": "A multiple regression is run with n = 120 and k = 3 predictors. Using the formula in the notes, what is the residual degrees of freedom?",
+      "options": ["117", "118", "3", "116"],
+      "answer": "116"
+    },
+    {
+      "question": "In multicollinearity diagnostics, the notes define tolerance as:",
+      "options": [
+        "VIF − 1",
+        "the correlation between the outcome and each predictor",
+        "the squared multiple correlation of each predictor with all others",
+        "1 divided by VIF"
+      ],
+      "answer": "1 divided by VIF"
+    },
+    {
+      "question": "In hierarchical regression, which statistic is described as directly testing whether the second model explains significantly more variance than the first?",
+      "options": [
+        "Adjusted R² of Model 1",
+        "Cook's distance",
+        "F change (F ratio change)",
+        "The ANOVA F for Model 2 alone"
+      ],
+      "answer": "F change (F ratio change)"
+    },
+    {
+      "question": "If you want to compare the relative importance of predictors measured on different scales within a multiple regression, which coefficient should you prioritise (as described)?",
+      "options": [
+        "Unstandardised B (because it keeps original units)",
+        "The intercept (B0)",
+        "Standardised beta weights",
+        "Adjusted R²"
+      ],
+      "answer": "Standardised beta weights"
+    },
+    {
+      "question": "A binary predictor is dummy-coded (0/1). According to the notes, if b is positive, what does that imply about the groups?",
+      "options": [
+        "The group coded 0 is higher on the outcome than the group coded 1",
+        "The predictor has zero variance and should be removed",
+        "The model is misspecified because dummy variables cannot be used in regression",
+        "The group coded 1 is higher on the outcome than the group coded 0"
+      ],
+      "answer": "The group coded 1 is higher on the outcome than the group coded 0"
+    },
+    {
+      "question": "When regression assumptions are violated, the notes describe a non-parametric-like approach that uses resampling to derive coefficients and inference. Which approach is this?",
+      "options": [
+        "Polynomial contrasts",
+        "Levene's correction",
+        "Mauchly's correction",
+        "Bootstrapping (robust regression)"
+      ],
+      "answer": "Bootstrapping (robust regression)"
+    },
+    {
+      "question": "In partial correlation, if the original X–Y correlation disappears once you control for Z, what interpretation is explicitly described?",
+      "options": [
+        "X causes Y, but only through Z",
+        "Z must be an outcome variable",
+        "The original correlation was amplified by random error",
+        "The apparent X–Y relationship may reflect each variable's relation to Z (a third-variable account)"
+      ],
+      "answer": "The apparent X–Y relationship may reflect each variable's relation to Z (a third-variable account)"
+    },
+    {
+      "question": "A questionnaire yields Cronbach's alpha = .72. Using the rule-of-thumb in the notes, this would typically be judged as:",
+      "options": [
+        "sufficient internal reliability (acceptable)",
+        "evidence of factorial invariance",
+        "evidence of perfect validity",
+        "too low to interpret any results"
+      ],
+      "answer": "sufficient internal reliability (acceptable)"
+    },
+    {
+      "question": "Which reliability method described involves splitting a scale into two random halves, computing scores for each half, and correlating those halves?",
+      "options": [
+        "Test–retest reliability",
+        "Cronbach's alpha",
+        "Inter-rater reliability",
+        "Split-half reliability"
+      ],
+      "answer": "Split-half reliability"
+    },
+    {
+      "question": "Why does low reliability tend to weaken observed correlations between measures, according to the notes?",
+      "options": [
+        "Because reliability always inflates r, making correlations too large to interpret",
+        "Because more measurement error adds random noise (score = true score + error), limiting how strongly variables can relate",
+        "Because reliability eliminates variance in the predictors",
+        "Because low reliability forces a non-linear relationship"
+      ],
+      "answer": "Because more measurement error adds random noise (score = true score + error), limiting how strongly variables can relate"
+    },
+    {
+      "question": "In factor analysis data checks, Bartlett's test of sphericity should be:",
+      "options": [
+        "significant (p < .05), indicating correlations are not all near zero",
+        "non-significant (p > .05), indicating the matrix is an identity matrix",
+        "blank unless you have a repeated-measures design",
+        "interpreted only if VIF exceeds 10"
+      ],
+      "answer": "significant (p < .05), indicating correlations are not all near zero"
+    },
+    {
+      "question": "In factor analysis, a determinant below 0.00001 is flagged in the notes as suggesting:",
+      "options": [
+        "multicollinearity / correlations that are too high",
+        "a failure of normality in residuals",
+        "too few factors retained by Kaiser's rule",
+        "heteroscedasticity in the regression sense"
+      ],
+      "answer": "multicollinearity / correlations that are too high"
+    },
+    {
+      "question": "Which KMO value would meet the adequacy threshold described in the notes?",
+      "options": ["0.45", "0.50", "0.49", "0.52"],
+      "answer": "0.52"
+    },
+    {
+      "question": "According to the notes, Kaiser's extraction rule typically retains factors/components with:",
+      "options": [
+        "eigenvalues below 1",
+        "exactly two items loading above .3",
+        "a non-significant Bartlett's test",
+        "eigenvalues greater than 1"
+      ],
+      "answer": "eigenvalues greater than 1"
+    },
+    {
+      "question": "Which rotation method is described as orthogonal (i.e., it keeps factors uncorrelated)?",
+      "options": ["Varimax", "Oblimin", "Lower bound", "Polynomial"],
+      "answer": "Varimax"
+    },
+    {
+      "question": "In factor analysis/PCA, eigenvectors are described as:",
+      "options": [
+        "the factor loadings for each variable",
+        "the participants' factor scores",
+        "the principal axes/components (with eigenvalues indicating how important they are)",
+        "the post-hoc pairwise comparisons"
+      ],
+      "answer": "the principal axes/components (with eigenvalues indicating how important they are)"
+    },
+    {
+      "question": "When interpreting factor loadings, what magnitude is described as a typical threshold for a \"high\" loading?",
+      "options": [".1", ".5", ".7", ".05"],
+      "answer": ".5"
+    },
+    {
+      "question": "In PCA, the principal axes are described as being:",
+      "options": [
+        "randomly oriented until you rotate them",
+        "necessarily correlated with each other",
+        "at right angles to each other",
+        "defined only after Bartlett's test is non-significant"
+      ],
+      "answer": "at right angles to each other"
+    },
+    {
+      "question": "Why is factor interpretation described as subjective in the notes?",
+      "options": [
+        "Because eigenvalues cannot be calculated objectively",
+        "Because Bartlett's test has no null hypothesis",
+        "Because labels are inferred from loading patterns and require researcher judgement",
+        "Because factors must always be named after the first item"
+      ],
+      "answer": "Because labels are inferred from loading patterns and require researcher judgement"
+    },
+    {
+      "question": "Which statement best matches the factor-analysis sample size guidance given in the notes?",
+      "options": [
+        "100 participants is generally sufficient and 300 is too large",
+        "Roughly 300 is \"good\" and 1000 is \"great\"; ~100 is often \"too low\" (with a minimum rule-of-thumb of about 2 participants per variable)",
+        "Sample size is irrelevant once Bartlett's test is significant",
+        "Factor analysis requires exactly 2 participants per variable and no more"
+      ],
+      "answer": "Roughly 300 is \"good\" and 1000 is \"great\"; ~100 is often \"too low\" (with a minimum rule-of-thumb of about 2 participants per variable)"
+    },
+    {
+      "question": "Which transcription system is highlighted as common in conversation analysis because it captures fine-grained details of talk (e.g., pauses and overlaps)?",
+      "options": [
+        "Thematic coding grid",
+        "Likert scaling",
+        "FACS coding",
+        "Jefferson notation"
+      ],
+      "answer": "Jefferson notation"
+    },
+    {
+      "question": "In discursive psychology (as described), language is treated primarily as:",
+      "options": [
+        "a transparent window onto stable internal mental states",
+        "a set of errors and biases to be corrected statistically",
+        "a form of action (utterances do things)",
+        "a behavioural measure equivalent to reaction time"
+      ],
+      "answer": "a form of action (utterances do things)"
+    },
+    {
+      "question": "In discourse analysis, the term used for how talk builds versions of people/events/objects (rather than simply reporting them) is:",
+      "options": [
+        "Construction",
+        "Reliability",
+        "Sphericity",
+        "Factor loading"
+      ],
+      "answer": "Construction"
+    },
+    {
+      "question": "In the example \"Brett, you've got shoes on,\" the notes identify an action being performed beyond description. Which linguistic practice best fits that action?",
+      "options": [
+        "Extreme case formulation",
+        "Implicit request",
+        "Category entitlement",
+        "Subject position"
+      ],
+      "answer": "Implicit request"
+    },
+    {
+      "question": "When discourse analysts encounter apparently contradictory accounts across contexts, the approach described in the notes is to:",
+      "options": [
+        "treat it as expected variation tied to different functions/actions (no need to decide which is \"true\")",
+        "discard one account as invalid",
+        "average the accounts into a single neutral statement",
+        "assume the contradiction reflects random measurement error"
+      ],
+      "answer": "treat it as expected variation tied to different functions/actions (no need to decide which is \"true\")"
+    },
+    {
+      "question": "In discourse analysis, the term for how speakers manage responsibility/blame and present self/others in particular ways is:",
+      "options": [
+        "Accountability",
+        "Eigenvalue",
+        "Homoscedasticity",
+        "Construct validity"
+      ],
+      "answer": "Accountability"
+    },
+    {
+      "question": "Which of the following is NOT listed in the notes as a discursive device used to construct factuality?",
+      "options": [
+        "Polynomial contrasts",
+        "Provision of detail",
+        "Reported speech",
+        "Disclaimers"
+      ],
+      "answer": "Polynomial contrasts"
+    },
+    {
+      "question": "Interpretative repertoires are described in the notes as:",
+      "options": [
+        "statistical factors extracted using PCA",
+        "a set of questionnaire items with high internal reliability",
+        "the sequential steps of IPA coding",
+        "culturally-based recurrent lines of argument with recognisable terms/phrases/metaphors"
+      ],
+      "answer": "culturally-based recurrent lines of argument with recognisable terms/phrases/metaphors"
+    },
+    {
+      "question": "In discourse analysis, the term for the fact that repertoires can be contradictory (e.g., different repertoires applied to the same issue) is:",
+      "options": [
+        "Ideological dilemmas",
+        "Factor rotation",
+        "Bootstrapping",
+        "Sphericity correction"
+      ],
+      "answer": "Ideological dilemmas"
+    },
+    {
+      "question": "Subject positions (as defined in the notes) refer to:",
+      "options": [
+        "the rank order of participants in a dataset",
+        "the principal axes of a data cloud",
+        "the probability distribution of residuals",
+        "how people construct/position themselves and others in discourse (which can vary across situations)"
+      ],
+      "answer": "how people construct/position themselves and others in discourse (which can vary across situations)"
+    },
+
+    {
+      "question": "A key problem of repeated-measures designs (as contrasted with independent-measures) is that they violate independence because:",
+      "options": [
+        "participants are randomly allocated to conditions",
+        "normality is automatically violated",
+        "sphericity is always met",
+        "the same participants contribute multiple scores, making condition scores correlated"
+      ],
+      "answer": "the same participants contribute multiple scores, making condition scores correlated"
+    },
+    {
+      "question": "Which advantage of repeated-measures designs is attributed (in the notes) to reduced unsystematic variance within participants?",
+      "options": [
+        "Improved external validity",
+        "Greater sensitivity to experimental effects",
+        "Elimination of order effects",
+        "Guaranteed normality of residuals"
+      ],
+      "answer": "Greater sensitivity to experimental effects"
+    },
+    {
+      "question": "Why does the notes' workflow recommend ANOVA rather than running many t-tests when comparing more than two group means?",
+      "options": [
+        "Because ANOVA eliminates the need to inspect the data visually",
+        "Because t-tests cannot be corrected for multiple comparisons",
+        "Because ANOVA automatically ensures normality",
+        "Because multiple comparisons inflate familywise error rate (Type 1 error), which ANOVA is designed to manage"
+      ],
+      "answer": "Because multiple comparisons inflate familywise error rate (Type 1 error), which ANOVA is designed to manage"
+    },
+    {
+      "question": "After a significant one-way ANOVA, you have a small sample and want a conservative post-hoc option regardless of other considerations. Which post-hoc test is described as the \"safe\" option?",
+      "options": ["Tukey", "Bonferroni", "REGWQ", "Hochberg's GT2"],
+      "answer": "Bonferroni"
+    },
+    {
+      "question": "After a significant one-way ANOVA, assumptions are met and you want an all-pairs post-hoc approach recommended under those conditions. Which option matches the notes?",
+      "options": ["Games–Howell", "Bonferroni", "Gabriel's", "Tukey"],
+      "answer": "Tukey"
+    },
+    {
+      "question": "Planned contrasts are described as particularly appropriate when you want to:",
+      "options": [
+        "avoid specifying any hypotheses and test everything",
+        "test a small number of theoretically motivated comparisons (often involving a control condition), reducing unnecessary comparisons",
+        "replace the need to check assumptions",
+        "ensure every pair of means is compared"
+      ],
+      "answer": "test a small number of theoretically motivated comparisons (often involving a control condition), reducing unnecessary comparisons"
+    },
+    {
+      "question": "Which built-in planned contrast compares sequential pairs of conditions (as described in the notes)?",
+      "options": ["Simple", "Repeated", "Helmert", "Difference"],
+      "answer": "Repeated"
+    },
+    {
+      "question": "Partial eta squared (as described) is scaled between 0 and 1 and is interpreted as:",
+      "options": [
+        "the probability that the null hypothesis is true",
+        "a measure of internal reliability",
+        "the proportion of variance uniquely explained by an IV in a factorial ANOVA",
+        "the degree of multicollinearity among predictors"
+      ],
+      "answer": "the proportion of variance uniquely explained by an IV in a factorial ANOVA"
+    },
+    {
+      "question": "Why is Cohen's d for an ANOVA context described as relying on the homogeneity of variance assumption?",
+      "options": [
+        "Because it is calculated from Mauchly's W",
+        "Because it is derived from eigenvalues and factor loadings",
+        "Because it assumes each group mean is identical",
+        "Because it scales mean differences by a (pooled/constant) SD, which assumes SD is comparable across groups"
+      ],
+      "answer": "Because it scales mean differences by a (pooled/constant) SD, which assumes SD is comparable across groups"
+    },
+    {
+      "question": "What is meant by \"garbage in, garbage out\" in the context of power analysis, as described in the notes?",
+      "options": [
+        "If your data are non-normal, you must discard them before analysis",
+        "If you input arbitrary/poor effect size estimates, the resulting power/sample size outputs are not meaningful",
+        "If Bartlett's test is significant, you must not interpret factor loadings",
+        "If Cronbach's alpha is high, validity is guaranteed"
+      ],
+      "answer": "If you input arbitrary/poor effect size estimates, the resulting power/sample size outputs are not meaningful"
+    },
+    {
+      "question": "Using the effect size conventions for Pearson's r noted in the notes, an r ≈ .50 is typically described as:",
+      "options": [
+        "a trivial effect",
+        "a large effect",
+        "a negative effect",
+        "a nonparametric effect"
+      ],
+      "answer": "a large effect"
+    },
+    {
+      "question": "A partial correlation is used to:",
+      "options": [
+        "examine the relationship between two variables while controlling for a third",
+        "compute the slope of a regression line",
+        "test whether sphericity is met",
+        "estimate the number of factors to retain"
+      ],
+      "answer": "examine the relationship between two variables while controlling for a third"
+    },
+    {
+      "question": "Which description best matches Cronbach's alpha as presented in the notes?",
+      "options": [
+        "A measure of test validity over time",
+        "An internal consistency measure that can indicate problematic items and tends to increase with more items",
+        "A test of sphericity for repeated-measures ANOVA",
+        "A measure of influence of cases on regression models"
+      ],
+      "answer": "An internal consistency measure that can indicate problematic items and tends to increase with more items"
+    },
+    {
+      "question": "Which reliability method is described as assessing stability over time by correlating scores from the same people at two different time points?",
+      "options": [
+        "Split-half reliability",
+        "Test–retest reliability",
+        "Cronbach's alpha",
+        "Bartlett's test"
+      ],
+      "answer": "Test–retest reliability"
+    },
+    {
+      "question": "Ordinary least squares (OLS) is described as fitting a regression line by:",
+      "options": [
+        "maximising the sum of absolute residuals",
+        "minimising the sum of squared residuals",
+        "maximising the correlation between predictors",
+        "setting the intercept to zero by default"
+      ],
+      "answer": "minimising the sum of squared residuals"
+    },
+    {
+      "question": "To check homoscedasticity and independence of errors in regression (as described), you should primarily:",
+      "options": [
+        "inspect Mauchly's W",
+        "compute Cronbach's alpha",
+        "run a Tukey post-hoc test",
+        "plot residuals against predicted scores"
+      ],
+      "answer": "plot residuals against predicted scores"
+    },
+    {
+      "question": "Which regression assumption is explicitly listed as a \"basic assumption\" in the notes?",
+      "options": [
+        "The outcome variable must be continuous",
+        "The outcome variable must be ordinal",
+        "Predictors must be categorical",
+        "Residuals must be uniformly distributed"
+      ],
+      "answer": "The outcome variable must be continuous"
+    },
+    {
+      "question": "In multiple regression output, the notes state that a coefficient is indicated as significant (in CI terms) when:",
+      "options": [
+        "the confidence interval includes 0",
+        "the confidence interval excludes 0",
+        "Cook's distance exceeds 1",
+        "VIF is exactly 1"
+      ],
+      "answer": "the confidence interval excludes 0"
+    },
+    {
+      "question": "Why might regression findings differ from simple correlations among the same variables, according to the notes?",
+      "options": [
+        "Regression ignores correlations and only uses group means",
+        "Regression controls for other predictors when estimating each coefficient, changing apparent importance/significance",
+        "Correlation automatically partials out third variables",
+        "Correlation is always more trustworthy than regression"
+      ],
+      "answer": "Regression controls for other predictors when estimating each coefficient, changing apparent importance/significance"
+    },
+    {
+      "question": "Adjusted R² is described as:",
+      "options": [
+        "an estimate of population R² adjusted downward to reduce sample-based overestimation (with less adjustment needed as N increases)",
+        "a measure of the probability of a Type 1 error",
+        "a rotation method in factor analysis",
+        "a measure of internal consistency"
+      ],
+      "answer": "an estimate of population R² adjusted downward to reduce sample-based overestimation (with less adjustment needed as N increases)"
+    },
+    {
+      "question": "In hierarchical regression, why are the separate ANOVA tables for each model insufficient for judging whether Model 2 improves on Model 1?",
+      "options": [
+        "Because ANOVA tables in regression only apply to categorical outcomes",
+        "Because ANOVA tables always report partial eta squared instead of R²",
+        "Because ANOVA tables cannot be computed when k > 2 predictors",
+        "Because each ANOVA table tests its model against explaining 0 variance; improvement is assessed via the F change statistic"
+      ],
+      "answer": "Because each ANOVA table tests its model against explaining 0 variance; improvement is assessed via the F change statistic"
+    },
+    {
+      "question": "In the notes' terminology, \"forced entry\" multiple regression refers to:",
+      "options": [
+        "adding predictors in steps and interpreting F change",
+        "removing predictors until VIF < 1",
+        "using dummy coding for categorical predictors",
+        "entering all predictors into the model at once"
+      ],
+      "answer": "entering all predictors into the model at once"
+    },
+    {
+      "question": "A dummy-coded predictor uses 0/1 coding. According to the notes, if b is negative, then:",
+      "options": [
+        "the category coded 1 must be higher on the outcome",
+        "the predictor is unusable in regression",
+        "the category coded 0 is higher on the outcome than the category coded 1",
+        "the outcome variable must be recoded"
+      ],
+      "answer": "the category coded 0 is higher on the outcome than the category coded 1"
+    },
+    {
+      "question": "Which statement best reflects the multicollinearity diagnostic rule-of-thumb described in the notes?",
+      "options": [
+        "VIF should be above 10 and tolerance should be below .2",
+        "Tolerance should be exactly 1 for all predictors",
+        "Tolerance below .2 (equivalently high VIF) suggests problematic multicollinearity",
+        "Multicollinearity is desirable because it increases R²"
+      ],
+      "answer": "Tolerance below .2 (equivalently high VIF) suggests problematic multicollinearity"
+    },
+    {
+      "question": "In factor analysis, eigenvalues are described as indicating:",
+      "options": [
+        "the reliability of each factor",
+        "how many participants are needed per variable",
+        "whether the factors are orthogonal or oblique",
+        "how important each eigenvector/component is (how much variance it accounts for)"
+      ],
+      "answer": "how important each eigenvector/component is (how much variance it accounts for)"
+    },
+    {
+      "question": "The scree plot is described as helping decide how many factors to retain by identifying:",
+      "options": [
+        "the most negative factor loading",
+        "the p value for Bartlett's test",
+        "the point where VIF drops below 1",
+        "the point of inflexion (\"elbow\") in eigenvalues"
+      ],
+      "answer": "the point of inflexion (\"elbow\") in eigenvalues"
+    },
+    {
+      "question": "Which statement about factor loadings is consistent with the notes?",
+      "options": [
+        "Loadings can only be positive because they are probabilities",
+        "Loadings must sum to 1 across factors for each item",
+        "Items cannot load on more than one factor",
+        "Loadings can be negative or positive, reflecting direction of association with the factor"
+      ],
+      "answer": "Loadings can be negative or positive, reflecting direction of association with the factor"
+    },
+    {
+      "question": "According to the notes, when should you prefer an oblique rotation method (e.g., oblimin) over an orthogonal one (e.g., varimax)?",
+      "options": [
+        "When you expect the factors to inter-correlate",
+        "When Bartlett's test is non-significant",
+        "When you have exactly two variables",
+        "When you want to eliminate multicollinearity in regression"
+      ],
+      "answer": "When you expect the factors to inter-correlate"
+    },
+    {
+      "question": "Kaiser–Meyer–Olkin (KMO) is described as indicating:",
+      "options": [
+        "the extent to which residuals are normally distributed",
+        "the size of the familywise error rate",
+        "the stability of a regression coefficient",
+        "sampling adequacy based on the interrelations among variables (with > .5 considered adequate)"
+      ],
+      "answer": "sampling adequacy based on the interrelations among variables (with > .5 considered adequate)"
+    },
+    {
+      "question": "Bartlett's test of sphericity in factor analysis is described as testing the null hypothesis that:",
+      "options": [
+        "factors are perfectly orthogonal",
+        "there is no correlation structure among variables (correlation matrix ~ identity)",
+        "the sample size is too small to proceed",
+        "each item loads on exactly one factor"
+      ],
+      "answer": "there is no correlation structure among variables (correlation matrix ~ identity)"
+    },
+    {
+      "question": "In discourse analysis, which device is described as a way to deny stake/interest and bolster factuality (e.g., \"I'm not prejudiced, but…\")?",
+      "options": [
+        "Disclaimer",
+        "Category entitlement",
+        "Extreme case formulation",
+        "Three-part list"
+      ],
+      "answer": "Disclaimer"
+    },
+    {
+      "question": "Which discursive device is described as adding specific/precise information (e.g., dates, times) to reinforce factuality and minimise interpretation?",
+      "options": [
+        "Provision of detail",
+        "Stake and interest",
+        "Ideological dilemma",
+        "Subject position"
+      ],
+      "answer": "Provision of detail"
+    },
+    {
+      "question": "Which option best matches \"extreme case formulations\" as defined in the notes?",
+      "options": [
+        "Quoting another person word-for-word to corroborate your claim",
+        "Using scientific jargon to claim expertise",
+        "Using a three-item sequence to sound persuasive",
+        "Using extreme terms like 'all', 'every', 'most', 'always' to justify/support a claim"
+      ],
+      "answer": "Using extreme terms like 'all', 'every', 'most', 'always' to justify/support a claim"
+    },
+    {
+      "question": "Which discursive device is described as enhancing factuality through \"consensus and corroboration\" by embedding someone else's words (e.g., \"she said… \")?",
+      "options": [
+        "Homoscedasticity",
+        "Category entitlement",
+        "Disclaimers",
+        "Reported speech"
+      ],
+      "answer": "Reported speech"
+    },
+    {
+      "question": "Which statement best describes the function of three-part lists in the notes' discussion of discursive devices?",
+      "options": [
+        "They are persuasive rhetorical structures used to support a claim",
+        "They ensure factorial invariance across cohorts",
+        "They correct for familywise error in ANOVA",
+        "They are a type of oblique rotation"
+      ],
+      "answer": "They are persuasive rhetorical structures used to support a claim"
+    },
+    {
+      "question": "In discursive analysis, how is apparent contradiction across contexts handled (as described in the notes)?",
+      "options": [
+        "By identifying which account is factually correct and discarding the other",
+        "By treating the difference as functional variation tied to different actions in different contexts",
+        "By averaging the accounts into a single composite estimate",
+        "By applying the Greenhouse–Geisser correction"
+      ],
+      "answer": "By treating the difference as functional variation tied to different actions in different contexts"
+    },
+    {
+      "question": "Which discursive device refers to framing a claim as coming from a knowledgeable/reliable category of person (thus enhancing authority)?",
+      "options": [
+        "Interpretative repertoire",
+        "Category entitlement",
+        "Provision of detail",
+        "Extreme case formulation"
+      ],
+      "answer": "Category entitlement"
+    },
+    {
+      "question": "Which option best captures interpretative repertoires (as described), rather than one of the other discourse-analysis concepts?",
+      "options": [
+        "The idea that people manage responsibility in talk",
+        "A transcription system for pauses and overlaps",
+        "Culturally shared, recurrent lines of argument built from recognisable terms/phrases/metaphors",
+        "A bias-correction method for power analysis"
+      ],
+      "answer": "Culturally shared, recurrent lines of argument built from recognisable terms/phrases/metaphors"
+    },
+    {
+      "question": "Subject positions (as described) refer to:",
+      "options": [
+        "the number of degrees of freedom in an ANOVA model",
+        "how people position/construct themselves and others in discourse (and these positions can vary across situations)",
+        "the reliability of items within a scale",
+        "the location of the 'elbow' on a scree plot"
+      ],
+      "answer": "how people position/construct themselves and others in discourse (and these positions can vary across situations)"
+    },
+    {
+      "question": "In IPA, the theoretical foundation most associated with \"go back to the things themselves\" and a focus on lived experience is:",
+      "options": [
+        "Idiography",
+        "Phenomenology",
+        "Factor analysis",
+        "Behaviourism"
+      ],
+      "answer": "Phenomenology"
+    },
+    {
+      "question": "In IPA, \"double hermeneutic\" refers to the idea that:",
+      "options": [
+        "participants provide two versions of every experience and the researcher averages them",
+        "the researcher must be blind to the research question",
+        "the researcher codes twice to ensure reliability",
+        "participants make meaning of their world and the researcher interprets that meaning"
+      ],
+      "answer": "participants make meaning of their world and the researcher interprets that meaning"
+    },
+    {
+      "question": "The hermeneutic circle is described (in the notes) as the idea that:",
+      "options": [
+        "you can only understand the whole once you ignore the parts",
+        "you can only understand the parts once you ignore the whole",
+        "you understand the parts through the whole and the whole through the parts",
+        "analysis proceeds linearly from codes to themes with no iteration"
+      ],
+      "answer": "you understand the parts through the whole and the whole through the parts"
+    },
+    {
+      "question": "IPA sample sizes are described as typically being small; the notes give a common range of approximately:",
+      "options": [
+        "3–8 participants",
+        "30–80 participants",
+        "100–300 participants",
+        "1000+ participants"
+      ],
+      "answer": "3–8 participants"
+    },
+    {
+      "question": "In IPA sampling, participants are typically selected in a way described as:",
+      "options": [
+        "random and maximally heterogeneous",
+        "purposive and fairly homogenous",
+        "systematically stratified to match national census data",
+        "convenience-only with no rationale"
+      ],
+      "answer": "purposive and fairly homogenous"
+    },
+    {
+      "question": "The notes describe the most common IPA data collection method as:",
+      "options": [
+        "semi-structured 1–1 interviews",
+        "a fixed-response questionnaire battery only",
+        "a repeated-measures laboratory task with counterbalancing",
+        "a purely observational behavioural coding scheme"
+      ],
+      "answer": "semi-structured 1–1 interviews"
+    },
+    {
+      "question": "Which interview question type is explicitly listed as one to avoid in IPA interviewing because it presumes an answer?",
+      "options": [
+        "Leading questions",
+        "Open questions",
+        "Exploratory prompts",
+        "Follow-up clarification questions"
+      ],
+      "answer": "Leading questions"
+    },
+    {
+      "question": "In IPA exploratory noting, which type of note focuses on features like tone, fluency, pauses, repetition and emotional expression?",
+      "options": [
+        "Linguistic noting",
+        "Descriptive noting",
+        "Interpretative noting",
+        "Factor loading noting"
+      ],
+      "answer": "Linguistic noting"
+    },
+    {
+      "question": "In the 7-step IPA process described, which step involves clustering experiential statements to identify connections and begin forming Personal Experiential Themes?",
+      "options": [
+        "Exploratory noting",
+        "Constructing experiential statements",
+        "Naming group experiential themes",
+        "Searching for connections across experiential statements"
+      ],
+      "answer": "Searching for connections across experiential statements"
+    },
+    {
+      "question": "Reflexivity in IPA is described as:",
+      "options": [
+        "an ongoing self-examination of the researcher's role, biases and perspective (sometimes including narrative autobiography)",
+        "a formal test of homogeneity of variance",
+        "a method for selecting post-hoc tests after ANOVA",
+        "a way to compute eigenvalues from a correlation matrix"
+      ],
+      "answer": "an ongoing self-examination of the researcher's role, biases and perspective (sometimes including narrative autobiography)"
+    },
+    {
+      "question": "In IPA, Group Experiential Themes are developed by:",
+      "options": [
+        "testing whether items load above .5 on a factor",
+        "computing VIF to remove multicollinearity",
+        "treating each participant as interchangeable and averaging transcripts",
+        "examining convergence and divergence across Personal Experiential Themes across participants"
+      ],
+      "answer": "examining convergence and divergence across Personal Experiential Themes across participants"
+    }
+  ]
+}

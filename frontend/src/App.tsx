@@ -1,7 +1,7 @@
 import { Questions } from "@/components/Questions";
 import { useState, useEffect, useMemo, useCallback } from "react";
 import { AnimatePresence, motion } from "motion/react";
-import { Menu, X, Settings } from "lucide-react";
+import { Menu, X, Settings, Loader } from "lucide-react";
 import { Drawer } from "vaul";
 import type { Question, ApiResponse } from "./types";
 
@@ -85,6 +85,8 @@ function saveSelectedSet(setName: string): void {
   }
 }
 
+type UploadState = "button" | "password" | "textarea";
+
 function App() {
   const [allQuestions, setAllQuestions] = useState<Question[]>([]);
   const [loading, setLoading] = useState(true);
@@ -95,6 +97,10 @@ function App() {
   const [practiceSets, setPracticeSets] = useState<PracticeSet[]>([]);
   const [settingsDrawerOpen, setSettingsDrawerOpen] = useState(false);
   const [progressDeletedFlag, setProgressDeletedFlag] = useState(0);
+  const [uploadState, setUploadState] = useState<UploadState>("button");
+  const [passwordInput, setPasswordInput] = useState("");
+  const [jsonInput, setJsonInput] = useState("");
+  const [uploadStatus, setUploadStatus] = useState<string | null>(null);
 
   useEffect(() => {
     logVisit();
@@ -199,6 +205,52 @@ function App() {
     setSettingsDrawerOpen(false);
   }, []);
 
+  const handleSettingsDrawerChange = useCallback((open: boolean) => {
+    setSettingsDrawerOpen(open);
+    if (!open) {
+      setUploadState("button");
+      setPasswordInput("");
+      setJsonInput("");
+      setUploadStatus(null);
+    }
+  }, []);
+
+  const handlePasswordSubmit = useCallback(
+    (e: React.KeyboardEvent) => {
+      if (e.key === "Enter" && passwordInput === "elephant") {
+        setUploadState("textarea");
+      }
+    },
+    [passwordInput]
+  );
+
+  const handleUploadQuestions = useCallback(async () => {
+    try {
+      const parsed = JSON.parse(jsonInput);
+      setUploadStatus("loading");
+      const response = await fetch(`${API_URL}/api/questions/bulk`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(parsed),
+      });
+      if (!response.ok) {
+        throw new Error("Upload failed");
+      }
+      await response.json();
+      setUploadStatus("success");
+      setJsonInput("");
+      setTimeout(() => {
+        window.location.reload();
+      }, 1500);
+    } catch (err) {
+      setUploadStatus(
+        `Error: ${
+          err instanceof Error ? err.message : "Invalid JSON or upload failed"
+        }`
+      );
+    }
+  }, [jsonInput]);
+
   if (loading) {
     return (
       <div className="h-svh w-screen flex items-center justify-center">
@@ -287,21 +339,21 @@ function App() {
                   >
                     {isSelected && (
                       <div
-                        className="absolute left-1/2 -translate-x-1/2"
-                        style={{ top: "-15px" }}
+                        className="absolute left-1/2 -translate-x-1/2 animate-bounce"
+                        style={{ top: "-22px" }}
                       >
                         <svg
-                          width="12"
-                          height="8"
-                          viewBox="0 0 12 8"
-                          fill="none"
-                          style={{ transform: "rotate(180deg)" }}
+                          width="14"
+                          height="14"
+                          viewBox="0 0 24 24"
+                          fill={isPracticeSet ? "#f3e8ff" : "#E6F3FD"}
                         >
                           <path
-                            d="M6 0L12 8H0L6 0Z"
-                            fill={isPracticeSet ? "#f3e8ff" : "#E6F3FD"}
                             stroke={isPracticeSet ? "#a855f7" : "#3A93DD"}
-                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="3.5"
+                            d="M10.363 20.405L2.257 6.871A1.914 1.914 0 0 1 3.893 4h16.214a1.914 1.914 0 0 1 1.636 2.871l-8.106 13.534a1.914 1.914 0 0 1-3.274 0"
                           />
                         </svg>
                       </div>
@@ -335,22 +387,97 @@ function App() {
 
       <Drawer.Root
         open={settingsDrawerOpen}
-        onOpenChange={setSettingsDrawerOpen}
+        onOpenChange={handleSettingsDrawerChange}
         shouldScaleBackground
       >
         <Drawer.Portal>
           <Drawer.Overlay className="fixed inset-0 bg-black/40" />
-          <Drawer.Content className="fixed bottom-0 left-0 right-0 bg-white rounded-t-xl outline-none flex flex-col">
+          <Drawer.Content
+            className="fixed bottom-0 left-0 right-0 bg-white rounded-t-xl outline-none flex flex-col"
+            style={uploadState === "textarea" ? { height: "80vh" } : undefined}
+          >
             <div className="mx-auto w-12 h-1.5 shrink-0 rounded-full bg-gray-300 mt-4 mb-2" />
             <Drawer.Title className="sr-only">Settings</Drawer.Title>
-            <div className="px-4 pb-8 pt-2 flex flex-col gap-2">
+            <div
+              className={`px-4 pb-8 pt-2 flex flex-col gap-2 ${
+                uploadState === "textarea" ? "flex-1 overflow-hidden" : ""
+              }`}
+            >
               <button
                 onMouseDown={handleDeleteProgress}
                 className="button-3 w-full font-medium text-left"
-                style={{ padding: "0.75em 1.2em" }}
+                style={{ padding: "0.75em 1.2em", height: "48px" }}
               >
                 Delete answered question progress
               </button>
+              {uploadState === "button" && (
+                <button
+                  onMouseDown={() => setUploadState("password")}
+                  className="button-3 w-full font-medium text-left cursor-pointer"
+                  style={{ padding: "0.75em 1.2em", height: "48px" }}
+                >
+                  Upload new questions
+                </button>
+              )}
+              {uploadState === "password" && (
+                <input
+                  type="password"
+                  placeholder="Password"
+                  value={passwordInput}
+                  onChange={(e) => setPasswordInput(e.target.value)}
+                  onKeyDown={handlePasswordSubmit}
+                  autoFocus
+                  data-1p-ignore
+                  data-bwignore
+                  data-lpignore="true"
+                  data-form-type="other"
+                  className="button-3 w-full font-medium bg-transparent outline-none"
+                  style={{ padding: "0.75em 1.2em", height: "48px" }}
+                />
+              )}
+              {uploadState === "textarea" && (
+                <div
+                  className="button-3 w-full font-medium flex items-center"
+                  style={{ padding: "0.75em 1.2em", height: "48px" }}
+                >
+                  Upload new questions
+                </div>
+              )}
+              {uploadState === "textarea" && (
+                <div className="flex flex-col gap-2 flex-1 overflow-hidden">
+                  <textarea
+                    placeholder="Paste question JSON here..."
+                    value={jsonInput}
+                    onChange={(e) => setJsonInput(e.target.value)}
+                    className="flex-1 w-full p-4 border-2 border-gray-300 rounded-lg resize-none font-mono font-semibold text-sm outline-none"
+                  />
+                  <button
+                    onMouseDown={handleUploadQuestions}
+                    className="button-3 w-full font-medium mb-0.5"
+                    style={{ padding: "0.75em 1.2em" }}
+                  >
+                    Submit
+                  </button>
+                  {uploadStatus && (
+                    <div className="flex items-center gap-2">
+                      {uploadStatus === "loading" && (
+                        <Loader
+                          size={16}
+                          className="animate-spin text-gray-500"
+                        />
+                      )}
+                      {uploadStatus === "success" && (
+                        <p className="text-sm text-green-800 font-semibold font-rounded">
+                          Submitted questions
+                        </p>
+                      )}
+                      {uploadStatus.startsWith("Error") && (
+                        <p className="text-sm text-red-500">{uploadStatus}</p>
+                      )}
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
           </Drawer.Content>
         </Drawer.Portal>
