@@ -383,8 +383,12 @@ function App() {
                     >
                       {parentSet ? (
                         <span className="flex flex-col items-start leading-tight">
-                          <span style={{ fontSize: "10px" }}>{parentSet}</span>
-                          <span style={{ fontSize: "13px" }}>{set}</span>
+                          <span style={{ fontSize: "10px", color: "#00008B" }}>
+                            {parentSet}
+                          </span>
+                          <span style={{ fontSize: "13px", color: "#00005C" }}>
+                            {set}
+                          </span>
                         </span>
                       ) : (
                         set
