@@ -1,0 +1,36 @@
+{
+  "name": "Brain mechanisms of Action and Decision",
+  "parent_set": "Brain and Behaviour",
+  "questions": [
+    {
+      "question": "In the voluntary-to-reflexive distinction, which class of movement was said to have timing and spatial organisation mostly controlled autonomously by spinal or brainstem circuitry via central pattern generators?",
+      "options": [
+        "Simple reflexes",
+        "Rhythmic movements",
+        "Voluntary movements",
+        "Motor programs"
+      ],
+      "answer": "Rhythmic movements"
+    },
+    {
+      "question": "Which DBS-related issue was described as easy to identify using a CT scan?",
+      "options": [
+        "progressive loss of dopamine producing nerve cells",
+        "degeneration of medium spiny neurons in the striatum",
+        "loss of acetylcholine receptors at the neuromuscular junction",
+        "displacement or dislodgement of electrodes"
+      ],
+      "answer": "displacement or dislodgement of electrodes"
+    },
+    {
+      "question": "In the lecture, 'motor skill' was defined as the ability to solve a motor problem:",
+      "options": [
+        "only through reflex arcs mediated at spinal cord level",
+        "by maximising force output regardless of context",
+        "correctly, quickly, rationally and resourcefully",
+        "only when continuously guided by visual feedback"
+      ],
+      "answer": "correctly, quickly, rationally and resourcefully"
+    }
+  ]
+}

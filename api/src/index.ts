@@ -350,7 +350,7 @@ app.get("/api/questions", rateLimit(100, 60), async (c) => {
 
 const bulkCreateSchema = z.object({
   name: z.string(),
-  parentSet: z.string().optional(),
+  parent_set: z.string().optional(),
   questions: z.array(
     z.object({
       question: z.string(),
@@ -370,7 +370,7 @@ app.post(
     return parsed.data;
   }),
   async (c) => {
-    const { name: topic, parentSet, questions } = c.req.valid("json");
+    const { name: topic, parent_set: parentSet, questions } = c.req.valid("json");
 
     if (questions.length === 0) {
       return c.json({ message: "No questions provided" }, 400);
