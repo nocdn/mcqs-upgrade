@@ -4,6 +4,7 @@ export interface Question {
   options: string[];
   answer: string;
   topic?: string;
+  parentSet?: string | null;
   explanation?: string | null;
   explanationSources?: string[];
 }

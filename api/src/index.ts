@@ -136,12 +136,15 @@ async function createQuestion(
   questionText: string,
   options: string[],
   answer: string,
-  topic: string
+  topic: string,
+  parentSet?: string
 ) {
   try {
     const [newQuestion] = await sql`
-      INSERT INTO questions (question, options, answer, topic)
-      VALUES (${questionText}, ${JSON.stringify(options)}, ${answer}, ${topic})
+      INSERT INTO questions (question, options, answer, topic, parent_set)
+      VALUES (${questionText}, ${JSON.stringify(
+      options
+    )}, ${answer}, ${topic}, ${parentSet || null})
       RETURNING *;
     `;
 
@@ -215,7 +218,9 @@ app.post(
     `;
 
     if (existing?.explanation) {
-      console.log(`[api] Explanation already exists for question ${questionId}`);
+      console.log(
+        `[api] Explanation already exists for question ${questionId}`
+      );
       return c.json({
         explanation: existing.explanation,
         sources: existing.explanation_sources || [],
@@ -270,7 +275,9 @@ app.post("/api/chat", rateLimit(35, 86400), async (c) => {
   } = await c.req.json();
 
   const model = reasoning ? "sonar-reasoning-pro" : "sonar";
-  console.log(`[api] Chat request with reasoning=${reasoning}, model: ${model}`);
+  console.log(
+    `[api] Chat request with reasoning=${reasoning}, model: ${model}`
+  );
 
   const systemPrompt = explanationContext
     ? `You are a helpful assistant helping the user understand an explanation to a quiz question. Here is the explanation they are asking about:\n\n${explanationContext}\n\nAnswer their follow-up questions about this explanation. Be concise and helpful.`
@@ -302,11 +309,12 @@ app.get("/api/questions", rateLimit(100, 60), async (c) => {
           options: unknown;
           answer: string;
           topic: string;
+          parent_set: string | null;
           explanation: string | null;
           explanation_sources: unknown;
         }[]
       >`
-        SELECT id, question, options, answer, topic, explanation, explanation_sources
+        SELECT id, question, options, answer, topic, parent_set, explanation, explanation_sources
         FROM questions
         ${topic ? sql`WHERE topic = ${topic}` : sql``}
         ORDER BY id ASC
@@ -321,6 +329,7 @@ app.get("/api/questions", rateLimit(100, 60), async (c) => {
             : (r.options as string[]),
         answer: r.answer,
         ...(topic ? {} : { topic: r.topic }),
+        parentSet: r.parent_set,
         explanation: r.explanation || null,
         explanationSources:
           typeof r.explanation_sources === "string"
@@ -341,6 +350,7 @@ app.get("/api/questions", rateLimit(100, 60), async (c) => {
 
 const bulkCreateSchema = z.object({
   name: z.string(),
+  parentSet: z.string().optional(),
   questions: z.array(
     z.object({
       question: z.string(),
@@ -360,7 +370,7 @@ app.post(
     return parsed.data;
   }),
   async (c) => {
-    const { name: topic, questions } = c.req.valid("json");
+    const { name: topic, parentSet, questions } = c.req.valid("json");
 
     if (questions.length === 0) {
       return c.json({ message: "No questions provided" }, 400);
@@ -372,6 +382,7 @@ app.post(
         options: JSON.stringify(q.options),
         answer: q.answer,
         topic: topic,
+        parent_set: parentSet || null,
       }));
 
       const result = await sql`

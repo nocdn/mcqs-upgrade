@@ -40,9 +40,15 @@ await sql`
     options JSONB NOT NULL,
     answer TEXT NOT NULL,
     topic TEXT NOT NULL,
+    parent_set TEXT,
     explanation TEXT,
     explanation_sources JSONB
   )
+`;
+
+// Migration: Add parent_set if it doesn't exist
+await sql`
+  ALTER TABLE questions ADD COLUMN IF NOT EXISTS parent_set TEXT
 `;
 
 if (tableExisted) {

@@ -139,6 +139,16 @@ function App() {
     return [...new Set(topics)];
   }, [allQuestions]);
 
+  const setParentMap = useMemo(() => {
+    const map: Record<string, string | null> = {};
+    for (const q of allQuestions) {
+      if (q.topic && q.parentSet && !map[q.topic]) {
+        map[q.topic] = q.parentSet;
+      }
+    }
+    return map;
+  }, [allQuestions]);
+
   const practiceSetNames = useMemo(
     () => practiceSets.map((ps) => ps.name),
     [practiceSets]
@@ -325,6 +335,7 @@ function App() {
               {allSetNames.map((set, index) => {
                 const isPracticeSet = practiceSetNames.includes(set);
                 const isSelected = selectedSet === set;
+                const parentSet = setParentMap[set];
                 return (
                   <motion.div
                     key={set}
@@ -359,7 +370,9 @@ function App() {
                       </div>
                     )}
                     <button
-                      style={{ padding: "0.6em 1.2em" }}
+                      style={{
+                        padding: parentSet ? "0.4em 1.2em" : "0.6em 1.2em",
+                      }}
                       onMouseDown={() => {
                         setSelectedSet(set);
                         setShowingSets(false);
@@ -368,7 +381,14 @@ function App() {
                         isPracticeSet ? "button-practice" : "button-set"
                       } font-medium`}
                     >
-                      {set}
+                      {parentSet ? (
+                        <span className="flex flex-col items-start leading-tight">
+                          <span style={{ fontSize: "10px" }}>{parentSet}</span>
+                          <span style={{ fontSize: "13px" }}>{set}</span>
+                        </span>
+                      ) : (
+                        set
+                      )}
                     </button>
                   </motion.div>
                 );
@@ -496,6 +516,7 @@ function App() {
             <div className="px-4 pb-8 pt-2 flex flex-col gap-2">
               {allSetNames.map((set) => {
                 const isPracticeSet = practiceSetNames.includes(set);
+                const parentSet = setParentMap[set];
                 return (
                   <button
                     key={set}
@@ -508,9 +529,18 @@ function App() {
                     } w-full font-medium text-left ${
                       selectedSet === set ? "ring-2 ring-gray-400" : ""
                     }`}
-                    style={{ padding: "0.75em 1.2em" }}
+                    style={{
+                      padding: parentSet ? "0.5em 1.2em" : "0.75em 1.2em",
+                    }}
                   >
-                    {set}
+                    {parentSet ? (
+                      <span className="flex flex-col items-start leading-tight">
+                        <span style={{ fontSize: "10px" }}>{parentSet}</span>
+                        <span style={{ fontSize: "13px" }}>{set}</span>
+                      </span>
+                    ) : (
+                      set
+                    )}
                   </button>
                 );
               })}
