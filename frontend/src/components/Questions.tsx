@@ -109,6 +109,7 @@ export function Questions({
   const [showProgressDeleted, setShowProgressDeleted] = useState(false);
   const [showMobileProgress, setShowMobileProgress] = useState(false);
   const [summaryDrawerOpen, setSummaryDrawerOpen] = useState(false);
+  const [goToPopoverOpen, setGoToPopoverOpen] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const prevIndexRef = useRef(currentIndex);
 
@@ -359,8 +360,8 @@ export function Questions({
             </div>
             <div className="flex w-full pl-2 pt-1 md:mt-6 gap-6">
               <div
-                onMouseDown={handleExplain}
-                className="flex text-[15px] md:text-base items-center gap-2 cursor-pointer font-rounded font-medium text-gray-600 hover:text-gray-900 transition-colors"
+                // onMouseDown={handleExplain}
+                className="flex text-[15px] md:text-base items-center gap-2 cursor-not-allowed font-rounded font-medium text-gray-400 transition-colors"
               >
                 <IconFullScreen2 size="16px" />
                 Explain
@@ -482,7 +483,7 @@ export function Questions({
               </motion.div>
             )}
           </AnimatePresence>
-          <Popover.Root>
+          <Popover.Root open={goToPopoverOpen} onOpenChange={setGoToPopoverOpen}>
             <Popover.Trigger
               id="progress-container"
               className="font-semibold tabular-nums font-rounded opacity-70 w-20 hidden md:flex items-center justify-center cursor-pointer bg-white!"
@@ -523,12 +524,25 @@ export function Questions({
                       />
                     </svg>
                   </Popover.Arrow>
-                  <Popover.Close
-                    onMouseDown={() => setCurrentIndex(0)}
-                    className="font-rounded font-semibold text-sm cursor-pointer hover:opacity-70 transition-opacity bg-white!"
-                  >
-                    Back to first
-                  </Popover.Close>
+                  <div className="font-rounded font-semibold text-sm bg-white!">
+                    Go to <input 
+                      autoFocus 
+                      className="border-shadow ml-1 rounded-sm px-1 py-0.25 focus:outline-none min-w-4" 
+                      min={1} 
+                      max={questions.length}  
+                      style={{fieldSizing: "content"}}
+                      onBlur={() => setGoToPopoverOpen(false)}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter') {
+                          const value = parseInt((e.target as HTMLInputElement).value, 10);
+                          if (!isNaN(value) && value >= 1 && value <= questions.length) {
+                            setCurrentIndex(value - 1);
+                            setGoToPopoverOpen(false);
+                          }
+                        }
+                      }}
+                    />
+                  </div>
                 </Popover.Popup>
               </Popover.Positioner>
             </Popover.Portal>
