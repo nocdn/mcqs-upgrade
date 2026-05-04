@@ -205,6 +205,24 @@ function App() {
     setSelectedSet(practiceSetName);
   };
 
+  const handleDeletePracticeSet = useCallback(
+    (practiceSetName: string) => {
+      setPracticeSets((prev) => {
+        const remaining = prev.filter((ps) => ps.name !== practiceSetName);
+        setSelectedSet((current) => {
+          if (current !== practiceSetName) return current;
+          const stored = getStoredSelectedSet();
+          if (stored && availableSets.includes(stored)) return stored;
+          if (availableSets.length > 0) return availableSets[0];
+          if (remaining.length > 0) return remaining[0].name;
+          return null;
+        });
+        return remaining;
+      });
+    },
+    [availableSets]
+  );
+
   const handleDeleteProgress = useCallback(() => {
     try {
       localStorage.removeItem(ANSWERED_STORAGE_KEY);
@@ -371,7 +389,13 @@ function App() {
                     )}
                     <button
                       style={{
-                        padding: parentSet ? "0.4em 1.2em" : "0.6em 1.2em",
+                        padding: parentSet
+                          ? isPracticeSet
+                            ? "0.4em 0.8em 0.4em 1.2em"
+                            : "0.4em 1.2em"
+                          : isPracticeSet
+                          ? "0.6em 0.8em 0.6em 1.2em"
+                          : "0.6em 1.2em",
                       }}
                       onMouseDown={() => {
                         setSelectedSet(set);
@@ -379,7 +403,9 @@ function App() {
                       }}
                       className={`${
                         isPracticeSet ? "button-practice" : "button-set"
-                      } font-medium`}
+                      } font-medium ${
+                        isPracticeSet ? "flex items-center gap-2" : ""
+                      }`}
                     >
                       {parentSet ? (
                         <span className="flex flex-col items-start leading-tight">
@@ -393,6 +419,20 @@ function App() {
                       ) : (
                         set
                       )}
+                      {isPracticeSet && (
+                        <span
+                          role="button"
+                          aria-label="Delete practice set"
+                          onMouseDown={(e) => {
+                            e.stopPropagation();
+                            e.preventDefault();
+                            handleDeletePracticeSet(set);
+                          }}
+                          className="flex items-center justify-center cursor-pointer"
+                        >
+                          <X size={16} strokeWidth={2.5} />
+                        </span>
+                      )}
                     </button>
                   </motion.div>
                 );
@@ -402,8 +442,11 @@ function App() {
         </AnimatePresence>
         <button
           className="hidden md:flex button-3 items-center justify-center opacity-70 cursor-pointer"
-          style={{ padding: "0.6em" }}
-          onMouseDown={() => setSettingsDrawerOpen(true)}
+          style={{ padding: "0.6em 1em" }}
+          onMouseDown={(e) => {
+            e.currentTarget.blur();
+            setSettingsDrawerOpen(true);
+          }}
         >
           <Settings size={16} />
         </button>
@@ -422,6 +465,9 @@ function App() {
           >
             <div className="mx-auto w-12 h-1.5 shrink-0 rounded-full bg-gray-300 mt-4 mb-2" />
             <Drawer.Title className="sr-only">Settings</Drawer.Title>
+            <Drawer.Description className="sr-only">
+              Settings for question progress and uploading questions.
+            </Drawer.Description>
             <div
               className={`px-4 pb-8 pt-2 flex flex-col gap-2 ${
                 uploadState === "textarea" ? "flex-1 overflow-hidden" : ""
@@ -517,6 +563,9 @@ function App() {
           <Drawer.Content className="fixed bottom-0 left-0 right-0 bg-white rounded-t-xl outline-none flex flex-col">
             <div className="mx-auto w-12 h-1.5 shrink-0 rounded-full bg-gray-300 mt-4 mb-2" />
             <Drawer.Title className="sr-only">Select a Set</Drawer.Title>
+            <Drawer.Description className="sr-only">
+              Choose which question set to practice.
+            </Drawer.Description>
             <div className="px-4 pb-8 pt-2 flex flex-col gap-2">
               {allSetNames.map((set) => {
                 const isPracticeSet = practiceSetNames.includes(set);
@@ -532,9 +581,17 @@ function App() {
                       isPracticeSet ? "button-practice" : "button-3"
                     } w-full font-medium text-left ${
                       selectedSet === set ? "ring-2 ring-gray-400" : ""
+                    } ${
+                      isPracticeSet ? "flex items-center justify-between gap-2" : ""
                     }`}
                     style={{
-                      padding: parentSet ? "0.5em 1.2em" : "0.75em 1.2em",
+                      padding: parentSet
+                        ? isPracticeSet
+                          ? "0.5em 0.8em 0.5em 1.2em"
+                          : "0.5em 1.2em"
+                        : isPracticeSet
+                        ? "0.75em 0.8em 0.75em 1.2em"
+                        : "0.75em 1.2em",
                     }}
                   >
                     {parentSet ? (
@@ -543,7 +600,21 @@ function App() {
                         <span style={{ fontSize: "13px" }}>{set}</span>
                       </span>
                     ) : (
-                      set
+                      <span>{set}</span>
+                    )}
+                    {isPracticeSet && (
+                      <span
+                        role="button"
+                        aria-label="Delete practice set"
+                        onMouseDown={(e) => {
+                          e.stopPropagation();
+                          e.preventDefault();
+                          handleDeletePracticeSet(set);
+                        }}
+                        className="flex items-center justify-center cursor-pointer"
+                      >
+                        <X size={16} strokeWidth={2.5} />
+                      </span>
                     )}
                   </button>
                 );
@@ -552,14 +623,16 @@ function App() {
           </Drawer.Content>
         </Drawer.Portal>
       </Drawer.Root>
-      <Questions
-        questions={filteredQuestions}
-        setTitle={currentSetName}
-        onOpenMobileSets={() => setMobileDrawerOpen(true)}
-        onCreatePracticeSet={handleCreatePracticeSet}
-        isPracticeMode={practiceSetNames.includes(currentSetName)}
-        progressDeletedFlag={progressDeletedFlag}
-      />
+      <div className="flex-1 min-h-0 w-full overflow-hidden">
+        <Questions
+          questions={filteredQuestions}
+          setTitle={currentSetName}
+          onOpenMobileSets={() => setMobileDrawerOpen(true)}
+          onCreatePracticeSet={handleCreatePracticeSet}
+          isPracticeMode={practiceSetNames.includes(currentSetName)}
+          progressDeletedFlag={progressDeletedFlag}
+        />
+      </div>
     </div>
   );
 }

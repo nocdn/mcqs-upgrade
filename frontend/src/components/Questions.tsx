@@ -6,20 +6,7 @@ import NumberFlow from "@number-flow/react";
 import IconFullScreen2 from "@/icons/full-screen";
 import IconCheck from "@/icons/check";
 import { Drawer } from "vaul";
-import { Loader2, CornerDownLeft } from "lucide-react";
-import { useChat } from "@ai-sdk/react";
-import { DefaultChatTransport } from "ai";
-import Markdown from "react-markdown";
-import {
-  PromptInput,
-  PromptInputBody,
-  PromptInputTextarea,
-  PromptInputFooter,
-  PromptInputTools,
-  type PromptInputMessage,
-} from "@/components/ai-elements/prompt-input";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Label } from "@/components/ui/label";
+import { Loader } from "lucide-react";
 
 const ANSWERED_STORAGE_KEY = "mcqs-answered-questions";
 const SET_POSITION_STORAGE_KEY = "mcqs-set-positions";
@@ -55,7 +42,7 @@ function getAnsweredQuestions(): Map<number, number> {
         return new Map(parsed.map((id: number) => [id, -1]));
       }
       return new Map(
-        Object.entries(parsed).map(([k, v]) => [Number(k), v as number])
+        Object.entries(parsed).map(([k, v]) => [Number(k), v as number]),
       );
     }
   } catch (e) {
@@ -70,7 +57,7 @@ function saveAnsweredQuestion(questionId: number, selectedIndex: number): void {
     answered.set(questionId, selectedIndex);
     localStorage.setItem(
       ANSWERED_STORAGE_KEY,
-      JSON.stringify(Object.fromEntries(answered))
+      JSON.stringify(Object.fromEntries(answered)),
     );
   } catch (e) {
     console.error("Failed to save answered question to localStorage:", e);
@@ -81,10 +68,32 @@ interface QuestionsProps {
   questions: Question[];
   setTitle: string;
   onOpenMobileSets?: () => void;
-  onCreatePracticeSet?: (originalSetName: string, wrongQuestions: Question[]) => void;
+  onCreatePracticeSet?: (
+    originalSetName: string,
+    wrongQuestions: Question[],
+  ) => void;
   isPracticeMode?: boolean;
   progressDeletedFlag?: number;
 }
+
+type ExplanationStatus =
+  | "processing"
+  | "searching"
+  | "streaming"
+  | "done"
+  | "error";
+
+interface ExplanationState {
+  questionId: number;
+  text: string;
+  status: ExplanationStatus;
+  visible: boolean;
+}
+
+type ExplanationStreamEvent =
+  | { type: "status"; value: Exclude<ExplanationStatus, "done" | "error"> }
+  | { type: "text"; value: string }
+  | { type: "error"; value: string };
 
 export function Questions({
   questions,
@@ -100,38 +109,25 @@ export function Questions({
   const [answeredQuestions, setAnsweredQuestions] = useState<
     Map<number, number>
   >(() => getAnsweredQuestions());
-  const [explainDialogOpen, setExplainDialogOpen] = useState(false);
-  const [explanation, setExplanation] = useState<string | null>(null);
-  const [explanationSources, setExplanationSources] = useState<string[]>([]);
-  const [loadingExplanation, setLoadingExplanation] = useState(false);
-  const [thinkHarder, setThinkHarder] = useState(false);
+  const [explanationState, setExplanationState] =
+    useState<ExplanationState | null>(null);
   const [showProgressRestored, setShowProgressRestored] = useState(false);
   const [showProgressDeleted, setShowProgressDeleted] = useState(false);
   const [showMobileProgress, setShowMobileProgress] = useState(false);
   const [summaryDrawerOpen, setSummaryDrawerOpen] = useState(false);
   const [goToPopoverOpen, setGoToPopoverOpen] = useState(false);
-  const messagesEndRef = useRef<HTMLDivElement>(null);
+  const [isDesktop, setIsDesktop] = useState(false);
   const prevIndexRef = useRef(currentIndex);
 
   const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8787";
 
-  const { messages, sendMessage, status, setMessages } = useChat({
-    transport: new DefaultChatTransport({
-      api: `${API_URL}/api/chat`,
-      body: {
-        reasoning: thinkHarder,
-        explanationContext: explanation,
-      },
-    }),
-  });
-
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  };
-
   useEffect(() => {
-    scrollToBottom();
-  }, [messages]);
+    const media = window.matchMedia("(min-width: 768px)");
+    const updateIsDesktop = () => setIsDesktop(media.matches);
+    updateIsDesktop();
+    media.addEventListener("change", updateIsDesktop);
+    return () => media.removeEventListener("change", updateIsDesktop);
+  }, []);
 
   useEffect(() => {
     const positions = getSetPositions();
@@ -180,10 +176,10 @@ export function Questions({
   const previousAnswer = currentQuestion
     ? isPracticeMode
       ? null
-      : answeredQuestions.get(currentQuestion.id) ?? null
+      : (answeredQuestions.get(currentQuestion.id) ?? null)
     : null;
   const correctAnswerIndex = currentQuestion?.options.indexOf(
-    currentQuestion.answer
+    currentQuestion.answer,
   );
 
   const isLastQuestion = currentIndex === questions.length - 1;
@@ -204,7 +200,26 @@ export function Questions({
         }
       }
     }
-    return { correctCount: correct, incorrectCount: incorrect, wrongQuestions: wrong };
+    return {
+      correctCount: correct,
+      incorrectCount: incorrect,
+      wrongQuestions: wrong,
+    };
+  })();
+
+  const isExplanationForCurrent =
+    !!explanationState &&
+    !!currentQuestion &&
+    explanationState.questionId === currentQuestion.id;
+  const isExplanationVisibleHere =
+    isExplanationForCurrent && explanationState!.visible;
+  const showInlineExplanation = isDesktop && isExplanationVisibleHere;
+  const showMobileExplanationDrawer = !isDesktop && isExplanationVisibleHere;
+  const explainButtonLabel = (() => {
+    if (!isExplanationVisibleHere) return "Explain";
+    if (explanationState!.status === "processing") return "Explain (Processing)";
+    if (explanationState!.status === "searching") return "Explain (Searching)";
+    return "Close";
   })();
 
   const handleOptionClick = (index: number) => {
@@ -212,53 +227,148 @@ export function Questions({
       setSelectedAnswer(index);
       saveAnsweredQuestion(currentQuestion.id, index);
       setAnsweredQuestions((prev) =>
-        new Map(prev).set(currentQuestion.id, index)
+        new Map(prev).set(currentQuestion.id, index),
       );
     }
   };
 
-  const handleExplain = async () => {
-    if (!currentQuestion) return;
-
-    setExplainDialogOpen(true);
-    setLoadingExplanation(true);
-    setExplanation(null);
-    setExplanationSources([]);
-    setMessages([]);
-
-    if (currentQuestion.explanation) {
-      setExplanation(currentQuestion.explanation);
-      setExplanationSources(currentQuestion.explanationSources || []);
-      setLoadingExplanation(false);
-      return;
-    }
+  const startExplanationStream = async (question: Question) => {
+    const questionId = question.id;
+    setExplanationState({
+      questionId,
+      text: "",
+      status: "processing",
+      visible: true,
+    });
 
     try {
       const response = await fetch(`${API_URL}/api/explain`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          questionId: currentQuestion.id,
-          question: currentQuestion.question,
-          answer: currentQuestion.answer,
+          questionId,
+          question: question.question,
+          answer: question.answer,
         }),
       });
 
-      if (!response.ok) {
+      if (!response.ok || !response.body) {
         throw new Error("Failed to get explanation");
       }
 
-      const data = await response.json();
-      setExplanation(data.explanation);
-      setExplanationSources(data.sources || []);
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder();
+      let accumulated = "";
+      let buffer = "";
+      let streamFailed = false;
+
+      const handleStreamLine = (line: string) => {
+        if (!line.trim()) return;
+        const event = JSON.parse(line) as ExplanationStreamEvent;
+
+        if (event.type === "status") {
+          console.log(`[explain] ${event.value}`);
+          setExplanationState((prev) => {
+            if (!prev || prev.questionId !== questionId) return prev;
+            return { ...prev, status: event.value };
+          });
+          return;
+        }
+
+        if (event.type === "text") {
+          accumulated += event.value;
+          setExplanationState((prev) => {
+            if (!prev || prev.questionId !== questionId) return prev;
+            return { ...prev, text: accumulated, status: "streaming" };
+          });
+          return;
+        }
+
+        streamFailed = true;
+        console.error("[explain] stream error:", event.value);
+        setExplanationState((prev) => {
+          if (!prev || prev.questionId !== questionId) return prev;
+          return {
+            ...prev,
+            status: "error",
+            text: "Failed to load explanation. Please try again.",
+          };
+        });
+      };
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        const chunk = decoder.decode(value, { stream: true });
+        if (!chunk) continue;
+        buffer += chunk;
+        const lines = buffer.split("\n");
+        buffer = lines.pop() || "";
+        for (const line of lines) {
+          handleStreamLine(line);
+        }
+      }
+
+      buffer += decoder.decode();
+      if (buffer.trim()) {
+        handleStreamLine(buffer);
+      }
+
+      if (!streamFailed) {
+        setExplanationState((prev) => {
+          if (!prev || prev.questionId !== questionId) return prev;
+          return { ...prev, text: accumulated, status: "done" };
+        });
+      }
     } catch (error) {
       console.error("Error getting explanation:", error);
-      setExplanation("Failed to load explanation. Please try again.");
-    } finally {
-      setLoadingExplanation(false);
+      setExplanationState((prev) => {
+        if (!prev || prev.questionId !== questionId) return prev;
+        return {
+          ...prev,
+          status: "error",
+          text: "Failed to load explanation. Please try again.",
+        };
+      });
     }
+  };
+
+  const handleExplain = () => {
+    if (!currentQuestion) return;
+
+    const isCurrent =
+      explanationState && explanationState.questionId === currentQuestion.id;
+
+    if (isCurrent && explanationState!.visible) {
+      setExplanationState({ ...explanationState!, visible: false });
+      return;
+    }
+
+    if (isCurrent && !explanationState!.visible) {
+      setExplanationState({ ...explanationState!, visible: true });
+      return;
+    }
+
+    if (currentQuestion.explanation) {
+      setExplanationState({
+        questionId: currentQuestion.id,
+        text: currentQuestion.explanation,
+        status: "done",
+        visible: true,
+      });
+      return;
+    }
+
+    startExplanationStream(currentQuestion);
+  };
+
+  const handleExplanationDrawerChange = (open: boolean) => {
+    setExplanationState((prev) => {
+      if (!prev || !currentQuestion || prev.questionId !== currentQuestion.id) {
+        return prev;
+      }
+      return { ...prev, visible: open };
+    });
   };
 
   const handleNext = () => {
@@ -298,9 +408,33 @@ export function Questions({
     return <div className="opacity-0">No questions found.</div>;
   }
 
+  const explanationContent = explanationState ? (
+    <>
+      {explanationState.status === "processing" ||
+      explanationState.status === "searching" ? (
+        <div className="flex items-center gap-2 text-gray-400 py-2">
+          <Loader className="size-4 animate-spin" />
+          <span className="text-sm font-medium">
+            {explanationState.status === "searching"
+              ? "Searching..."
+              : "Loading explanation..."}
+          </span>
+        </div>
+      ) : (
+        <p
+          className={`m-0 whitespace-pre-wrap break-words text-[0.92rem] md:text-base font-medium leading-relaxed ${
+            explanationState.status === "error" ? "text-red-500" : "text-[#0A0A0A]"
+          }`}
+        >
+          {explanationState.text}
+        </p>
+      )}
+    </>
+  ) : null;
+
   return (
-    <div className="flex flex-col items-center w-full max-w-4xl mx-auto md:mt-3 pt-4 p-6 md:pt-6 h-full">
-      <div className="w-full">
+    <div className="flex flex-col items-center w-full max-w-4xl mx-auto md:mt-3 pt-4 p-6 pb-8 md:pt-6 h-full min-h-0 overflow-hidden">
+      <div className="w-full shrink-0">
         <AnimatePresence mode="popLayout" custom={direction}>
           <motion.div
             key={currentIndex}
@@ -359,13 +493,14 @@ export function Questions({
               })}
             </div>
             <div className="flex w-full pl-2 pt-1 md:mt-6 gap-6">
-              <div
-                // onMouseDown={handleExplain}
-                className="flex text-[15px] md:text-base items-center gap-2 cursor-not-allowed font-rounded font-medium text-gray-400 transition-colors"
+              <button
+                type="button"
+                onClick={handleExplain}
+                className="flex items-center gap-2 border-0 bg-transparent p-0 text-[15px] md:text-base cursor-pointer font-rounded font-medium text-gray-500 hover:text-gray-700 appearance-none"
               >
                 <IconFullScreen2 size="16px" />
-                Explain
-              </div>
+                {explainButtonLabel}
+              </button>
               {isAlreadyAnswered && (
                 <div className="flex text-[15px] md:text-base items-center gap-2 font-rounded font-medium text-[#31903f]">
                   <IconCheck size="16px" strokeWidth={4} color="#31903f" />
@@ -377,8 +512,14 @@ export function Questions({
         </AnimatePresence>
       </div>
 
+      {showInlineExplanation && (
+        <div className="flex-1 basis-0 min-h-0 w-full mt-2 overflow-y-auto overscroll-contain px-2">
+          {explanationContent}
+        </div>
+      )}
+
       <div
-        className="flex gap-4 pt-0 md:pt-4 mt-auto items-center"
+        className="flex shrink-0 gap-4 pt-0 md:pt-4 mt-auto items-center"
         style={{ fontWeight: 700 }}
       >
         <button
@@ -483,7 +624,10 @@ export function Questions({
               </motion.div>
             )}
           </AnimatePresence>
-          <Popover.Root open={goToPopoverOpen} onOpenChange={setGoToPopoverOpen}>
+          <Popover.Root
+            open={goToPopoverOpen}
+            onOpenChange={setGoToPopoverOpen}
+          >
             <Popover.Trigger
               id="progress-container"
               className="font-semibold tabular-nums font-rounded opacity-70 w-20 hidden md:flex items-center justify-center cursor-pointer bg-white!"
@@ -525,17 +669,25 @@ export function Questions({
                     </svg>
                   </Popover.Arrow>
                   <div className="font-rounded font-semibold text-sm bg-white!">
-                    Go to <input 
-                      autoFocus 
-                      className="border-shadow ml-1 rounded-sm px-1 py-0.25 focus:outline-none min-w-4" 
-                      min={1} 
-                      max={questions.length}  
-                      style={{fieldSizing: "content"}}
+                    Go to{" "}
+                    <input
+                      autoFocus
+                      className="border-shadow ml-1 rounded-sm px-1 py-0.25 focus:outline-none min-w-4"
+                      min={1}
+                      max={questions.length}
+                      style={{ fieldSizing: "content" }}
                       onBlur={() => setGoToPopoverOpen(false)}
                       onKeyDown={(e) => {
-                        if (e.key === 'Enter') {
-                          const value = parseInt((e.target as HTMLInputElement).value, 10);
-                          if (!isNaN(value) && value >= 1 && value <= questions.length) {
+                        if (e.key === "Enter") {
+                          const value = parseInt(
+                            (e.target as HTMLInputElement).value,
+                            10,
+                          );
+                          if (
+                            !isNaN(value) &&
+                            value >= 1 &&
+                            value <= questions.length
+                          ) {
                             setCurrentIndex(value - 1);
                             setGoToPopoverOpen(false);
                           }
@@ -586,178 +738,27 @@ export function Questions({
         </button>
       </div>
 
-      <Drawer.Root
-        open={explainDialogOpen}
-        onOpenChange={setExplainDialogOpen}
-        shouldScaleBackground
-      >
-        <Drawer.Portal>
-          <Drawer.Overlay className="fixed inset-0 bg-black/40" />
-          <Drawer.Content className="fixed bottom-0 left-0 right-0 h-[89vh] bg-white rounded-t-xl outline-none flex flex-col">
-            <div className="mx-auto w-12 h-1.5 shrink-0 rounded-full bg-gray-300 mt-4 mb-2" />
-            <Drawer.Title className="sr-only">Explanation</Drawer.Title>
-
-            <div className="flex-1 overflow-y-auto px-6 pb-4">
-              {loadingExplanation ? (
-                <div className="flex items-center justify-center py-12">
-                  <Loader2 className="size-6 animate-spin text-gray-400" />
-                </div>
-              ) : explanation ? (
-                <div className="prose prose-sm max-w-none">
-                  <Markdown>{explanation}</Markdown>
-
-                  {explanationSources.length > 0 && (
-                    <div className="mt-6 pt-4 border-t border-gray-100">
-                      <p className="text-xs font-medium text-gray-500 mb-2">
-                        Sources
-                      </p>
-                      <div className="flex flex-wrap gap-2">
-                        {explanationSources.map((source, idx) => (
-                          <a
-                            key={idx}
-                            href={source}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-flex items-center justify-center size-6 rounded-full bg-gray-100 text-xs font-medium text-gray-600 hover:bg-gray-200 transition-colors no-underline"
-                          >
-                            {idx + 1}
-                          </a>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-                </div>
-              ) : null}
-
-              {messages.length > 0 && (
-                <div className="mt-6 pt-4 border-t border-gray-100 space-y-4">
-                  {messages.map((message) => (
-                    <div
-                      key={message.id}
-                      className={`${
-                        message.role === "user"
-                          ? "ml-auto bg-gray-100 rounded-2xl px-4 py-2 max-w-[85%] w-fit"
-                          : "prose prose-sm max-w-none"
-                      }`}
-                    >
-                      {message.role === "user" ? (
-                        <p className="text-sm">
-                          {message.parts?.find((p) => p.type === "text")
-                            ?.text || ""}
-                        </p>
-                      ) : (
-                        <>
-                          <Markdown>
-                            {message.parts
-                              ?.filter((p) => p.type === "text")
-                              .map(
-                                (p) =>
-                                  (p as { type: "text"; text: string }).text
-                              )
-                              .join("") || ""}
-                          </Markdown>
-                          {(() => {
-                            const sources =
-                              message.parts
-                                ?.filter((p) => p.type === "source-url")
-                                .map(
-                                  (p) =>
-                                    (p as { type: "source-url"; url: string })
-                                      .url
-                                ) || [];
-                            if (sources.length === 0) return null;
-                            return (
-                              <div className="mt-3 pt-3 border-t border-gray-100 not-prose">
-                                <p className="text-xs font-medium text-gray-500 mb-2">
-                                  Sources
-                                </p>
-                                <div className="flex flex-wrap gap-2">
-                                  {sources.map((source, idx) => (
-                                    <a
-                                      key={idx}
-                                      href={source}
-                                      target="_blank"
-                                      rel="noopener noreferrer"
-                                      className="inline-flex items-center justify-center size-6 rounded-full bg-gray-100 text-xs font-medium text-gray-600 hover:bg-gray-200 transition-colors no-underline"
-                                    >
-                                      {idx + 1}
-                                    </a>
-                                  ))}
-                                </div>
-                              </div>
-                            );
-                          })()}
-                        </>
-                      )}
-                    </div>
-                  ))}
-                  {status === "streaming" &&
-                    messages[messages.length - 1]?.role !== "assistant" && (
-                      <div className="flex items-center gap-2 text-gray-400">
-                        <Loader2 className="size-4 animate-spin" />
-                        <span className="text-sm">Thinking...</span>
-                      </div>
-                    )}
-                  <div ref={messagesEndRef} />
-                </div>
-              )}
-            </div>
-
-            <div className="px-6 py-4 border-t border-gray-100 bg-white">
-              <PromptInput
-                onSubmit={(message: PromptInputMessage) => {
-                  if (message.text?.trim()) {
-                    sendMessage({ text: message.text });
-                  }
-                }}
-                className="border rounded-xl"
-              >
-                <PromptInputBody>
-                  <PromptInputTextarea
-                    placeholder="Ask a follow-up question..."
-                    disabled={loadingExplanation}
-                  />
-                </PromptInputBody>
-                <PromptInputFooter>
-                  <PromptInputTools>
-                    <div className="flex items-center gap-2">
-                      <Checkbox
-                        id="think-harder"
-                        checked={thinkHarder}
-                        onCheckedChange={(checked) => {
-                          const val = Boolean(checked);
-                          setThinkHarder(val);
-                          console.log("Think Harder toggled:", val);
-                        }}
-                      />
-                      <Label
-                        htmlFor="think-harder"
-                        className="text-sm font-medium text-gray-600 cursor-pointer select-none"
-                      >
-                        Think Harder
-                      </Label>
-                    </div>
-                  </PromptInputTools>
-                  <button
-                    type="submit"
-                    disabled={loadingExplanation || status !== "ready"}
-                    className="flex items-center justify-center rounded-xl transition-opacity disabled:opacity-60 text-white"
-                    style={{ backgroundColor: "#006BFF", padding: "8px 8px" }}
-                  >
-                    {status === "streaming" ? (
-                      <Loader2 className="size-4 text-white animate-spin" />
-                    ) : (
-                      <>
-                        <CornerDownLeft className="size-4" />
-                      </>
-                    )}
-                  </button>
-                </PromptInputFooter>
-              </PromptInput>
-            </div>
-          </Drawer.Content>
-        </Drawer.Portal>
-      </Drawer.Root>
+      {!isDesktop && (
+        <Drawer.Root
+          open={showMobileExplanationDrawer}
+          onOpenChange={handleExplanationDrawerChange}
+          shouldScaleBackground
+        >
+          <Drawer.Portal>
+            <Drawer.Overlay className="fixed inset-0 bg-black/40" />
+            <Drawer.Content className="fixed bottom-0 left-0 right-0 h-[76vh] bg-white rounded-t-xl outline-none flex flex-col">
+              <div className="mx-auto w-12 h-1.5 shrink-0 rounded-full bg-gray-300 mt-4 mb-2" />
+              <Drawer.Title className="sr-only">Explanation</Drawer.Title>
+              <Drawer.Description className="sr-only">
+                Explanation for the current question.
+              </Drawer.Description>
+              <div className="flex-1 min-h-0 overflow-y-auto overscroll-contain px-6 pb-8 pt-2">
+                {explanationContent}
+              </div>
+            </Drawer.Content>
+          </Drawer.Portal>
+        </Drawer.Root>
+      )}
 
       <Drawer.Root
         open={summaryDrawerOpen}
@@ -769,6 +770,9 @@ export function Questions({
           <Drawer.Content className="fixed bottom-0 left-0 right-0 bg-white rounded-t-xl outline-none flex flex-col">
             <div className="mx-auto w-12 h-1.5 shrink-0 rounded-full bg-gray-300 mt-4 mb-2" />
             <Drawer.Title className="sr-only">Summary</Drawer.Title>
+            <Drawer.Description className="sr-only">
+              Summary of your answers for this question set.
+            </Drawer.Description>
 
             <div className="flex flex-col items-center justify-center py-12 px-6">
               <div className="flex flex-col gap-3 text-lg font-semibold font-rounded">
@@ -802,7 +806,9 @@ export function Questions({
                 }}
                 disabled={wrongQuestions.length === 0}
                 className={`button-practice mt-8 px-6 py-3 font-semibold ${
-                  wrongQuestions.length === 0 ? "opacity-50 cursor-not-allowed" : ""
+                  wrongQuestions.length === 0
+                    ? "opacity-50 cursor-not-allowed"
+                    : ""
                 }`}
               >
                 Practice wrong only

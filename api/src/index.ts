@@ -4,14 +4,83 @@ import { sql } from "./db";
 import { getCached, invalidateCache, checkRateLimit } from "./redis";
 import { z } from "zod";
 import { validator } from "hono/validator";
-import {
-  generateText,
-  streamText,
-  convertToModelMessages,
-  UIMessage,
-} from "ai";
-import { perplexity } from "@ai-sdk/perplexity";
+import { streamText, tool, stepCountIs } from "ai";
+import { openai } from "@ai-sdk/openai";
 import type { Context, Next } from "hono";
+
+function intFromEnv(name: string, fallback: number, min: number, max?: number) {
+  const parsed = parseInt(process.env[name] || "", 10);
+  const value = Number.isFinite(parsed) ? parsed : fallback;
+  return Math.min(max ?? value, Math.max(min, value));
+}
+
+const OPENAI_MODEL = process.env.OPENAI_MODEL || "gpt-5.4-mini";
+const OPENAI_REASONING_EFFORT = (process.env.OPENAI_REASONING_EFFORT ||
+  "high") as "none" | "minimal" | "low" | "medium" | "high" | "xhigh";
+const EXA_SEARCH_TYPE = process.env.EXA_SEARCH_TYPE || "auto";
+const EXPLAIN_MAX_SEARCHES = intFromEnv("EXPLAIN_MAX_SEARCHES", 10, 1, 10);
+const EXPLAIN_RESULTS_PER_SEARCH = intFromEnv(
+  "EXPLAIN_RESULTS_PER_SEARCH",
+  5,
+  1,
+  100
+);
+const EXPLAIN_MAX_CHARS = intFromEnv("EXPLAIN_MAX_CHARS", 35000, 100);
+const EXPLAIN_TRACE_LOGS = process.env.EXPLAIN_TRACE_LOGS !== "false";
+const EXPLAIN_LOG_SNIPPET_CHARS = intFromEnv(
+  "EXPLAIN_LOG_SNIPPET_CHARS",
+  260,
+  40,
+  2000
+);
+
+function logExplainTrace(message: string) {
+  if (EXPLAIN_TRACE_LOGS) {
+    console.log(message);
+  }
+}
+
+function compactForLog(value: string, maxChars = EXPLAIN_LOG_SNIPPET_CHARS) {
+  const compacted = value.replace(/\s+/g, " ").trim();
+  if (compacted.length <= maxChars) return compacted;
+  return `${compacted.slice(0, maxChars)}...`;
+}
+
+interface ExaResult {
+  title?: string;
+  url?: string;
+  text?: string;
+  publishedDate?: string | null;
+  author?: string | null;
+}
+
+async function exaSearch(query: string): Promise<ExaResult[]> {
+  const apiKey = process.env.EXA_API_KEY;
+  if (!apiKey) {
+    throw new Error("EXA_API_KEY is not set");
+  }
+  const response = await fetch("https://api.exa.ai/search", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "x-api-key": apiKey,
+    },
+    body: JSON.stringify({
+      query,
+      type: EXA_SEARCH_TYPE,
+      numResults: EXPLAIN_RESULTS_PER_SEARCH,
+      contents: {
+        text: { maxCharacters: EXPLAIN_MAX_CHARS },
+      },
+    }),
+  });
+  if (!response.ok) {
+    const body = await response.text().catch(() => "");
+    throw new Error(`Exa search failed (${response.status}): ${body}`);
+  }
+  const data = (await response.json()) as { results?: ExaResult[] };
+  return data.results || [];
+}
 
 const app = new Hono();
 
@@ -217,82 +286,282 @@ app.post(
       WHERE id = ${questionId}
     `;
 
+    const encoder = new TextEncoder();
+
+    function sendEvent(
+      controller: ReadableStreamDefaultController<Uint8Array>,
+      event:
+        | { type: "status"; value: "processing" | "searching" | "streaming" }
+        | { type: "text"; value: string }
+        | { type: "error"; value: string }
+    ) {
+      controller.enqueue(encoder.encode(JSON.stringify(event) + "\n"));
+    }
+
     if (existing?.explanation) {
       console.log(
-        `[api] Explanation already exists for question ${questionId}`
+        `[explain] Cached explanation found for question ${questionId} - returning without LLM call`
       );
-      return c.json({
-        explanation: existing.explanation,
-        sources: existing.explanation_sources || [],
+      const cached = existing.explanation as string;
+      const stream = new ReadableStream<Uint8Array>({
+        start(controller) {
+          sendEvent(controller, { type: "text", value: cached });
+          controller.close();
+        },
+      });
+      return new Response(stream, {
+        headers: {
+          "Content-Type": "application/x-ndjson; charset=utf-8",
+          "Cache-Control": "no-cache",
+        },
       });
     }
 
-    const prompt = `In simple terms, please explain why "${answer}" is the correct answer to this question: "${question}". Do NOT use any sort of markdown formatting. Cite multiple sources. Do not start the explanation with anything like "Explanation: ", just start the explanation.`;
+    console.log(
+      `[explain] Starting agentic explanation for question ${questionId}`
+    );
+    console.log(
+      `[explain] Config: model=${OPENAI_MODEL}, reasoningEffort=${OPENAI_REASONING_EFFORT}, searchType=${EXA_SEARCH_TYPE}, maxSearches=${EXPLAIN_MAX_SEARCHES}, resultsPerSearch=${EXPLAIN_RESULTS_PER_SEARCH}, maxChars=${EXPLAIN_MAX_CHARS}, traceLogs=${EXPLAIN_TRACE_LOGS}, logSnippetChars=${EXPLAIN_LOG_SNIPPET_CHARS}`
+    );
 
-    const { text, sources } = await generateText({
-      model: perplexity("sonar-reasoning-pro"),
-      prompt,
-      providerOptions: {
-        perplexity: {
-          web_search_options: {
-            search_context_size: "high",
-          },
-        },
+    const defaultSystemPrompt = `You are a careful research assistant whose job is to explain why a given answer to a quiz question is correct.
+
+You have access to one tool, "search", which queries Exa AI's web search and returns up to ${EXPLAIN_RESULTS_PER_SEARCH} results per call with text excerpts (capped at ${EXPLAIN_MAX_CHARS} characters per result).
+
+Workflow:
+1. First, plan what authoritative information you need.
+2. You must call the "search" tool at least once before writing the final explanation. Issue one or more focused search queries. You may call it up to ${EXPLAIN_MAX_SEARCHES} times in total. Reuse it for follow-up queries when you need to verify or fill gaps.
+3. Once you have enough grounding, write the final explanation directly as your assistant message text.
+
+Output rules for the final explanation:
+- Plain text only. Do NOT use any markdown formatting (no #, *, _, lists, code fences, etc.).
+- Do NOT prefix the answer with "Explanation:" or similar - start with the explanation itself.
+- Be concise and accurate. Cite multiple sources naturally inside the prose (e.g. "according to ...").
+- Do NOT mention the search tool, your plan, or your reasoning - only the explanation.`;
+
+    const systemPrompt =
+      process.env.EXPLAIN_SYSTEM_PROMPT || defaultSystemPrompt;
+
+    const userPrompt = `Question: "${question}"\n\nCorrect answer: "${answer}"\n\nPlease explain why this answer is correct.`;
+
+    const stream = new ReadableStream<Uint8Array>({
+      async start(controller) {
+        let searchCount = 0;
+        let collectedText = "";
+        let streamedLogBuffer = "";
+        let lastStatus: "processing" | "searching" | "streaming" | null = null;
+
+        const setStatus = (
+          status: "processing" | "searching" | "streaming"
+        ) => {
+          if (lastStatus === status) return;
+          lastStatus = status;
+          console.log(`[explain] Status -> ${status}`);
+          sendEvent(controller, { type: "status", value: status });
+        };
+
+        setStatus("processing");
+
+        try {
+          const result = streamText({
+            model: openai(OPENAI_MODEL),
+            providerOptions: {
+              openai: {
+                reasoningEffort: OPENAI_REASONING_EFFORT,
+              },
+            },
+            system: systemPrompt,
+            prompt: userPrompt,
+            stopWhen: stepCountIs(EXPLAIN_MAX_SEARCHES + 1),
+            prepareStep: ({ steps }) =>
+              steps.length === 0 ? { toolChoice: "required" } : undefined,
+            tools: {
+              search: tool({
+                description:
+                  "Search the web via Exa AI. Use this to gather authoritative context before writing the final explanation. You may call this multiple times.",
+                inputSchema: z.object({
+                  query: z
+                    .string()
+                    .describe(
+                      "A focused natural-language search query for Exa."
+                    ),
+                }),
+                execute: async ({ query }) => {
+                  if (searchCount >= EXPLAIN_MAX_SEARCHES) {
+                    console.log(
+                      `[explain] Search limit reached (${EXPLAIN_MAX_SEARCHES}); rejecting extra tool call`
+                    );
+                    return {
+                      error: `Search limit reached (${EXPLAIN_MAX_SEARCHES})`,
+                    };
+                  }
+                  searchCount++;
+                  logExplainTrace(
+                    `[explain] Tool call #${searchCount}/${EXPLAIN_MAX_SEARCHES}: search query="${compactForLog(query)}"`
+                  );
+                  setStatus("searching");
+                  try {
+                    const results = await exaSearch(query);
+                    console.log(
+                      `[explain] Search #${searchCount} returned ${results.length} result(s)`
+                    );
+                    results.forEach((result, index) => {
+                      logExplainTrace(
+                        `[explain] Search #${searchCount} result ${index + 1}: title="${compactForLog(
+                          result.title || "Untitled",
+                          140
+                        )}" url=${result.url || "unknown"} textChars=${
+                          result.text?.length || 0
+                        }`
+                      );
+                      if (result.text) {
+                        logExplainTrace(
+                          `[explain] Search #${searchCount} result ${
+                            index + 1
+                          } text preview="${compactForLog(result.text)}"`
+                        );
+                      }
+                    });
+                    return results.map((r) => ({
+                      title: r.title || "",
+                      url: r.url || "",
+                      publishedDate: r.publishedDate || null,
+                      author: r.author || null,
+                      text: r.text || "",
+                    }));
+                  } catch (err) {
+                    const msg =
+                      err instanceof Error ? err.message : String(err);
+                    console.log(
+                      `[explain] Search #${searchCount} failed: ${msg}`
+                    );
+                    return { error: msg };
+                  }
+                },
+              }),
+            },
+          });
+
+          for await (const part of result.fullStream) {
+            switch (part.type) {
+              case "tool-call":
+                logExplainTrace(
+                  `[explain] Model issued tool call: ${part.toolName}`
+                );
+                setStatus("searching");
+                break;
+              case "tool-result":
+                logExplainTrace(`[explain] Tool result delivered to model`);
+                setStatus("processing");
+                break;
+              case "tool-error": {
+                const msg =
+                  (part as { error?: unknown }).error instanceof Error
+                    ? (part as { error: Error }).error.message
+                    : String((part as { error?: unknown }).error ?? "unknown");
+                console.log(`[explain] Tool error delivered to model: ${msg}`);
+                setStatus("processing");
+                break;
+              }
+              case "text-delta": {
+                const delta =
+                  (part as { text?: string; delta?: string }).text ??
+                  (part as { text?: string; delta?: string }).delta ??
+                  "";
+                if (!delta) break;
+                setStatus("streaming");
+                collectedText += delta;
+                streamedLogBuffer += delta;
+                if (streamedLogBuffer.length >= EXPLAIN_LOG_SNIPPET_CHARS) {
+                  logExplainTrace(
+                    `[explain] Model output preview: "${compactForLog(
+                      streamedLogBuffer
+                    )}"`
+                  );
+                  streamedLogBuffer = "";
+                }
+                sendEvent(controller, { type: "text", value: delta });
+                break;
+              }
+              case "error": {
+                const msg =
+                  (part as { error?: unknown }).error instanceof Error
+                    ? ((part as { error: Error }).error.message)
+                    : String((part as { error?: unknown }).error ?? "unknown");
+                console.log(`[explain] Stream error event: ${msg}`);
+                sendEvent(controller, { type: "error", value: msg });
+                break;
+              }
+              case "finish":
+                if (streamedLogBuffer.trim()) {
+                  logExplainTrace(
+                    `[explain] Model output preview: "${compactForLog(
+                      streamedLogBuffer
+                    )}"`
+                  );
+                  streamedLogBuffer = "";
+                }
+                console.log(`[explain] Model finished generating`);
+                break;
+              default:
+                break;
+            }
+          }
+
+          const finalText = collectedText.trim();
+          console.log(
+            `[explain] Total searches: ${searchCount}. Final text length: ${finalText.length} chars`
+          );
+          if (finalText) {
+            logExplainTrace(
+              `[explain] Final explanation preview: "${compactForLog(
+                finalText,
+                Math.min(EXPLAIN_LOG_SNIPPET_CHARS * 2, 1200)
+              )}"`
+            );
+          }
+
+          if (finalText) {
+            try {
+              await sql`
+                UPDATE questions
+                SET explanation = ${finalText},
+                    explanation_sources = ${JSON.stringify([])}
+                WHERE id = ${questionId}
+              `;
+              await invalidateCache("questions:*");
+              console.log(
+                `[explain] Saved explanation for question ${questionId}`
+              );
+            } catch (err) {
+              console.log(
+                `[explain] DB save failed: ${
+                  err instanceof Error ? err.message : String(err)
+                }`
+              );
+            }
+          } else {
+            console.log(`[explain] No text produced - skipping DB save`);
+          }
+        } catch (err) {
+          const msg = err instanceof Error ? err.message : String(err);
+          console.log(`[explain] Fatal error: ${msg}`);
+          sendEvent(controller, { type: "error", value: msg });
+        } finally {
+          controller.close();
+        }
       },
     });
 
-    const cleanedText = text.replace(/<think>[\s\S]*?<\/think>\s*/g, "").trim();
-
-    const sourceUrls =
-      sources
-        ?.filter((s) => s.sourceType === "url" && "url" in s)
-        .map((s) => (s as { url: string }).url)
-        .filter(Boolean) || [];
-
-    await sql`
-      UPDATE questions
-      SET explanation = ${cleanedText},
-          explanation_sources = ${JSON.stringify(sourceUrls)}
-      WHERE id = ${questionId}
-    `;
-
-    await invalidateCache("questions:*");
-
-    console.log(`[api] Saved explanation for question ${questionId}`);
-    return c.json({ explanation: cleanedText, sources: sourceUrls });
+    return new Response(stream, {
+      headers: {
+        "Content-Type": "application/x-ndjson; charset=utf-8",
+        "Cache-Control": "no-cache",
+        "X-Content-Type-Options": "nosniff",
+      },
+    });
   }
 );
-
-app.post("/api/chat", rateLimit(35, 86400), async (c) => {
-  const {
-    messages,
-    reasoning,
-    explanationContext,
-  }: {
-    messages: UIMessage[];
-    reasoning?: boolean;
-    explanationContext?: string;
-  } = await c.req.json();
-
-  const model = reasoning ? "sonar-reasoning-pro" : "sonar";
-  console.log(
-    `[api] Chat request with reasoning=${reasoning}, model: ${model}`
-  );
-
-  const systemPrompt = explanationContext
-    ? `You are a helpful assistant helping the user understand an explanation to a quiz question. Here is the explanation they are asking about:\n\n${explanationContext}\n\nAnswer their follow-up questions about this explanation. Be concise and helpful.`
-    : undefined;
-
-  const result = streamText({
-    model: perplexity(model),
-    system: systemPrompt,
-    messages: await convertToModelMessages(messages),
-  });
-
-  return result.toUIMessageStreamResponse({
-    sendSources: true,
-  });
-});
 
 app.get("/api/questions", rateLimit(100, 60), async (c) => {
   const topic = c.req.query("topic");
