@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { Popover } from "@base-ui/react/popover";
 import { AnimatePresence, motion } from "motion/react";
 import type { Question } from "../types";
@@ -7,9 +7,11 @@ import IconFullScreen2 from "@/icons/full-screen";
 import IconCheck from "@/icons/check";
 import { Drawer } from "vaul";
 import { Loader } from "lucide-react";
-
-const ANSWERED_STORAGE_KEY = "mcqs-answered-questions";
-const SET_POSITION_STORAGE_KEY = "mcqs-set-positions";
+import {
+  ANSWERED_STORAGE_KEY,
+  API_URL,
+  SET_POSITION_STORAGE_KEY,
+} from "@/lib/constants";
 
 function getSetPositions(): Record<string, number> {
   try {
@@ -39,7 +41,7 @@ function getAnsweredQuestions(): Map<number, number> {
     if (stored) {
       const parsed = JSON.parse(stored);
       if (Array.isArray(parsed)) {
-        return new Map(parsed.map((id: number) => [id, -1]));
+        return new Map();
       }
       return new Map(
         Object.entries(parsed).map(([k, v]) => [Number(k), v as number]),
@@ -118,8 +120,6 @@ export function Questions({
   const [goToPopoverOpen, setGoToPopoverOpen] = useState(false);
   const [isDesktop, setIsDesktop] = useState(false);
   const prevIndexRef = useRef(currentIndex);
-
-  const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8787";
 
   useEffect(() => {
     const media = window.matchMedia("(min-width: 768px)");
@@ -222,15 +222,19 @@ export function Questions({
     return "Close";
   })();
 
-  const handleOptionClick = (index: number) => {
-    if (selectedAnswer === null && !isAlreadyAnswered) {
+  const handleOptionClick = useCallback(
+    (index: number) => {
+      if (!currentQuestion || selectedAnswer !== null || isAlreadyAnswered) {
+        return;
+      }
       setSelectedAnswer(index);
       saveAnsweredQuestion(currentQuestion.id, index);
       setAnsweredQuestions((prev) =>
         new Map(prev).set(currentQuestion.id, index),
       );
-    }
-  };
+    },
+    [currentQuestion, isAlreadyAnswered, selectedAnswer],
+  );
 
   const startExplanationStream = async (question: Question) => {
     const questionId = question.id;
@@ -371,21 +375,86 @@ export function Questions({
     });
   };
 
-  const handleNext = () => {
+  const handleNext = useCallback(() => {
     if (currentIndex < questions.length - 1) {
       setDirection(1);
       setCurrentIndex((prev) => prev + 1);
       setSelectedAnswer(null);
     }
-  };
+  }, [currentIndex, questions.length]);
 
-  const handlePrevious = () => {
+  const handlePrevious = useCallback(() => {
     if (currentIndex > 0) {
       setDirection(-1);
       setCurrentIndex((prev) => prev - 1);
       setSelectedAnswer(null);
     }
-  };
+  }, [currentIndex]);
+
+  const handleGoToQuestion = useCallback(
+    (rawValue: string) => {
+      const value = Math.round(Number(rawValue));
+      if (!Number.isFinite(value)) return;
+      const clamped = Math.min(Math.max(value, 1), questions.length);
+      const nextIndex = clamped - 1;
+      if (nextIndex !== currentIndex) {
+        setDirection(nextIndex > currentIndex ? 1 : -1);
+        setCurrentIndex(nextIndex);
+        setSelectedAnswer(null);
+      }
+      setGoToPopoverOpen(false);
+    },
+    [currentIndex, questions.length],
+  );
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      const target = e.target as HTMLElement | null;
+      if (
+        target?.closest("input, textarea, select, [contenteditable='true']") ||
+        e.metaKey ||
+        e.ctrlKey ||
+        e.altKey
+      ) {
+        return;
+      }
+
+      if (/^[1-9]$/.test(e.key)) {
+        if (!currentQuestion) return;
+        const optionIndex = Number(e.key) - 1;
+        if (optionIndex < currentQuestion.options.length) {
+          e.preventDefault();
+          handleOptionClick(optionIndex);
+        }
+        return;
+      }
+
+      if (e.key === "ArrowLeft") {
+        e.preventDefault();
+        handlePrevious();
+        return;
+      }
+
+      if (e.key === "ArrowRight") {
+        e.preventDefault();
+        if (isLastQuestion && !isPracticeMode) {
+          setSummaryDrawerOpen(true);
+        } else {
+          handleNext();
+        }
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [
+    currentQuestion,
+    handleNext,
+    handleOptionClick,
+    handlePrevious,
+    isLastQuestion,
+    isPracticeMode,
+  ]);
 
   const variants = {
     enter: (direction: number) => ({
@@ -671,6 +740,8 @@ export function Questions({
                   <div className="font-rounded font-semibold text-sm bg-white!">
                     Go to{" "}
                     <input
+                      type="number"
+                      inputMode="numeric"
                       autoFocus
                       className="border-shadow ml-1 rounded-sm px-1 py-0.25 focus:outline-none min-w-4"
                       min={1}
@@ -679,18 +750,7 @@ export function Questions({
                       onBlur={() => setGoToPopoverOpen(false)}
                       onKeyDown={(e) => {
                         if (e.key === "Enter") {
-                          const value = parseInt(
-                            (e.target as HTMLInputElement).value,
-                            10,
-                          );
-                          if (
-                            !isNaN(value) &&
-                            value >= 1 &&
-                            value <= questions.length
-                          ) {
-                            setCurrentIndex(value - 1);
-                            setGoToPopoverOpen(false);
-                          }
+                          handleGoToQuestion(e.currentTarget.value);
                         }
                       }}
                     />
@@ -798,7 +858,7 @@ export function Questions({
               </div>
 
               <button
-                onMouseDown={() => {
+                onClick={() => {
                   setSummaryDrawerOpen(false);
                   if (onCreatePracticeSet && wrongQuestions.length > 0) {
                     onCreatePracticeSet(setTitle, wrongQuestions);

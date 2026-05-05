@@ -4,11 +4,14 @@ import { AnimatePresence, motion } from "motion/react";
 import { Menu, X, Settings, Loader } from "lucide-react";
 import { Drawer } from "vaul";
 import type { Question, ApiResponse } from "./types";
+import {
+  ANSWERED_STORAGE_KEY,
+  API_URL,
+  PRACTICE_SETS_STORAGE_KEY,
+  SELECTED_SET_STORAGE_KEY,
+} from "@/lib/constants";
 
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8787";
 const IS_DEV = import.meta.env.DEV;
-
-const ANSWERED_STORAGE_KEY = "mcqs-answered-questions";
 
 const PLACEHOLDER_QUESTIONS: Question[] = [
   {
@@ -25,10 +28,8 @@ const PLACEHOLDER_QUESTIONS: Question[] = [
   },
 ];
 
-function isMobileDevice(): boolean {
-  return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-    navigator.userAgent
-  );
+function isTouchOrSmallScreen(): boolean {
+  return window.matchMedia("(pointer: coarse), (max-width: 767px)").matches;
 }
 
 async function generateFingerprint(): Promise<string> {
@@ -67,8 +68,6 @@ interface PracticeSet {
   questions: Question[];
 }
 
-const SELECTED_SET_STORAGE_KEY = "mcqs-selected-set";
-
 function getStoredSelectedSet(): string | null {
   try {
     return localStorage.getItem(SELECTED_SET_STORAGE_KEY);
@@ -85,6 +84,32 @@ function saveSelectedSet(setName: string): void {
   }
 }
 
+function getStoredPracticeSets(): PracticeSet[] {
+  try {
+    const stored = localStorage.getItem(PRACTICE_SETS_STORAGE_KEY);
+    if (!stored) return [];
+    const parsed = JSON.parse(stored);
+    if (!Array.isArray(parsed)) return [];
+    return parsed.filter(
+      (set): set is PracticeSet =>
+        typeof set?.name === "string" && Array.isArray(set.questions)
+    );
+  } catch {
+    return [];
+  }
+}
+
+function savePracticeSets(practiceSets: PracticeSet[]): void {
+  try {
+    localStorage.setItem(
+      PRACTICE_SETS_STORAGE_KEY,
+      JSON.stringify(practiceSets)
+    );
+  } catch {
+    // Silently fail
+  }
+}
+
 type UploadState = "button" | "password" | "textarea";
 
 function App() {
@@ -94,7 +119,8 @@ function App() {
   const [selectedSet, setSelectedSet] = useState<string | null>(null);
   const [showingSets, setShowingSets] = useState(false);
   const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
-  const [practiceSets, setPracticeSets] = useState<PracticeSet[]>([]);
+  const [practiceSets, setPracticeSets] =
+    useState<PracticeSet[]>(getStoredPracticeSets);
   const [settingsDrawerOpen, setSettingsDrawerOpen] = useState(false);
   const [progressDeletedFlag, setProgressDeletedFlag] = useState(0);
   const [uploadState, setUploadState] = useState<UploadState>("button");
@@ -106,16 +132,22 @@ function App() {
     logVisit();
   }, []);
 
-  useEffect(() => {
-    async function fetchQuestions() {
-      if (IS_DEV && isMobileDevice() && !import.meta.env.VITE_API_URL) {
+  const fetchQuestions = useCallback(
+    async ({
+      showLoading = true,
+      throwOnError = false,
+    }: {
+      showLoading?: boolean;
+      throwOnError?: boolean;
+    } = {}) => {
+      if (IS_DEV && isTouchOrSmallScreen() && !import.meta.env.VITE_API_URL) {
         setAllQuestions(PLACEHOLDER_QUESTIONS);
-        setLoading(false);
+        if (showLoading) setLoading(false);
         return;
       }
 
       try {
-        setLoading(true);
+        if (showLoading) setLoading(true);
         const response = await fetch(`${API_URL}/api/questions`);
         if (!response.ok) {
           throw new Error("Failed to fetch questions");
@@ -125,12 +157,19 @@ function App() {
         setError(null);
       } catch (err) {
         setError(err instanceof Error ? err.message : "An error occurred");
+        if (throwOnError) {
+          throw err;
+        }
       } finally {
-        setLoading(false);
+        if (showLoading) setLoading(false);
       }
-    }
+    },
+    []
+  );
+
+  useEffect(() => {
     fetchQuestions();
-  }, []);
+  }, [fetchQuestions]);
 
   const availableSets = useMemo(() => {
     const topics = allQuestions
@@ -160,21 +199,28 @@ function App() {
   );
 
   useEffect(() => {
-    if (availableSets.length > 0 && !selectedSet) {
-      const stored = getStoredSelectedSet();
-      if (stored && availableSets.includes(stored)) {
-        setSelectedSet(stored);
-      } else {
-        setSelectedSet(availableSets[0]);
-      }
+    if (allSetNames.length === 0) {
+      if (selectedSet) setSelectedSet(null);
+      return;
     }
-  }, [availableSets, selectedSet]);
+    if (selectedSet && allSetNames.includes(selectedSet)) {
+      return;
+    }
+    const stored = getStoredSelectedSet();
+    setSelectedSet(
+      stored && allSetNames.includes(stored) ? stored : allSetNames[0]
+    );
+  }, [allSetNames, selectedSet]);
 
   useEffect(() => {
-    if (selectedSet && !practiceSetNames.includes(selectedSet)) {
+    if (selectedSet) {
       saveSelectedSet(selectedSet);
     }
-  }, [selectedSet, practiceSetNames]);
+  }, [selectedSet]);
+
+  useEffect(() => {
+    savePracticeSets(practiceSets);
+  }, [practiceSets]);
 
   const filteredQuestions = useMemo(() => {
     if (!selectedSet) {
@@ -265,11 +311,9 @@ function App() {
         throw new Error("Upload failed");
       }
       await response.json();
+      await fetchQuestions({ showLoading: false, throwOnError: true });
       setUploadStatus("success");
       setJsonInput("");
-      setTimeout(() => {
-        window.location.reload();
-      }, 1500);
     } catch (err) {
       setUploadStatus(
         `Error: ${
@@ -277,7 +321,7 @@ function App() {
         }`
       );
     }
-  }, [jsonInput]);
+  }, [fetchQuestions, jsonInput]);
 
   if (loading) {
     return (
@@ -320,7 +364,7 @@ function App() {
         <button
           className="hidden md:flex button-3 items-center gap-2.5 -translate-x-0.5 opacity-70 cursor-pointer *:cursor-pointer"
           style={{ padding: "0.6em 1.2em" }}
-          onMouseDown={() => setShowingSets(!showingSets)}
+          onClick={() => setShowingSets(!showingSets)}
         >
           <p className="font-medium">Sets</p>
           <AnimatePresence mode="popLayout">
@@ -397,7 +441,7 @@ function App() {
                           ? "0.6em 0.8em 0.6em 1.2em"
                           : "0.6em 1.2em",
                       }}
-                      onMouseDown={() => {
+                      onClick={() => {
                         setSelectedSet(set);
                         setShowingSets(false);
                       }}
@@ -423,7 +467,7 @@ function App() {
                         <span
                           role="button"
                           aria-label="Delete practice set"
-                          onMouseDown={(e) => {
+                          onClick={(e) => {
                             e.stopPropagation();
                             e.preventDefault();
                             handleDeletePracticeSet(set);
@@ -443,7 +487,7 @@ function App() {
         <button
           className="hidden md:flex button-3 items-center justify-center opacity-70 cursor-pointer"
           style={{ padding: "0.6em 1em" }}
-          onMouseDown={(e) => {
+          onClick={(e) => {
             e.currentTarget.blur();
             setSettingsDrawerOpen(true);
           }}
@@ -474,7 +518,7 @@ function App() {
               }`}
             >
               <button
-                onMouseDown={handleDeleteProgress}
+                onClick={handleDeleteProgress}
                 className="button-3 w-full font-medium text-left"
                 style={{ padding: "0.75em 1.2em", height: "48px" }}
               >
@@ -482,7 +526,7 @@ function App() {
               </button>
               {uploadState === "button" && (
                 <button
-                  onMouseDown={() => setUploadState("password")}
+                  onClick={() => setUploadState("password")}
                   className="button-3 w-full font-medium text-left cursor-pointer"
                   style={{ padding: "0.75em 1.2em", height: "48px" }}
                 >
@@ -522,7 +566,7 @@ function App() {
                     className="flex-1 w-full p-4 border-2 border-gray-300 rounded-lg resize-none font-mono font-semibold text-sm outline-none"
                   />
                   <button
-                    onMouseDown={handleUploadQuestions}
+                    onClick={handleUploadQuestions}
                     className="button-3 w-full font-medium mb-0.5"
                     style={{ padding: "0.75em 1.2em" }}
                   >
@@ -573,7 +617,7 @@ function App() {
                 return (
                   <button
                     key={set}
-                    onMouseDown={() => {
+                    onClick={() => {
                       setSelectedSet(set);
                       setMobileDrawerOpen(false);
                     }}
@@ -606,7 +650,7 @@ function App() {
                       <span
                         role="button"
                         aria-label="Delete practice set"
-                        onMouseDown={(e) => {
+                        onClick={(e) => {
                           e.stopPropagation();
                           e.preventDefault();
                           handleDeletePracticeSet(set);
