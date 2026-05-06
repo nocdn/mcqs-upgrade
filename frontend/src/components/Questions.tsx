@@ -565,7 +565,7 @@ export function Questions({
               <button
                 type="button"
                 onClick={handleExplain}
-                className="flex items-center gap-2 border-0 bg-transparent p-0 text-[15px] md:text-base cursor-pointer font-rounded font-medium text-gray-500 hover:text-gray-700 appearance-none"
+                className="flex items-center gap-2 border-0 !bg-transparent p-0 text-[15px] md:text-base cursor-pointer font-rounded font-semibold text-gray-500 hover:!bg-transparent hover:text-gray-700 active:!bg-transparent focus:!bg-transparent appearance-none [&_svg]:!bg-transparent"
               >
                 <IconFullScreen2 size="16px" />
                 {explainButtonLabel}
