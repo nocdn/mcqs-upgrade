@@ -148,11 +148,16 @@ function App() {
 
       try {
         if (showLoading) setLoading(true);
+        const fetchStart = performance.now();
         const response = await fetch(`${API_URL}/api/questions`);
         if (!response.ok) {
           throw new Error("Failed to fetch questions");
         }
         const data: ApiResponse = await response.json();
+        const fetchDuration = performance.now() - fetchStart;
+        console.log(
+          `Fetched ${data.questions.length} questions in ${fetchDuration.toFixed(2)}ms`
+        );
         setAllQuestions(data.questions);
         setError(null);
       } catch (err) {
