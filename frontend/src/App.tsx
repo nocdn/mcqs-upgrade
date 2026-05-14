@@ -328,6 +328,106 @@ function App() {
     }
   }, [fetchQuestions, jsonInput]);
 
+  const settingsDrawer = (
+    <Drawer.Root
+      open={settingsDrawerOpen}
+      onOpenChange={handleSettingsDrawerChange}
+      shouldScaleBackground
+    >
+      <Drawer.Portal>
+        <Drawer.Overlay className="fixed inset-0 bg-black/40" />
+        <Drawer.Content
+          className="fixed bottom-0 left-0 right-0 bg-white rounded-t-xl outline-none flex flex-col"
+          style={uploadState === "textarea" ? { height: "80vh" } : undefined}
+        >
+          <div className="mx-auto w-12 h-1.5 shrink-0 rounded-full bg-gray-300 mt-4 mb-2" />
+          <Drawer.Title className="sr-only">Settings</Drawer.Title>
+          <Drawer.Description className="sr-only">
+            Settings for question progress and uploading questions.
+          </Drawer.Description>
+          <div
+            className={`px-4 pb-8 pt-2 flex flex-col gap-2 ${
+              uploadState === "textarea" ? "flex-1 overflow-hidden" : ""
+            }`}
+          >
+            <button
+              onClick={handleDeleteProgress}
+              className="button-3 w-full font-medium text-left"
+              style={{ padding: "0.75em 1.2em", height: "48px" }}
+            >
+              Delete answered question progress
+            </button>
+            {uploadState === "button" && (
+              <button
+                onClick={() => setUploadState("password")}
+                className="button-3 w-full font-medium text-left cursor-pointer"
+                style={{ padding: "0.75em 1.2em", height: "48px" }}
+              >
+                Upload new questions
+              </button>
+            )}
+            {uploadState === "password" && (
+              <input
+                type="password"
+                placeholder="Password"
+                value={passwordInput}
+                onChange={(e) => setPasswordInput(e.target.value)}
+                onKeyDown={handlePasswordSubmit}
+                autoFocus
+                data-1p-ignore
+                data-bwignore
+                data-lpignore="true"
+                data-form-type="other"
+                className="button-3 w-full font-medium bg-transparent outline-none"
+                style={{ padding: "0.75em 1.2em", height: "48px" }}
+              />
+            )}
+            {uploadState === "textarea" && (
+              <div
+                className="button-3 w-full font-medium flex items-center"
+                style={{ padding: "0.75em 1.2em", height: "48px" }}
+              >
+                Upload new questions
+              </div>
+            )}
+            {uploadState === "textarea" && (
+              <div className="flex flex-col gap-2 flex-1 overflow-hidden">
+                <textarea
+                  placeholder="Paste question JSON here..."
+                  value={jsonInput}
+                  onChange={(e) => setJsonInput(e.target.value)}
+                  className="flex-1 w-full p-4 border-2 border-gray-300 rounded-lg resize-none font-mono font-semibold text-sm outline-none"
+                />
+                <button
+                  onClick={handleUploadQuestions}
+                  className="button-3 w-full font-medium mb-0.5"
+                  style={{ padding: "0.75em 1.2em" }}
+                >
+                  Submit
+                </button>
+                {uploadStatus && (
+                  <div className="flex items-center gap-2">
+                    {uploadStatus === "loading" && (
+                      <Loader size={16} className="animate-spin text-gray-500" />
+                    )}
+                    {uploadStatus === "success" && (
+                      <p className="text-sm text-green-800 font-semibold font-rounded">
+                        Submitted questions
+                      </p>
+                    )}
+                    {uploadStatus.startsWith("Error") && (
+                      <p className="text-sm text-red-500">{uploadStatus}</p>
+                    )}
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+        </Drawer.Content>
+      </Drawer.Portal>
+    </Drawer.Root>
+  );
+
   if (loading) {
     return (
       <div className="h-svh w-screen flex items-center justify-center">
@@ -357,8 +457,27 @@ function App() {
 
   if (allQuestions.length === 0) {
     return (
-      <div className="h-svh w-screen flex items-center justify-center">
-        <p className="text-gray-500 font-medium">No questions found.</p>
+      <div
+        className="h-svh w-screen flex items-center justify-center"
+        data-vaul-drawer-wrapper
+      >
+        <div className="flex flex-col items-center gap-1">
+          <p className="text-gray-500 font-medium">No questions found.</p>
+          <button
+            type="button"
+            className="bg-transparent border-0 p-0 text-gray-700 font-medium cursor-pointer hover:text-gray-900 focus:outline-none"
+            onClick={() => setSettingsDrawerOpen(true)}
+            style={{
+              backgroundColor: "transparent",
+              fontFamily: "inherit",
+              fontSize: "inherit",
+              lineHeight: "inherit",
+            }}
+          >
+            Settings
+          </button>
+        </div>
+        {settingsDrawer}
       </div>
     );
   }
@@ -501,106 +620,7 @@ function App() {
         </button>
       </div>
 
-      <Drawer.Root
-        open={settingsDrawerOpen}
-        onOpenChange={handleSettingsDrawerChange}
-        shouldScaleBackground
-      >
-        <Drawer.Portal>
-          <Drawer.Overlay className="fixed inset-0 bg-black/40" />
-          <Drawer.Content
-            className="fixed bottom-0 left-0 right-0 bg-white rounded-t-xl outline-none flex flex-col"
-            style={uploadState === "textarea" ? { height: "80vh" } : undefined}
-          >
-            <div className="mx-auto w-12 h-1.5 shrink-0 rounded-full bg-gray-300 mt-4 mb-2" />
-            <Drawer.Title className="sr-only">Settings</Drawer.Title>
-            <Drawer.Description className="sr-only">
-              Settings for question progress and uploading questions.
-            </Drawer.Description>
-            <div
-              className={`px-4 pb-8 pt-2 flex flex-col gap-2 ${
-                uploadState === "textarea" ? "flex-1 overflow-hidden" : ""
-              }`}
-            >
-              <button
-                onClick={handleDeleteProgress}
-                className="button-3 w-full font-medium text-left"
-                style={{ padding: "0.75em 1.2em", height: "48px" }}
-              >
-                Delete answered question progress
-              </button>
-              {uploadState === "button" && (
-                <button
-                  onClick={() => setUploadState("password")}
-                  className="button-3 w-full font-medium text-left cursor-pointer"
-                  style={{ padding: "0.75em 1.2em", height: "48px" }}
-                >
-                  Upload new questions
-                </button>
-              )}
-              {uploadState === "password" && (
-                <input
-                  type="password"
-                  placeholder="Password"
-                  value={passwordInput}
-                  onChange={(e) => setPasswordInput(e.target.value)}
-                  onKeyDown={handlePasswordSubmit}
-                  autoFocus
-                  data-1p-ignore
-                  data-bwignore
-                  data-lpignore="true"
-                  data-form-type="other"
-                  className="button-3 w-full font-medium bg-transparent outline-none"
-                  style={{ padding: "0.75em 1.2em", height: "48px" }}
-                />
-              )}
-              {uploadState === "textarea" && (
-                <div
-                  className="button-3 w-full font-medium flex items-center"
-                  style={{ padding: "0.75em 1.2em", height: "48px" }}
-                >
-                  Upload new questions
-                </div>
-              )}
-              {uploadState === "textarea" && (
-                <div className="flex flex-col gap-2 flex-1 overflow-hidden">
-                  <textarea
-                    placeholder="Paste question JSON here..."
-                    value={jsonInput}
-                    onChange={(e) => setJsonInput(e.target.value)}
-                    className="flex-1 w-full p-4 border-2 border-gray-300 rounded-lg resize-none font-mono font-semibold text-sm outline-none"
-                  />
-                  <button
-                    onClick={handleUploadQuestions}
-                    className="button-3 w-full font-medium mb-0.5"
-                    style={{ padding: "0.75em 1.2em" }}
-                  >
-                    Submit
-                  </button>
-                  {uploadStatus && (
-                    <div className="flex items-center gap-2">
-                      {uploadStatus === "loading" && (
-                        <Loader
-                          size={16}
-                          className="animate-spin text-gray-500"
-                        />
-                      )}
-                      {uploadStatus === "success" && (
-                        <p className="text-sm text-green-800 font-semibold font-rounded">
-                          Submitted questions
-                        </p>
-                      )}
-                      {uploadStatus.startsWith("Error") && (
-                        <p className="text-sm text-red-500">{uploadStatus}</p>
-                      )}
-                    </div>
-                  )}
-                </div>
-              )}
-            </div>
-          </Drawer.Content>
-        </Drawer.Portal>
-      </Drawer.Root>
+      {settingsDrawer}
 
       <Drawer.Root
         open={mobileDrawerOpen}
